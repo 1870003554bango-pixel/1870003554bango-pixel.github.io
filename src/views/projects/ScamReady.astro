@@ -187,7 +187,8 @@ const slides = (list: { key: string; alt: string; caption: string }[]) => list.m
         <div class="cols">{c.prototype.body.map((p) => <p>{p}</p>)}</div>
       </div>
       <div class="figma-embed">
-        <iframe title={c.prototype.iframeTitle} src={figma.embed} allowfullscreen loading="lazy"></iframe>
+        <!-- Direct embed: scale the complete prototype to fit the available viewport. -->
+        <iframe class="figma-frame" title={c.prototype.iframeTitle} width="800" height="450" src={figma.embed} allowfullscreen></iframe>
       </div>
       <div class="embed-foot">
         <a class="btn btn-primary" href={figma.direct} target="_blank" rel="noopener noreferrer">{c.prototype.open} <span class="arrow" aria-hidden="true">↗</span></a>
@@ -523,9 +524,8 @@ const slides = (list: { key: string; alt: string; caption: string }[]) => list.m
   .flow-item :global(img) { width: 100%; height: auto; border-radius: var(--radius); border: 1px solid var(--line); }
 
   /* prototype */
-  .figma-embed { width: 100%; height: min(82vh, 900px); min-height: 620px; overflow: hidden; border: 1px solid var(--line-strong); border-radius: 12px; background: var(--surface); margin-top: var(--space-3); }
-  .figma-embed iframe { display: block; width: 100%; height: 100%; border: 0; }
-  @media (max-width: 768px) { .figma-embed { height: 74vh; min-height: 560px; border-radius: 8px; } }
+  .figma-embed { width: 100%; aspect-ratio: 16 / 10; max-height: 82vh; overflow: hidden; border: 1px solid var(--line-strong); border-radius: var(--radius); background: var(--surface); margin-top: var(--space-3); }
+  .figma-embed .figma-frame { display: block; width: 100%; height: 100%; border: 0; }
   .embed-foot { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-1) var(--space-3); margin-top: var(--space-2); }
   .embed-foot p { flex: 1 1 24rem; }
 

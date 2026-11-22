@@ -8,11 +8,11 @@
  */
 
 export const figma = {
-  // Exact URLs supplied by Sitan — do not edit the parameters.
+  // Keep Sitan’s prototype and starting frame; fit the full frame inside the embed.
   embed:
-    'https://embed.figma.com/proto/fMPiMEP5QmqCmVa9cwCCva/DECO3200-prototype?node-id=1-1519&p=f&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=1%3A3998&embed-host=share',
+    'https://embed.figma.com/proto/fMPiMEP5QmqCmVa9cwCCva/DECO3200-prototype?node-id=1-1519&p=f&scaling=scale-down&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=1%3A3998&embed-host=share',
   direct:
-    'https://www.figma.com/proto/fMPiMEP5QmqCmVa9cwCCva/DECO3200-prototype?node-id=1-1519&p=f&t=fQNaCMD6IZ0ixjvZ-1&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=1%3A3998',
+    'https://www.figma.com/proto/fMPiMEP5QmqCmVa9cwCCva/DECO3200-prototype?node-id=1-1519&p=f&t=fQNaCMD6IZ0ixjvZ-1&scaling=scale-down&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=1%3A3998',
 };
 
 export const team = ['Linyi Shao', 'Rachel Liu', 'Sitan Ding', 'Sen Yan'];
