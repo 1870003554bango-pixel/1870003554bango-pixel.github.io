@@ -71,9 +71,9 @@ const gallery = c.inspiration.gallery.map((g) => ({ src: windowPhotos[g.key as k
       </figure>
     </header>
 
-    <!-- B · Experience -->
+    <!-- B · Experience: wide live sketch, heading and text side by side above it -->
     <section id="experience" class="wrap block" aria-labelledby="experience-heading">
-      <div class="section-intro">
+      <div class="head-row">
         <h2 id="experience-heading">{c.experience.title}</h2>
         <p>{c.experience.body}</p>
       </div>
@@ -81,90 +81,89 @@ const gallery = c.inspiration.gallery.map((g) => ({ src: windowPhotos[g.key as k
         <iframe src={demo} title={c.experience.iframeTitle} loading="lazy" allowfullscreen allow="fullscreen"></iframe>
       </div>
       <ol class="steps" role="list">
-        {c.experience.steps.map((s) => (
-          <li><h3>{s.title}</h3><p>{s.text}</p></li>
+        {c.experience.steps.map((s, i) => (
+          <li><span class="num">{String(i + 1).padStart(2, '0')}</span><h3>{s.title}</h3><p>{s.text}</p></li>
         ))}
       </ol>
-      <p class="note">{c.experience.note}</p>
-      <p class="mobile-note">{c.experience.mobile}</p>
       <div class="open-row">
         <a class="btn btn-primary" href={liveUrl} target="_blank" rel="noopener noreferrer">{c.experience.open} <span class="arrow" aria-hidden="true">↗</span></a>
         <a class="text-link" href={demo} target="_blank" rel="noopener">{c.experience.mirror}</a>
+        <p class="note">{c.experience.note} <span class="mobile-note">{c.experience.mobile}</span></p>
       </div>
     </section>
 
-    <!-- C · Inspiration -->
-    <section class="wrap block split" aria-labelledby="inspiration-heading">
+    <!-- C · Inspiration: text | photo carousel -->
+    <section class="wrap block row" aria-labelledby="inspiration-heading">
       <div class="prose">
         <h2 id="inspiration-heading">{c.inspiration.title}</h2>
         {c.inspiration.body.map((p) => <p>{p}</p>)}
       </div>
-      <div class="inspo-media">
-        <div class="gallery">
-          <PhotoCarousel slides={gallery} label={c.inspiration.galleryLabel} ratio="3 / 4"
-            sizes="(min-width: 32rem) 480px, 100vw" />
-          <p class="muted small">{c.inspiration.galleryNote}</p>
-        </div>
+      <div class="gallery">
+        <PhotoCarousel slides={gallery} label={c.inspiration.galleryLabel} ratio="3 / 4"
+          sizes="(min-width: 32rem) 440px, 100vw" />
+        <p class="muted small">{c.inspiration.galleryNote}</p>
+      </div>
+    </section>
+
+    <!-- D · Twenty-four hours: four frames | text + palette -->
+    <section class="wrap block row flip" aria-labelledby="day-heading">
+      <div class="prose">
+        <h2 id="day-heading">{c.day.title}</h2>
+        {c.day.body.map((p) => <p>{p}</p>)}
         <figure class="palette">
           <figcaption>
             <span class="eyebrow">{c.inspiration.paletteTitle}</span>
-            <span class="muted">{c.inspiration.paletteNote}</span>
+            <span class="muted small">{c.inspiration.paletteNote}</span>
           </figcaption>
           <ol role="list">
             {skyColors.map((s) => (
               <li>
                 <span class="swatch" style={`background: linear-gradient(${s.top}, ${s.bot})`} aria-hidden="true"></span>
-                <span class="hour">{String(s.h).padStart(2, '0')}:00</span>
+                <span class="hour">{String(s.h).padStart(2, '0')}</span>
               </li>
             ))}
           </ol>
         </figure>
       </div>
-    </section>
-
-    <!-- D · The changing day -->
-    <section class="wrap block" aria-labelledby="day-heading">
-      <div class="section-intro">
-        <h2 id="day-heading">{c.day.title}</h2>
-        {c.day.body.map((p) => <p>{p}</p>)}
+      <div>
+        <ul class="frames" role="list">
+          {c.day.frames.map((f) => (
+            <li>
+              <figure>
+                <Image src={frames[f.key as keyof typeof frames]} alt={f.alt} widths={[400, 800, 1200]}
+                  sizes="(min-width: 48rem) 270px, 50vw" />
+                <figcaption><span class="eyebrow">{f.label}</span><span class="muted">{f.time}</span></figcaption>
+              </figure>
+            </li>
+          ))}
+        </ul>
+        <p class="muted small frames-note">{c.day.caption}</p>
       </div>
-      <ul class="frames" role="list">
-        {c.day.frames.map((f) => (
-          <li>
-            <figure>
-              <Image src={frames[f.key as keyof typeof frames]} alt={f.alt} widths={[400, 800, 1200]}
-                sizes="(min-width: 64rem) 270px, (min-width: 40rem) 50vw, 100vw" />
-              <figcaption><span class="eyebrow">{f.label}</span><span class="muted">{f.time}</span></figcaption>
-            </figure>
-          </li>
-        ))}
-      </ul>
-      <p class="muted small">{c.day.caption}</p>
     </section>
 
-    <!-- E · Interactions -->
+    <!-- E · Interactions: heading row, then zig-zag detail | text -->
     <section class="wrap block" aria-labelledby="interactions-heading">
-      <div class="section-intro">
+      <div class="head-row">
         <h2 id="interactions-heading">{c.interactions.title}</h2>
         <p>{c.interactions.body}</p>
       </div>
       <ol class="features" role="list">
-        {c.interactions.rows.map((r) => (
-          <li>
-            <Image src={details[r.img as keyof typeof details]} alt={r.alt} widths={[360, 720]} sizes="(min-width: 48rem) 320px, 100vw" />
-            <div>
+        {c.interactions.rows.map((r, i) => (
+          <li class:list={['row', 'feature', { flip: i % 2 === 0 }]}>
+            <div class="feature-text">
               <p class="num">{r.n}</p>
               <h3>{r.title}</h3>
               <p>{r.text}</p>
             </div>
+            <Image src={details[r.img as keyof typeof details]} alt={r.alt} widths={[360, 720]} sizes="(min-width: 48rem) 420px, 100vw" />
           </li>
         ))}
       </ol>
     </section>
 
-    <!-- F · Behind the scene -->
+    <!-- F · Behind the scene: text | code, then annotated scene | legend -->
     <section class="wrap block" aria-labelledby="rules-heading">
-      <div class="split">
+      <div class="row">
         <div class="prose">
           <h2 id="rules-heading">{c.rules.title}</h2>
           {c.rules.body.map((p) => <p>{p}</p>)}
@@ -174,35 +173,39 @@ const gallery = c.inspiration.gallery.map((g) => ({ src: windowPhotos[g.key as k
           <figcaption class="muted small">{c.rules.codeCaption}</figcaption>
         </figure>
       </div>
-      <figure class="annotated">
-        <div class="annotated-frame">
-          <Image src={daylight} alt={c.rules.annotatedAlt} widths={[800, 1200, 1600]} sizes="(min-width: 48rem) 760px, 100vw" />
-          {c.rules.annotations.map((a) => (
-            <span class="marker" style={`left: ${a.x}%; top: ${a.y}%`} aria-hidden="true">{a.n}</span>
-          ))}
-        </div>
-        <figcaption>
+      <div class="row flip annotated-row">
+        <div class="legend-col">
           <ol class="legend" role="list">
             {c.rules.annotations.map((a) => <li><span class="marker static" aria-hidden="true">{a.n}</span>{a.label}</li>)}
           </ol>
-        </figcaption>
-      </figure>
-      <details class="how">
-        <summary>{c.rules.howTitle}</summary>
-        <ul>{c.rules.how.map((h) => <li>{h}</li>)}</ul>
-      </details>
+          <details class="how">
+            <summary>{c.rules.howTitle}</summary>
+            <ul>{c.rules.how.map((h) => <li>{h}</li>)}</ul>
+          </details>
+        </div>
+        <figure class="annotated">
+          <div class="annotated-frame">
+            <Image src={daylight} alt={c.rules.annotatedAlt} widths={[600, 900, 1200]} sizes="(min-width: 48rem) 540px, 100vw" />
+            {c.rules.annotations.map((a) => (
+              <span class="marker" style={`left: ${a.x}%; top: ${a.y}%`} aria-hidden="true">{a.n}</span>
+            ))}
+          </div>
+        </figure>
+      </div>
     </section>
 
-    <!-- G · Reflection -->
-    <section class="wrap block reflection" aria-labelledby="reflection-heading">
+    <!-- G · Reflection: text | quote + credits -->
+    <section class="wrap block row reflection" aria-labelledby="reflection-heading">
       <div class="prose">
         <h2 id="reflection-heading">{c.reflection.title}</h2>
         {c.reflection.body.map((p) => <p>{p}</p>)}
       </div>
-      <blockquote><p>“{c.reflection.quote}”</p></blockquote>
-      <ul class="credits" role="list">
-        {c.credits.map((cr) => <li>{cr}</li>)}
-      </ul>
+      <div class="quote-col">
+        <blockquote><p>“{c.reflection.quote}”</p></blockquote>
+        <ul class="credits" role="list">
+          {c.credits.map((cr) => <li>{cr}</li>)}
+        </ul>
+      </div>
     </section>
 
     <nav class="wrap bottom-nav" aria-label="Project navigation">
@@ -245,11 +248,23 @@ const gallery = c.inspiration.gallery.map((g) => ({ src: windowPhotos[g.key as k
   .meta dt { font-size: var(--step--1); color: var(--text-2); }
   .meta dd { margin: 0; font-size: var(--step--1); font-weight: 500; }
 
-  .block { padding-top: var(--space-6); }
-  .section-intro { display: grid; gap: var(--space-2); max-width: 62ch; margin-bottom: var(--space-4); }
-  .split { display: grid; gap: var(--space-4); align-items: start; }
-  @media (min-width: 56rem) { .split { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--space-5); } }
-  .prose { display: grid; gap: var(--space-2); max-width: 62ch; }
+  .block { padding-top: var(--space-5); }
+  .prose { display: grid; gap: var(--space-2); max-width: 62ch; align-content: start; }
+
+  /* Paired layout: text beside the image it describes. DOM order is always text first,
+     so phones read text then image; .flip puts the image on the left on wider screens. */
+  .row { display: grid; gap: var(--space-3) var(--space-5); align-items: center; }
+  @media (min-width: 48rem) {
+    .row { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+    .row.flip > :first-child { order: 2; }
+  }
+  .row + .row { margin-top: var(--space-5); }
+
+  .head-row { display: grid; gap: var(--space-2) var(--space-5); align-items: end; margin-bottom: var(--space-3); }
+  @media (min-width: 48rem) { .head-row { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
+  .head-row p { max-width: 58ch; color: var(--text-2); }
+
+  .num { font-size: var(--step--1); font-weight: 600; color: var(--accent); font-variant-numeric: tabular-nums; }
 
   /* B */
   .sketch-embed {
@@ -261,48 +276,46 @@ const gallery = c.inspiration.gallery.map((g) => ({ src: windowPhotos[g.key as k
   }
   @media (min-width: 75rem) and (min-height: 50rem) { .sketch-embed { width: min(100%, calc((100vh - var(--header-h) - 3rem) * 4 / 3)); margin-inline: auto; } }
   .sketch-embed iframe { display: block; width: 100%; height: 100%; border: 0; }
-  .steps { display: grid; gap: var(--space-3); margin: var(--space-4) 0 0; padding: 0; list-style: none; counter-reset: s; }
+  .steps { display: grid; gap: var(--space-2) var(--space-3); margin: var(--space-3) 0 0; padding: 0; list-style: none; }
   @media (min-width: 48rem) { .steps { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-  .steps li { padding-top: var(--space-2); border-top: 1px solid var(--line-strong); }
-  .steps h3 { font-size: var(--step-0); font-weight: 600; margin-bottom: 0.25rem; }
+  .steps li { display: grid; gap: 0.2rem; padding-top: var(--space-2); border-top: 1px solid var(--line-strong); }
+  .steps h3 { font-size: var(--step-0); font-weight: 600; }
   .steps p { color: var(--text-2); }
-  .note { margin-top: var(--space-3) !important; font-size: var(--step--1); color: var(--text-2); }
-  .mobile-note { display: none; margin-top: var(--space-2) !important; font-size: var(--step--1); }
-  @media (max-width: 47.99rem) { .mobile-note { display: block; } }
   .open-row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-1) var(--space-3); margin-top: var(--space-3); }
   .open-row .text-link { font-size: var(--step--1); }
+  .note { flex-basis: 100%; font-size: var(--step--1); color: var(--text-2); }
+  .mobile-note { display: none; }
+  @media (max-width: 47.99rem) { .mobile-note { display: inline; } }
 
   /* C */
-  .inspo-media { display: grid; gap: var(--space-3); }
-  .gallery { display: grid; gap: 0.5rem; width: 100%; max-width: 30rem; }
-  @media (min-width: 56rem) { .inspo-media { justify-items: end; } .inspo-media .palette { width: 100%; } }
-  .palette { margin: 0; display: grid; gap: var(--space-2); }
-  .palette figcaption { display: grid; gap: 0.25rem; }
-  .palette .eyebrow { margin: 0; }
-  .palette ol { display: grid; grid-template-columns: repeat(11, minmax(0, 1fr)); gap: 4px; margin: 0; padding: 0; list-style: none; }
-  .palette li { display: grid; gap: 0.35rem; }
-  .swatch { display: block; aspect-ratio: 1 / 2.2; border-radius: 3px; }
-  .hour { font-size: 0.6875rem; color: var(--text-2); font-variant-numeric: tabular-nums; writing-mode: vertical-rl; transform: rotate(180deg); justify-self: center; }
-  @media (min-width: 40rem) { .hour { writing-mode: horizontal-tb; transform: none; font-size: 0.6875rem; } }
+  .gallery { display: grid; gap: 0.5rem; width: 100%; max-width: 28rem; justify-self: center; }
 
   /* D */
-  .frames { display: grid; gap: var(--space-2); margin: 0; padding: 0; list-style: none; }
-  @media (min-width: 40rem) { .frames { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-  @media (min-width: 64rem) { .frames { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
-  .frames figure { margin: 0; display: grid; gap: 0.5rem; }
+  .palette { margin: var(--space-1) 0 0; display: grid; gap: 0.75rem; }
+  .palette figcaption { display: grid; gap: 0.2rem; }
+  .palette .eyebrow { margin: 0; }
+  .palette ol { display: grid; grid-template-columns: repeat(11, minmax(0, 1fr)); gap: 3px; margin: 0; padding: 0; list-style: none; }
+  .palette li { display: grid; gap: 0.3rem; }
+  .swatch { display: block; aspect-ratio: 1 / 1.6; border-radius: 3px; }
+  .hour { font-size: 0.6875rem; color: var(--text-2); font-variant-numeric: tabular-nums; text-align: center; }
+  .frames { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-2) 0.75rem; margin: 0; padding: 0; list-style: none; }
+  .frames figure { margin: 0; display: grid; gap: 0.4rem; }
   .frames img { width: 100%; height: auto; border-radius: var(--radius); }
-  .frames figcaption { display: flex; justify-content: space-between; align-items: baseline; }
+  .frames figcaption { display: flex; justify-content: space-between; align-items: baseline; font-size: var(--step--1); }
   .frames figcaption .eyebrow { margin: 0; color: var(--text); }
-  .frames + .small { margin-top: var(--space-2); }
+  .frames-note { margin-top: 0.75rem !important; }
 
   /* E */
-  .features { display: grid; gap: var(--space-4); margin: 0; padding: 0; list-style: none; }
-  .features li { display: grid; gap: var(--space-2) var(--space-4); align-items: center; padding-top: var(--space-4); border-top: 1px solid var(--line); }
-  @media (min-width: 48rem) { .features li { grid-template-columns: 20rem minmax(0, 1fr); } }
-  .features img { width: 100%; height: auto; border-radius: var(--radius); }
-  .features div { display: grid; gap: 0.4rem; max-width: 52ch; }
-  .num { font-size: var(--step--1); font-weight: 600; color: var(--accent); font-variant-numeric: tabular-nums; }
-  .features h3 { font-size: var(--step-1); font-weight: 600; }
+  .features { margin: 0; padding: 0; list-style: none; }
+  .feature { padding-top: var(--space-3); margin-top: var(--space-3); border-top: 1px solid var(--line); }
+  .feature img { width: 100%; height: auto; border-radius: var(--radius); }
+  .feature-text { display: grid; gap: 0.4rem; max-width: 46ch; }
+  .feature h3 { font-size: var(--step-1); font-weight: 600; }
+  @media (min-width: 48rem) {
+    .feature { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: var(--space-4); }
+    .feature.flip { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); }
+    .feature + .feature { margin-top: var(--space-3); }
+  }
 
   /* F */
   .code { margin: 0; display: grid; gap: 0.5rem; min-width: 0; }
@@ -316,34 +329,37 @@ const gallery = c.inspiration.gallery.map((g) => ({ src: windowPhotos[g.key as k
     font-size: 0.8125rem;
     line-height: 1.55;
   }
-  .annotated { margin: var(--space-5) auto 0; display: grid; gap: var(--space-2); max-width: 760px; }
+  .annotated { margin: 0; }
   .annotated-frame { position: relative; }
   .annotated-frame img { width: 100%; height: auto; border-radius: var(--radius); }
   .marker {
     display: inline-grid;
     place-items: center;
-    width: 1.75rem;
-    height: 1.75rem;
+    flex: none;
+    width: 1.6rem;
+    height: 1.6rem;
     border-radius: 50%;
     background: var(--text);
     color: var(--bg);
-    font-size: 0.8125rem;
+    font-size: 0.75rem;
     font-weight: 600;
     box-shadow: 0 0 0 2px var(--bg);
   }
   .annotated-frame .marker { position: absolute; transform: translate(-50%, -50%); }
-  .legend { display: flex; flex-wrap: wrap; gap: 0.5rem var(--space-3); margin: 0; padding: 0; list-style: none; color: var(--text); }
-  .legend li { display: inline-flex; align-items: center; gap: 0.5rem; }
-  .marker.static { width: 1.4rem; height: 1.4rem; font-size: 0.75rem; box-shadow: none; }
-  .how { margin-top: var(--space-3); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .legend-col { display: grid; gap: var(--space-2); align-content: center; }
+  .legend { display: grid; gap: 0.6rem; margin: 0; padding: 0; list-style: none; }
+  .legend li { display: flex; align-items: center; gap: 0.75rem; }
+  .marker.static { box-shadow: none; }
+  .how { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
   .how summary { display: flex; align-items: center; min-height: 48px; cursor: pointer; font-weight: 600; }
-  .how ul { margin: 0 0 var(--space-3); padding-left: 1.25rem; display: grid; gap: 0.4rem; max-width: 70ch; color: var(--text-2); }
+  .how ul { margin: 0 0 var(--space-2); padding-left: 1.25rem; display: grid; gap: 0.4rem; color: var(--text-2); font-size: var(--step--1); }
 
   /* G */
-  .reflection { display: grid; gap: var(--space-4); }
-  blockquote { margin: 0; padding-block: var(--space-4); border-block: 1px solid var(--line); }
-  blockquote p { font-size: clamp(1.75rem, 3vw + 1rem, 3rem); font-weight: 600; letter-spacing: -0.02em; line-height: 1.15; max-width: 22ch; }
-  .credits { margin: 0; padding: 0; list-style: none; display: grid; gap: 0.25rem; font-size: var(--step--1); color: var(--text-2); max-width: 80ch; }
+  .reflection { align-items: start; }
+  .quote-col { display: grid; gap: var(--space-3); }
+  blockquote { margin: 0; padding-block: var(--space-3); border-block: 1px solid var(--line); }
+  blockquote p { font-size: clamp(1.6rem, 2.4vw + 1rem, 2.6rem); font-weight: 600; letter-spacing: -0.02em; line-height: 1.15; }
+  .credits { margin: 0; padding: 0; list-style: none; display: grid; gap: 0.25rem; font-size: var(--step--1); color: var(--text-2); }
 
   .bottom-nav { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: var(--space-3); margin-top: var(--space-6); padding-top: var(--space-4); border-top: 1px solid var(--line); }
   .next { display: grid; gap: 0.3rem; text-align: right; text-decoration: none; margin-left: auto; }
