@@ -28,6 +28,7 @@ no stock/AI images posing as Sitan's work; no fake buttons; English default, Chi
 | Images for a project | `src/assets/<slug>/`, imported in `projects.ts` |
 | Runnable p5.js sketches / web demos | `public/demos/<slug>/index.html` |
 | Short videos (compressed) | `public/video/<slug>/` |
+| Bespoke project pages | `src/views/projects/<Name>.astro` + copy in `src/data/<slug>.ts`; set `customPage: true` in `projects.ts` and add `src/pages/work/<slug>.astro` and `src/pages/zh/work/<slug>.astro` (the generic `[slug]` route skips them). Briefs live in `md文件/<project>/` |
 | Components | `src/components/` — `Cover` (image or TODO box), `ProjectCard`, `Demo` (click-to-run) |
 | Helper scripts (ffmpeg etc.) | `scripts/` |
 

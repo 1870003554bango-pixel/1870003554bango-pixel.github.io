@@ -3,7 +3,7 @@ import View from '../../../views/Project.astro';
 import { published, type Project } from '../../../data/projects';
 
 export function getStaticPaths() {
-  return published.map((project) => ({ params: { slug: project.slug }, props: { project } }));
+  return published.filter((p) => !p.customPage).map((project) => ({ params: { slug: project.slug }, props: { project } }));
 }
 
 const { project } = Astro.props as { project: Project };

@@ -46,6 +46,8 @@ export interface Project {
   process: L[];
   reflection: L | null;
   credits?: L;
+  /** true = has its own page in src/views/projects/ and its own route files. */
+  customPage?: boolean;
   /** Runnable piece in public/demos/<slug>/ */
   demo?: { src: string; ratio: string };
   videos?: Video[];
@@ -59,12 +61,13 @@ export const projects: Project[] = [
     order: 1,
     status: 'published',
     featured: true,
+    customPage: true,
     categories: ['interactive'],
     title: 'Through the Window',
     type: { en: 'Interactive Art · Creative Coding', zh: '互动艺术 · 创意编程' },
     subtitle: {
-      en: 'A quiet, interactive window into a changing 24-hour sky.',
-      zh: '一扇可以自由探索 24 小时天空变化的互动窗口。',
+      en: 'A quiet window into the changing sky.',
+      zh: '一扇看天空变化的安静窗口。',
     },
     summary: {
       en: "Inspired by the skies I've photographed while travelling, this interactive artwork lets visitors move through a full day and watch a digital landscape change with time.",
@@ -72,12 +75,12 @@ export const projects: Project[] = [
     },
     year: null, // DECO1012 — date to be confirmed by Sitan (CV says 2024.04–06, transcript says 2025 S1)
     collaboration: 'solo',
-    role: { en: 'Concept, interaction and visuals', zh: '概念、交互与视觉' },
+    role: { en: 'Independent concept, visual design, interaction design and development', zh: '独立完成概念、视觉设计、交互设计与开发' },
     tools: ['p5.js', 'JavaScript'],
     cover: throughTheWindowCover,
     coverAlt: {
-      en: 'Screenshot of the sketch: a window in a wooden wall looking out on blue sky, clouds and a green field, with a 24-hour clock in the corner.',
-      zh: '作品截图：木纹墙上的窗户外是蓝天、云和草地，角落里有一个 24 小时时钟。',
+      en: 'The sketch at sunset: a warm pink sky through a window in a wooden wall, with a 24-hour clock in the corner.',
+      zh: '作品在日落时的画面：木纹墙上的窗户外是暖粉色的天空，角落里有一个 24 小时时钟。',
     },
     overview: {
       en: 'One window, one full day. The sky outside moves through dawn, day, sunset and night. Drag the clock to travel through the 24 hours, click the digital clock to speed time up, and click the books to find small hidden details.',
@@ -92,7 +95,7 @@ export const projects: Project[] = [
       en: 'Concept / Interaction / Visuals: Sitan Ding',
       zh: '概念 / 交互 / 视觉：丁思覃',
     },
-    demo: { src: '/demos/through-the-window/', ratio: '4 / 3' },
+    demo: { src: '/demos/through-the-window/index.html', ratio: '4 / 3' },
   },
   {
     slug: 'aerospace-stories',

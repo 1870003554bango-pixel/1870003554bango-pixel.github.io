@@ -89,6 +89,7 @@ export const ui = {
     'project.watchOn': 'Watch on',
     'project.videoRole': 'My role',
     'project.coverTodo': 'Cover image coming soon',
+    'project.enOnly': 'This project page is in English.',
 
     'about.title': 'About Me',
     'about.p1':
@@ -191,6 +192,7 @@ export const ui = {
     'project.watchOn': '观看于',
     'project.videoRole': '我的角色',
     'project.coverTodo': '封面图即将补充',
+    'project.enOnly': '这个项目页目前只有英文版。',
 
     'about.title': '关于我',
     'about.p1': '我一直喜欢互联网里各种各样的娱乐内容，从视频、游戏到互动体验。接触得越多，我就越想从观看者变成亲自参与设计和制作的人。',
