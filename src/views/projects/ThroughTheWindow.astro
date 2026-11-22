@@ -73,7 +73,7 @@ const gallery = c.inspiration.gallery.map((g) => ({ src: windowPhotos[g.key as k
 
     <!-- B · Experience: wide live sketch, heading and text side by side above it -->
     <section id="experience" class="wrap block" aria-labelledby="experience-heading">
-      <div class="head-row">
+      <div class="wide-text intro-wide">
         <h2 id="experience-heading">{c.experience.title}</h2>
         <p>{c.experience.body}</p>
       </div>
@@ -143,7 +143,7 @@ const gallery = c.inspiration.gallery.map((g) => ({ src: windowPhotos[g.key as k
 
     <!-- E · Interactions: heading row, then zig-zag detail | text -->
     <section class="wrap block" aria-labelledby="interactions-heading">
-      <div class="head-row">
+      <div class="wide-text intro-wide">
         <h2 id="interactions-heading">{c.interactions.title}</h2>
         <p>{c.interactions.body}</p>
       </div>
@@ -195,17 +195,13 @@ const gallery = c.inspiration.gallery.map((g) => ({ src: windowPhotos[g.key as k
     </section>
 
     <!-- G · Reflection: text | quote + credits -->
-    <section class="wrap block row reflection" aria-labelledby="reflection-heading">
-      <div class="prose">
-        <h2 id="reflection-heading">{c.reflection.title}</h2>
-        {c.reflection.body.map((p) => <p>{p}</p>)}
-      </div>
-      <div class="quote-col">
-        <blockquote><p>“{c.reflection.quote}”</p></blockquote>
-        <ul class="credits" role="list">
-          {c.credits.map((cr) => <li>{cr}</li>)}
-        </ul>
-      </div>
+    <section class="wrap block wide-text reflection" aria-labelledby="reflection-heading">
+      <h2 id="reflection-heading">{c.reflection.title}</h2>
+      <div class="cols">{c.reflection.body.map((p) => <p>{p}</p>)}</div>
+      <blockquote><p>“{c.reflection.quote}”</p></blockquote>
+      <ul class="credits" role="list">
+        {c.credits.map((cr) => <li>{cr}</li>)}
+      </ul>
     </section>
 
     <nav class="wrap bottom-nav" aria-label="Project navigation">
@@ -334,9 +330,9 @@ const gallery = c.inspiration.gallery.map((g) => ({ src: windowPhotos[g.key as k
   .how ul { margin: 0 0 var(--space-2); padding-left: 1.25rem; display: grid; gap: 0.4rem; color: var(--text-2); font-size: var(--step--1); }
 
   /* G */
-  .reflection { align-items: start; }
-  .quote-col { display: grid; gap: var(--space-3); }
-  blockquote { margin: 0; padding-block: var(--space-3); border-block: 1px solid var(--line); }
+  .intro-wide { margin-bottom: var(--space-3); }
+  .intro-wide > p { color: var(--text-2); }
+  blockquote { margin: var(--space-2) 0 0; padding-block: var(--space-3); border-block: 1px solid var(--line); }
   blockquote p { font-size: clamp(1.6rem, 2.4vw + 1rem, 2.6rem); font-weight: 600; letter-spacing: -0.02em; line-height: 1.15; }
   .credits { margin: 0; padding: 0; list-style: none; display: grid; gap: 0.25rem; font-size: var(--step--1); color: var(--text-2); }
 

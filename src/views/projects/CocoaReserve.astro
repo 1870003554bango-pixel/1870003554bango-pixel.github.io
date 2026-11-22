@@ -204,19 +204,17 @@ const materials = c.blender.materials.map((m) => ({ id: m.id, label: m.label, ti
           {c.hinge.redesignImages.map((s) => <li><Zoom src={img(s.key)} alt={s.alt} caption={s.caption} sizes="(min-width: 48rem) 180px, 33vw" ratio="3 / 4" fit="cover" /></li>)}
         </ol>
       </div>
-      <div class="head-row learned">
+      <div class="wide-text learned">
         <h3>{c.hinge.learnedTitle}</h3>
-        <div class="prose">{c.hinge.learned.map((p) => <p>{p}</p>)}</div>
+        <div class="cols">{c.hinge.learned.map((p) => <p>{p}</p>)}</div>
       </div>
     </section>
 
     <!-- 08 · Unboxing: the main interaction -->
     <section class="wrap block unboxing" aria-labelledby="unbox-h">
-      <div class="head-row">
-        <div>
-          <p class="eyebrow">{c.unboxing.eyebrow}</p>
-          <h2 id="unbox-h">{c.unboxing.title}</h2>
-        </div>
+      <div class="wide-text intro-wide">
+        <p class="eyebrow">{c.unboxing.eyebrow}</p>
+        <h2 id="unbox-h">{c.unboxing.title}</h2>
         <p>{c.unboxing.intro}</p>
       </div>
       <Stepper steps={steps} label="Five-step unboxing sequence" shortcuts={c.unboxing.shortcuts} />
@@ -246,9 +244,9 @@ const materials = c.blender.materials.map((m) => ({ id: m.id, label: m.label, ti
       </div>
 
       <div class="experiments">
-        <div class="head-row">
+        <div class="wide-text intro-wide">
           <h3>{c.blender.experimentsTitle}</h3>
-          <div class="prose">{c.blender.experiments.map((p) => <p>{p}</p>)}</div>
+          <div class="cols">{c.blender.experiments.map((p) => <p>{p}</p>)}</div>
         </div>
         <div class="grid-3 compares">
           {c.blender.compares.map((m) => (
@@ -307,28 +305,22 @@ const materials = c.blender.materials.map((m) => ({ id: m.id, label: m.label, ti
     </section>
 
     <!-- 11 · Reflection -->
-    <section class="wrap block row reflection" aria-labelledby="refl-h">
-      <div class="prose">
-        <p class="eyebrow">{c.reflection.eyebrow}</p>
-        <h2 id="refl-h">{c.reflection.title}</h2>
-        {c.reflection.body.map((p) => <p>{p}</p>)}
-      </div>
+    <section class="wrap block wide-text reflection" aria-labelledby="refl-h">
+      <p class="eyebrow">{c.reflection.eyebrow}</p>
+      <h2 id="refl-h">{c.reflection.title}</h2>
+      <div class="cols">{c.reflection.body.map((p) => <p>{p}</p>)}</div>
       <blockquote class="closing-quote"><p>{c.reflection.closing}</p></blockquote>
     </section>
 
     <!-- 12 · Credits -->
-    <section class="wrap block credits" aria-labelledby="credits-h">
+    <section class="wrap block wide-text credits" aria-labelledby="credits-h">
       <h2 id="credits-h" class="sr-only">Credits and references</h2>
-      <div>
-        <h3>{c.credits.referencesTitle}</h3>
-        <ul>{c.credits.references.map((r) => <li>{r.text} <a href={r.url} rel="noopener" target="_blank">{r.url.replace('https://', '')}</a></li>)}</ul>
-      </div>
-      <div>
-        <h3>{c.credits.toolsTitle}</h3>
-        <p>{c.credits.tools}</p>
-        <h3>{c.credits.aiTitle}</h3>
-        <p>{c.credits.ai}</p>
-      </div>
+      <h3>{c.credits.referencesTitle}</h3>
+      <ul>{c.credits.references.map((r) => <li>{r.text} <a href={r.url} rel="noopener" target="_blank">{r.url.replace('https://', '')}</a></li>)}</ul>
+      <h3>{c.credits.toolsTitle}</h3>
+      <p>{c.credits.tools}</p>
+      <h3>{c.credits.aiTitle}</h3>
+      <p>{c.credits.ai}</p>
     </section>
 
     <nav class="wrap bottom-nav" aria-label="Project navigation">
@@ -415,9 +407,10 @@ const materials = c.blender.materials.map((m) => ({ id: m.id, label: m.label, ti
   .stat strong { color: var(--accent); }
 
   .ticks { margin: 0; padding-left: 1.1rem; display: grid; gap: 0.35rem; }
-  .learned { margin-top: var(--space-5); padding-top: var(--space-3); border-top: 1px solid var(--line); align-items: start; }
+  .learned { margin-top: var(--space-5); padding-top: var(--space-3); border-top: 1px solid var(--line); }
+  .intro-wide { margin-bottom: var(--space-3); }
+  .intro-wide > p:not(.eyebrow) { max-width: none; }
 
-  .unboxing .head-row h2 { margin-top: 0.4rem; }
   .outro { margin-top: var(--space-3) !important; max-width: 62ch; }
 
   .experiments { margin-top: var(--space-5); }
@@ -426,16 +419,14 @@ const materials = c.blender.materials.map((m) => ({ id: m.id, label: m.label, ti
   .experiments > .small { margin-top: 0.75rem !important; }
   .posters { align-items: start; }
 
-  .reflection { align-items: start; }
-  .closing-quote { border-left: 0; padding: var(--space-4) 0; border-block: 1px solid var(--line); }
+  .closing-quote { margin-top: var(--space-2); border-left: 0; padding: var(--space-3) 0; border-block: 1px solid var(--line); }
   .closing-quote p { font-size: clamp(1.4rem, 1.6vw + 1rem, 2.1rem); font-weight: 600; line-height: 1.25; letter-spacing: -0.015em; }
 
-  .credits { display: grid; gap: var(--space-3) var(--space-5); font-size: var(--step--1); color: var(--text-2); }
-  @media (min-width: 48rem) { .credits { grid-template-columns: 1fr 1fr; } }
+  .credits { gap: 0.5rem; font-size: var(--step--1); color: var(--text-2); }
   .credits h3 { font-size: var(--step-0) !important; color: var(--text); margin-bottom: 0.4rem; }
   .credits ul { margin: 0; padding-left: 1rem; display: grid; gap: 0.5rem; }
   .credits a { overflow-wrap: anywhere; color: var(--accent); }
-  .credits p + h3 { margin-top: var(--space-2); }
+  .credits ul + h3, .credits p + h3 { margin-top: var(--space-2) !important; }
 
   .bottom-nav { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: var(--space-3); margin-top: var(--space-5); padding-top: var(--space-4); border-top: 1px solid var(--line); }
   .next { display: grid; gap: 0.3rem; text-align: right; text-decoration: none; margin-left: auto; }
