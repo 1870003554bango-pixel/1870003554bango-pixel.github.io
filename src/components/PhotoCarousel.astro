@@ -1,7 +1,7 @@
 ---
 // Swipeable photo carousel. Native horizontal scroll-snap does the moving (works with touch,
 // trackpad and keyboard); buttons and dots are a progressive layer on top. No autoplay.
-import { Image } from 'astro:assets';
+import { Image, getImage } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 
 interface Slide { src: ImageMetadata; alt: string; caption: string }
@@ -13,16 +13,27 @@ interface Props {
   sizes?: string;
   prevLabel?: string;
   nextLabel?: string;
+  /** 'light' for interface screenshots, 'dark' (default) for photographs. */
+  tone?: 'dark' | 'light';
+  /** Click a slide to open it in the page's <Lightbox />. */
+  zoom?: boolean;
 }
-const { slides, label, ratio = '3 / 4', sizes = '(min-width: 56rem) 540px, 100vw', prevLabel = 'Previous photo', nextLabel = 'Next photo' } = Astro.props;
+const { slides, label, ratio = '3 / 4', sizes = '(min-width: 56rem) 540px, 100vw', prevLabel = 'Previous photo', nextLabel = 'Next photo', tone = 'dark', zoom = false } = Astro.props;
 const total = slides.length;
+const large = zoom ? await Promise.all(slides.map((s) => getImage({ src: s.src, width: Math.min(s.src.width, 2000), format: 'webp' }))) : [];
 ---
 
 <section class="carousel" aria-roledescription="carousel" aria-label={label} data-carousel>
-  <div class="track" tabindex="0" aria-label={label} style={`--ratio: ${ratio}`}>
+  <div class:list={['track', tone]} tabindex="0" aria-label={label} style={`--ratio: ${ratio}`}>
     {slides.map((s, i) => (
       <figure class="slide" role="group" aria-roledescription="slide" aria-label={`${i + 1} of ${total}`} data-caption={s.caption}>
-        <Image src={s.src} alt={s.alt} widths={[480, 800, 1200, 1500]} sizes={sizes} loading={i === 0 ? 'eager' : 'lazy'} />
+        {zoom ? (
+          <button type="button" class="zoom-slide" data-zoom={large[i].src} data-zoom-alt={s.alt} data-zoom-caption={s.caption} aria-label={`Enlarge: ${s.caption}`}>
+            <Image src={s.src} alt={s.alt} widths={[480, 800, 1200, 1500]} sizes={sizes} loading={i === 0 ? 'eager' : 'lazy'} />
+          </button>
+        ) : (
+          <Image src={s.src} alt={s.alt} widths={[480, 800, 1200, 1500]} sizes={sizes} loading={i === 0 ? 'eager' : 'lazy'} />
+        )}
       </figure>
     ))}
   </div>
@@ -101,6 +112,8 @@ const total = slides.length;
     background: var(--text);
   }
   .track::-webkit-scrollbar { display: none; }
+  .track.light { background: var(--surface); border: 1px solid var(--line); }
+  .zoom-slide { display: block; width: 100%; height: 100%; padding: 0; border: 0; background: none; cursor: zoom-in; }
   .slide {
     flex: 0 0 100%;
     margin: 0;

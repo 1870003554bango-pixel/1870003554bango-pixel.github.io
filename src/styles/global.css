@@ -192,6 +192,10 @@ a:hover > .arrow, .btn:hover .arrow { transform: translate(2px, -2px); }
   .project .row,
   .project .head-row { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
   .project .row.flip > :first-child { order: 2; }
+  /* Long text beside a shorter image: the image stays in view while the text scrolls,
+     instead of floating in the middle of empty space (DESIGN.md § 4.2). */
+  .project .row.sticky { align-items: start; }
+  .project .row.sticky > .media { position: sticky; top: calc(var(--header-h) + 1.5rem); }
 }
 
 @media (prefers-reduced-motion: reduce) {
