@@ -8,9 +8,10 @@ export type Lang = keyof typeof languages;
 export const defaultLang: Lang = 'en';
 
 export const contact = {
-  email: '1870003554@qq.com',
+  email: 'SitanDing2026@outlook.com',
   // Only add accounts the user has confirmed. Empty = not shown.
-  linkedin: '',
+  linkedin: 'https://www.linkedin.com/in/sitan-ding-b44a24359',
+  facebook: 'https://www.facebook.com/profile.php?id=100017727668668',
   github: '',
   bilibili: '',
   douyin: '',
