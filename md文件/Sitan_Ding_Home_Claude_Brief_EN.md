@@ -126,7 +126,7 @@ Show **exactly four** project cards in this order, each linking to its real proj
 
 **Email CTA:** Say Hello ↗
 
-**Email:** 1870003554@qq.com
+**Email:** SitanDing2026@outlook.com
 
 **Footer:** © Sitan Ding · Digital Media & Interactive Design
 

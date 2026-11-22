@@ -91,7 +91,7 @@
 
 ### 3.5 页脚 CTA
 - `Have something in mind? Let's talk.`
-- 邮箱 `1870003554@qq.com`，链接 `mailto:1870003554@qq.com`。
+- 邮箱 `SitanDing2026@outlook.com`，链接 `mailto:SitanDing2026@outlook.com`。
 - 社交链接只能用真实已确认账号；未提供具体个人主页链接时不显示假按钮。
 - Footer 包含版权、导航、语言切换/返回顶部。
 
@@ -243,7 +243,7 @@ C. **Crewed Lunar Exploration / 我国载人登月，有重要突破！**
 ## 7. Contact
 
 - 标题：`Let's make something interesting.` / `一起做点有意思的东西。`
-- 主要 CTA：邮箱 `1870003554@qq.com`（mailto）。
+- 主要 CTA：邮箱 `SitanDing2026@outlook.com`（mailto）。
 - 可选链接：LinkedIn、GitHub、Bilibili、Douyin；仅在用户提供账号地址后启用。
 - 公开网站**不建议放手机号、微信号、出生日期、家庭地址、身份证件等私人信息**。
 - 如果不做后端，不加不会发送邮件的假表单；简单 `mailto:` 足够。
