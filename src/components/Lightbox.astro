@@ -1,0 +1,47 @@
+---
+// One per page. Opens any [data-zoom] button's image in a native <dialog>.
+// Esc, the close button or clicking outside the image closes it; focus returns to the trigger.
+---
+
+<dialog class="lightbox" aria-label="Enlarged image">
+  <form method="dialog" class="bar">
+    <p class="caption"></p>
+    <button type="submit" class="close" aria-label="Close enlarged image">Close ✕</button>
+  </form>
+  <img alt="" />
+</dialog>
+
+<script>
+  const dlg = document.querySelector<HTMLDialogElement>('dialog.lightbox')!;
+  const img = dlg.querySelector('img')!;
+  const cap = dlg.querySelector('.caption')!;
+  let trigger: HTMLElement | null = null;
+  document.querySelectorAll<HTMLButtonElement>('[data-zoom]').forEach((b) =>
+    b.addEventListener('click', () => {
+      trigger = b;
+      img.src = b.dataset.zoom!;
+      img.alt = b.dataset.zoomAlt ?? '';
+      cap.textContent = b.dataset.zoomCaption || b.dataset.zoomAlt || '';
+      dlg.showModal();
+    }),
+  );
+  dlg.addEventListener('click', (e) => { if (e.target === dlg) dlg.close(); });
+  dlg.addEventListener('close', () => { img.removeAttribute('src'); trigger?.focus(); });
+</script>
+
+<style>
+  .lightbox {
+    width: min(94vw, 1400px);
+    max-height: 94vh;
+    padding: 0;
+    border: 0;
+    border-radius: var(--radius);
+    background: var(--bg);
+    color: var(--text);
+  }
+  .lightbox::backdrop { background: color-mix(in srgb, var(--text) 82%, transparent); }
+  .bar { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); padding: 0.5rem 0.75rem 0.5rem 1rem; border-bottom: 1px solid var(--line); }
+  .caption { margin: 0; font-size: var(--step--1); color: var(--text-2); }
+  .close { min-height: 44px; padding: 0 0.9rem; border: 1px solid var(--line-strong); border-radius: var(--radius); background: none; color: var(--text); font: inherit; font-size: var(--step--1); cursor: pointer; flex: none; }
+  .lightbox img { display: block; max-width: 100%; max-height: calc(94vh - 4rem); margin: 0 auto; object-fit: contain; }
+</style>

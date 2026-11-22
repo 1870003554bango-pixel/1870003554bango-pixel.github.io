@@ -1,0 +1,444 @@
+---
+// Cocoa Reserve — bespoke project page.
+// Brief: md文件/2018/Cocoa_Reserve_Claude_Portfolio_Brief_EN.md · Layout: DESIGN.md (desktop first, paired rows).
+// Every image is extracted from Sitan's own DECO2018 documents; AI concept images are labelled as such.
+import type { ImageMetadata } from 'astro';
+import Base from '../../layouts/Base.astro';
+import Zoom from '../../components/Zoom.astro';
+import Lightbox from '../../components/Lightbox.astro';
+import Stepper from '../../components/Stepper.astro';
+import Tabs from '../../components/Tabs.astro';
+import CompareSlider from '../../components/CompareSlider.astro';
+import { useT, type Lang } from '../../i18n/ui';
+import { page } from '../../lib/url';
+import { nextOf } from '../../data/projects';
+import { copy as c } from '../../data/cocoa-reserve';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = useT(lang);
+const next = nextOf('cocoa-reserve');
+
+const files = import.meta.glob<{ default: ImageMetadata }>('../../assets/cocoa-reserve/*.jpg', { eager: true });
+const img = (key: string): ImageMetadata => {
+  const f = files[`../../assets/cocoa-reserve/${key}.jpg`];
+  if (!f) throw new Error(`Missing Cocoa Reserve image: ${key}`);
+  return f.default;
+};
+
+const steps = c.unboxing.steps.map((s) => ({ src: img(s.key), alt: s.alt, title: s.title, text: s.text }));
+const materials = c.blender.materials.map((m) => ({ id: m.id, label: m.label, title: m.label, text: m.text, src: img(`material-${m.id}`), alt: m.alt }));
+---
+
+<Base lang={lang} route="/work/cocoa-reserve/" title="Cocoa Reserve" description={c.hero.sub} image={img('blender-draft-closed')} theme="cocoa">
+  <article lang="en" class="project cocoa">
+    <nav class="wrap crumbs" aria-label="Breadcrumb">
+      <ol role="list">
+        <li><a href={page(lang, '/work/')}>{t('nav.work')}</a></li>
+        <li aria-current="page">Cocoa Reserve</li>
+      </ol>
+      {lang === 'zh' && <p class="en-only" lang="zh-CN">{t('project.enOnly')}</p>}
+    </nav>
+
+    <!-- 01 · Hero: text | final render -->
+    <header class="wrap row hero">
+      <div class="prose hero-text">
+        <p class="eyebrow">{c.hero.eyebrow}</p>
+        <h1>{c.hero.title}</h1>
+        <p class="tagline">{c.hero.tagline}</p>
+        <p class="sub">{c.hero.sub}</p>
+        <p class="question">{c.hero.question}</p>
+        <p>{c.hero.intro}</p>
+        <div class="ctas">
+          <a class="btn btn-primary" href="#idea">{c.hero.ctaPrimary} <span aria-hidden="true">↓</span></a>
+          <a class="btn" href="#prototyping">{c.hero.ctaSecondary}</a>
+        </div>
+        <dl class="details">
+          {c.hero.details.map((d) => <div><dt>{d.k}</dt><dd>{d.v}</dd></div>)}
+        </dl>
+      </div>
+      <Zoom src={img('hero-open-lid')} alt={c.hero.imageAlt} class="hero-img" loading="eager"
+        sizes="(min-width: 48rem) 460px, 100vw" widths={[480, 920, 1400]} />
+    </header>
+
+    <!-- 02 · Idea: AI concept images | text -->
+    <section id="idea" class="wrap block row flip" aria-labelledby="idea-h">
+      <div class="prose">
+        <p class="eyebrow">{c.idea.eyebrow}</p>
+        <h2 id="idea-h">{c.idea.title}</h2>
+        {c.idea.body.map((p) => <p>{p}</p>)}
+        <p>{c.idea.lead}</p>
+        <blockquote>{c.idea.question}</blockquote>
+        <p class="small muted">{c.idea.note}</p>
+      </div>
+      <div class="stack">
+        {c.idea.images.map((m) => <Zoom src={img(m.key)} alt={m.alt} caption={m.caption} sizes="(min-width: 48rem) 520px, 100vw" />)}
+      </div>
+    </section>
+
+    <!-- 03 · Development: text | evolution 1 → 4 -->
+    <section class="wrap block row" aria-labelledby="dev-h">
+      <div class="prose">
+        <p class="eyebrow">{c.development.eyebrow}</p>
+        <h2 id="dev-h">{c.development.title}</h2>
+        {c.development.body.map((p) => <p>{p}</p>)}
+        <p class="key"><span class="num">Key idea</span> {c.development.keyIdea}</p>
+      </div>
+      <ol class="evolution" role="list">
+        {c.development.steps.map((s, i) => (
+          <li>
+            <span class="num">{String(i + 1).padStart(2, '0')} {s.label}</span>
+            <Zoom src={img(s.key)} alt={s.alt} caption={s.caption} sizes="(min-width: 48rem) 260px, 50vw" ratio="4 / 3" fit="cover" />
+          </li>
+        ))}
+      </ol>
+    </section>
+
+    <!-- 04 · CAD: Loft stages | text, then specs | physical scale -->
+    <section class="wrap block" aria-labelledby="cad-h">
+      <div class="row flip">
+        <div class="prose">
+          <p class="eyebrow">{c.cad.eyebrow}</p>
+          <h2 id="cad-h">{c.cad.title}</h2>
+          {c.cad.body.map((p) => <p>{p}</p>)}
+        </div>
+        <ol class="grid-2" role="list">
+          {c.cad.loft.map((l, i) => (
+            <li><Zoom src={img(l.key)} alt={`Fusion screenshot, stage ${i + 1}: ${l.label}`} caption={`${String(i + 1).padStart(2, '0')} ${l.label}`} sizes="(min-width: 48rem) 260px, 50vw" ratio="16 / 9" fit="cover" /></li>
+          ))}
+        </ol>
+      </div>
+      <div class="row">
+        <div class="prose">
+          <h3>{c.cad.specsTitle}</h3>
+          <dl class="specs">{c.cad.specs.map((s) => <div><dt>{s.k}</dt><dd>{s.v}</dd></div>)}</dl>
+          <p class="closing">{c.cad.closing}</p>
+        </div>
+        <div class="grid-2">
+          <Zoom src={img('print-ruler')} alt="A 3D-printed chocolate form next to a ruler, showing its real size." caption="Printed form next to a ruler" sizes="(min-width: 48rem) 260px, 50vw" ratio="4 / 3" fit="cover" />
+          <Zoom src={img('fusion-ribs-closeup')} alt="Fusion close-up of the shallow raised ribs and the 01 / 02 marking." caption="Shallow ribs and the 01 / 02 marking" sizes="(min-width: 48rem) 260px, 50vw" ratio="4 / 3" fit="cover" />
+        </div>
+      </div>
+    </section>
+
+    <!-- 05 · Prototyping: text | print → mould → cast, then changes | detail loss -->
+    <section id="prototyping" class="wrap block" aria-labelledby="proto-h">
+      <div class="row">
+        <div class="prose">
+          <p class="eyebrow">{c.prototyping.eyebrow}</p>
+          <h2 id="proto-h">{c.prototyping.title}</h2>
+          {c.prototyping.body.map((p) => <p>{p}</p>)}
+        </div>
+        <ol class="grid-2" role="list">
+          {c.prototyping.sequence.map((s, i) => (
+            <li class:list={{ failed: s.failed }}>
+              {s.failed && <span class="flag">Failed test</span>}
+              <Zoom src={img(s.key)} alt={s.alt} caption={`${String(i + 1).padStart(2, '0')} ${s.caption}`} sizes="(min-width: 48rem) 260px, 50vw" ratio="4 / 3" fit="cover" />
+            </li>
+          ))}
+        </ol>
+      </div>
+      <div class="row flip">
+        <div class="prose">
+          <h3>{c.prototyping.changedTitle}</h3>
+          <div class="versus">
+            <div><p class="vs-label">{c.prototyping.first.label}</p><ul>{c.prototyping.first.items.map((x) => <li>{x}</li>)}</ul></div>
+            <div><p class="vs-label">{c.prototyping.revised.label}</p><ul>{c.prototyping.revised.items.map((x) => <li>{x}</li>)}</ul></div>
+          </div>
+          <p class="stat"><span>{c.prototyping.printTime.before}</span> → <strong>{c.prototyping.printTime.after}</strong></p>
+          <p class="small muted">{c.prototyping.printTime.note}</p>
+          <h3>{c.prototyping.improveTitle}</h3>
+          <p>{c.prototyping.improve}</p>
+        </div>
+        <Zoom src={img(c.prototyping.detail.key)} alt={c.prototyping.detail.alt} caption={c.prototyping.detail.caption} sizes="(min-width: 48rem) 460px, 100vw" class="narrow" />
+      </div>
+    </section>
+
+    <!-- 06 · Protective case: text + specs | closed box, then structure images | structure text -->
+    <section class="wrap block" aria-labelledby="case-h">
+      <div class="row">
+        <div class="prose">
+          <p class="eyebrow">{c.case.eyebrow}</p>
+          <h2 id="case-h">{c.case.title}</h2>
+          {c.case.body.map((p) => <p>{p}</p>)}
+        </div>
+        <div class="stack">
+          <Zoom src={img(c.case.image.key)} alt={c.case.image.alt} caption={c.case.image.caption} sizes="(min-width: 48rem) 540px, 100vw" />
+          <div>
+            <h3 class="small-h">{c.case.specsTitle}</h3>
+            <dl class="specs">{c.case.specs.map((s) => <div><dt>{s.k}</dt><dd>{s.v}</dd></div>)}</dl>
+          </div>
+        </div>
+      </div>
+      <div class="row flip">
+        <div class="prose">
+          <h3>{c.case.structureTitle}</h3>
+          {c.case.structure.map((p) => <p>{p}</p>)}
+        </div>
+        <ol class="grid-2" role="list">
+          {c.case.structureImages.map((s) => <li><Zoom src={img(s.key)} alt={s.alt} caption={s.caption} sizes="(min-width: 48rem) 260px, 50vw" ratio="4 / 3" fit="cover" /></li>)}
+        </ol>
+      </div>
+    </section>
+
+    <!-- 07 · Hinge: text | failure photo, then redesign | images, then lessons -->
+    <section class="wrap block" aria-labelledby="hinge-h">
+      <div class="row">
+        <div class="prose">
+          <p class="eyebrow">{c.hinge.eyebrow}</p>
+          <h2 id="hinge-h">{c.hinge.title}</h2>
+          {c.hinge.body.map((p) => <p>{p}</p>)}
+        </div>
+        <div class="failed">
+          <span class="flag">Failed — first hinge</span>
+          <Zoom src={img(c.hinge.failure.key)} alt={c.hinge.failure.alt} caption={c.hinge.failure.caption} sizes="(min-width: 48rem) 380px, 100vw" class="narrow" />
+        </div>
+      </div>
+      <div class="row flip">
+        <div class="prose">
+          <h3>{c.hinge.redesignTitle}</h3>
+          <ul class="ticks">{c.hinge.redesign.map((x) => <li>{x}</li>)}</ul>
+          {c.hinge.result.map((p) => <p>{p}</p>)}
+        </div>
+        <ol class="grid-3" role="list">
+          {c.hinge.redesignImages.map((s) => <li><Zoom src={img(s.key)} alt={s.alt} caption={s.caption} sizes="(min-width: 48rem) 180px, 33vw" ratio="3 / 4" fit="cover" /></li>)}
+        </ol>
+      </div>
+      <div class="head-row learned">
+        <h3>{c.hinge.learnedTitle}</h3>
+        <div class="prose">{c.hinge.learned.map((p) => <p>{p}</p>)}</div>
+      </div>
+    </section>
+
+    <!-- 08 · Unboxing: the main interaction -->
+    <section class="wrap block unboxing" aria-labelledby="unbox-h">
+      <div class="head-row">
+        <div>
+          <p class="eyebrow">{c.unboxing.eyebrow}</p>
+          <h2 id="unbox-h">{c.unboxing.title}</h2>
+        </div>
+        <p>{c.unboxing.intro}</p>
+      </div>
+      <Stepper steps={steps} label="Five-step unboxing sequence" shortcuts={c.unboxing.shortcuts} />
+      <p class="outro muted">{c.unboxing.outro}</p>
+    </section>
+
+    <!-- 09 · Blender -->
+    <section class="wrap block" aria-labelledby="blender-h">
+      <div class="row">
+        <div class="prose">
+          <p class="eyebrow">{c.blender.eyebrow}</p>
+          <h2 id="blender-h">{c.blender.title}</h2>
+          {c.blender.body.map((p) => <p>{p}</p>)}
+        </div>
+        <div class="stack">
+          <Zoom src={img(c.blender.scene.key)} alt={c.blender.scene.alt} caption={c.blender.scene.caption} sizes="(min-width: 48rem) 400px, 100vw" class="narrow" />
+        </div>
+      </div>
+
+      <div class="row flip">
+        <div class="prose">
+          <h3>{c.blender.materialsTitle}</h3>
+          <Tabs tabs={materials} label="Blender materials" />
+          <p class="small muted">{c.blender.materialsNote}</p>
+        </div>
+        <Zoom src={img(c.blender.blockout.key)} alt={c.blender.blockout.alt} caption={c.blender.blockout.caption} sizes="(min-width: 48rem) 540px, 100vw" />
+      </div>
+
+      <div class="experiments">
+        <div class="head-row">
+          <h3>{c.blender.experimentsTitle}</h3>
+          <div class="prose">{c.blender.experiments.map((p) => <p>{p}</p>)}</div>
+        </div>
+        <div class="grid-3 compares">
+          {c.blender.compares.map((m) => (
+            <CompareSlider before={img(`mat-${m.id}-before`)} after={img(`mat-${m.id}-after`)}
+              beforeAlt={`Before: early ${m.alt}`} afterAlt={`After: revised ${m.alt}`} label={m.label} caption={m.label} sizes="(min-width: 48rem) 360px, 100vw" />
+          ))}
+        </div>
+        <p class="small muted">{c.blender.comparesNote}</p>
+      </div>
+
+      <div class="row flip">
+        <div class="prose">
+          <h3>{c.blender.lightingTitle}</h3>
+          <p>{c.blender.lightingIntro}</p>
+          <dl class="specs compact">{c.blender.settings.map((s) => <div><dt>{s.k}</dt><dd>{s.v}</dd></div>)}</dl>
+        </div>
+        <div class="stack">
+          <ol class="grid-2" role="list">
+            {c.blender.lights.map((l) => <li><Zoom src={img(l.key)} alt={l.alt} caption={l.label} sizes="(min-width: 48rem) 260px, 50vw" /></li>)}
+          </ol>
+          <ol class="grid-3" role="list">
+            {c.blender.cameras.map((l) => <li><Zoom src={img(l.key)} alt={l.alt} caption={l.label} sizes="(min-width: 48rem) 180px, 33vw" /></li>)}
+          </ol>
+          <p class="small muted">{c.blender.cameraNote} {c.blender.testsNote}</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 10 · Poster & feedback -->
+    <section class="wrap block" aria-labelledby="poster-h">
+      <div class="row">
+        <div class="prose">
+          <p class="eyebrow">{c.poster.eyebrow}</p>
+          <h2 id="poster-h">{c.poster.title}</h2>
+          <p>{c.poster.intro}</p>
+          <h3>{c.poster.feedbackTitle}</h3>
+          <ul class="ticks">{c.poster.feedback.map((x) => <li>{x}</li>)}</ul>
+        </div>
+        <div class="grid-2 posters">
+          <Zoom src={img(c.poster.before.key)} alt={c.poster.before.alt} caption={c.poster.before.caption} sizes="(min-width: 48rem) 260px, 50vw" />
+          <Zoom src={img(c.poster.after.key)} alt={c.poster.after.alt} caption={c.poster.after.caption} sizes="(min-width: 48rem) 260px, 50vw" />
+        </div>
+      </div>
+      <div class="row flip">
+        <div class="prose">
+          <h3>{c.poster.changedTitle}</h3>
+          <p>{c.poster.changed}</p>
+          <p>{c.poster.contextsLead}</p>
+          <ul class="ticks">{c.poster.contexts.map((x) => <li><strong>{x.k}</strong> {x.v}</li>)}</ul>
+          <p>{c.poster.contextsOutro}</p>
+          <h3>{c.poster.stillTitle}</h3>
+          {c.poster.still.map((p) => <p>{p}</p>)}
+        </div>
+        <Zoom src={img(c.poster.notes.key)} alt={c.poster.notes.alt} caption={c.poster.notes.caption} sizes="(min-width: 48rem) 380px, 100vw" class="narrow" />
+      </div>
+    </section>
+
+    <!-- 11 · Reflection -->
+    <section class="wrap block row reflection" aria-labelledby="refl-h">
+      <div class="prose">
+        <p class="eyebrow">{c.reflection.eyebrow}</p>
+        <h2 id="refl-h">{c.reflection.title}</h2>
+        {c.reflection.body.map((p) => <p>{p}</p>)}
+      </div>
+      <blockquote class="closing-quote"><p>{c.reflection.closing}</p></blockquote>
+    </section>
+
+    <!-- 12 · Credits -->
+    <section class="wrap block credits" aria-labelledby="credits-h">
+      <h2 id="credits-h" class="sr-only">Credits and references</h2>
+      <div>
+        <h3>{c.credits.referencesTitle}</h3>
+        <ul>{c.credits.references.map((r) => <li>{r.text} <a href={r.url} rel="noopener" target="_blank">{r.url.replace('https://', '')}</a></li>)}</ul>
+      </div>
+      <div>
+        <h3>{c.credits.toolsTitle}</h3>
+        <p>{c.credits.tools}</p>
+        <h3>{c.credits.aiTitle}</h3>
+        <p>{c.credits.ai}</p>
+      </div>
+    </section>
+
+    <nav class="wrap bottom-nav" aria-label="Project navigation">
+      <a class="text-link" href={page(lang, '/work/')}>← All Work</a>
+      <a class="next" href={page(lang, `/work/${next.slug}/`)}>
+        <span class="eyebrow">Next Project</span>
+        <span class="next-title">{next.title} <span class="arrow" aria-hidden="true">→</span></span>
+      </a>
+    </nav>
+  </article>
+  <Lightbox />
+</Base>
+
+<style>
+  .crumbs { padding-top: var(--space-3); }
+  .crumbs ol { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0; padding: 0; list-style: none; font-size: var(--step--1); color: var(--text-2); }
+  .crumbs li + li::before { content: '/'; margin-right: 0.5rem; }
+  .crumbs a { display: inline-flex; align-items: center; min-height: 44px; margin-block: -0.6rem; color: var(--text-2); }
+  .en-only { margin-top: 0.5rem !important; font-size: var(--step--1); color: var(--text-2); }
+
+  .cocoa h3 { font-size: var(--step-1); font-weight: 600; margin-top: var(--space-1); }
+  .eyebrow { margin: 0; color: var(--accent); }
+
+  /* 01 */
+  .hero { padding-block: var(--space-3) 0; }
+  .hero-text { gap: 0.9rem; }
+  .hero h1 { font-size: var(--step-3); text-transform: uppercase; letter-spacing: 0.01em; }
+  .tagline { font-size: var(--step-2); font-weight: 600; letter-spacing: -0.02em; }
+  .sub { font-style: italic; color: var(--text-2); }
+  .question { font-size: var(--step-1); font-weight: 500; }
+  .ctas { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+  .details { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.75rem var(--space-3); margin: var(--space-1) 0 0; padding-top: var(--space-2); border-top: 1px solid var(--line); }
+  .details dt { font-size: var(--step--1); color: var(--text-2); }
+  .details dd { margin: 0; font-size: var(--step--1); font-weight: 500; }
+  :global(.hero-img) { max-width: 28rem; justify-self: center; }
+
+  /* shared bits */
+  .stack { display: grid; gap: var(--space-2); align-content: center; min-width: 0; }
+  .grid-2, .grid-3 { display: grid; gap: var(--space-2) 0.75rem; margin: 0; padding: 0; list-style: none; min-width: 0; }
+  .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  :global(.narrow) { max-width: 26rem; justify-self: center; width: 100%; }
+  blockquote { margin: 0; padding-left: var(--space-2); border-left: 2px solid var(--accent); font-size: var(--step-1); font-weight: 500; line-height: 1.35; }
+  .key { padding: var(--space-2); background: var(--sunken); border-radius: var(--radius); font-weight: 600; }
+  .key .num { display: block; margin-bottom: 0.2rem; }
+  .closing { font-weight: 600; }
+
+  .evolution { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-2) 0.75rem; margin: 0; padding: 0; list-style: none; counter-reset: e; }
+  .evolution li { display: grid; gap: 0.4rem; }
+
+  .specs { display: grid; margin: 0; border-top: 1px solid var(--line); }
+  .specs div { display: flex; justify-content: space-between; gap: var(--space-2); padding-block: 0.45rem; border-bottom: 1px solid var(--line); font-size: var(--step--1); }
+  .specs dt { color: var(--text-2); }
+  .specs dd { margin: 0; font-weight: 600; text-align: right; font-variant-numeric: tabular-nums; }
+  .specs.compact div { padding-block: 0.3rem; }
+  .small-h { font-size: var(--step-0) !important; margin: 0 0 0.5rem !important; }
+
+  .failed { position: relative; display: grid; }
+  li.failed { position: relative; }
+  .flag {
+    position: absolute;
+    z-index: 1;
+    top: 0.5rem;
+    left: 0.5rem;
+    padding: 0.15rem 0.5rem;
+    border-radius: 3px;
+    background: var(--accent);
+    color: var(--on-accent);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    pointer-events: none;
+  }
+  .failed > .flag { left: calc(50% - 13rem + 0.5rem); }
+  @media (max-width: 47.99rem) { .failed > .flag { left: 0.5rem; } }
+
+  .versus { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-2); }
+  .versus > div { padding: var(--space-2); background: var(--sunken); border-radius: var(--radius); }
+  .versus ul { margin: 0; padding-left: 1.1rem; display: grid; gap: 0.25rem; font-size: var(--step--1); }
+  .vs-label { font-weight: 600; margin-bottom: 0.4rem !important; }
+  .stat { font-size: var(--step-1); font-variant-numeric: tabular-nums; }
+  .stat span { color: var(--text-2); text-decoration: line-through; }
+  .stat strong { color: var(--accent); }
+
+  .ticks { margin: 0; padding-left: 1.1rem; display: grid; gap: 0.35rem; }
+  .learned { margin-top: var(--space-5); padding-top: var(--space-3); border-top: 1px solid var(--line); align-items: start; }
+
+  .unboxing .head-row h2 { margin-top: 0.4rem; }
+  .outro { margin-top: var(--space-3) !important; max-width: 62ch; }
+
+  .experiments { margin-top: var(--space-5); }
+  .experiments .head-row { align-items: start; }
+  .compares { align-items: start; gap: var(--space-2); }
+  .experiments > .small { margin-top: 0.75rem !important; }
+  .posters { align-items: start; }
+
+  .reflection { align-items: start; }
+  .closing-quote { border-left: 0; padding: var(--space-4) 0; border-block: 1px solid var(--line); }
+  .closing-quote p { font-size: clamp(1.4rem, 1.6vw + 1rem, 2.1rem); font-weight: 600; line-height: 1.25; letter-spacing: -0.015em; }
+
+  .credits { display: grid; gap: var(--space-3) var(--space-5); font-size: var(--step--1); color: var(--text-2); }
+  @media (min-width: 48rem) { .credits { grid-template-columns: 1fr 1fr; } }
+  .credits h3 { font-size: var(--step-0) !important; color: var(--text); margin-bottom: 0.4rem; }
+  .credits ul { margin: 0; padding-left: 1rem; display: grid; gap: 0.5rem; }
+  .credits a { overflow-wrap: anywhere; color: var(--accent); }
+  .credits p + h3 { margin-top: var(--space-2); }
+
+  .bottom-nav { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: var(--space-3); margin-top: var(--space-5); padding-top: var(--space-4); border-top: 1px solid var(--line); }
+  .next { display: grid; gap: 0.3rem; text-align: right; text-decoration: none; margin-left: auto; }
+  .next .eyebrow { color: var(--text-2); }
+  .next-title { font-size: var(--step-2); font-weight: 600; letter-spacing: -0.02em; }
+</style>

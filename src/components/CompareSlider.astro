@@ -1,0 +1,74 @@
+---
+// Before / after slider. Only for two images of the SAME view (same camera, same framing).
+// A native range input drives it, so it works with mouse, touch and keyboard.
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  before: ImageMetadata;
+  after: ImageMetadata;
+  beforeAlt: string;
+  afterAlt: string;
+  label: string;
+  caption?: string;
+  sizes?: string;
+}
+const { before, after, beforeAlt, afterAlt, label, caption, sizes = '(min-width: 48rem) 360px, 100vw' } = Astro.props;
+---
+
+<figure class="compare" data-compare>
+  <div class="stage" style="--pos: 50%">
+    <Image class="img after" src={after} alt={afterAlt} widths={[480, 960]} sizes={sizes} />
+    <div class="before-wrap" aria-hidden="false">
+      <Image class="img before" src={before} alt={beforeAlt} widths={[480, 960]} sizes={sizes} />
+    </div>
+    <span class="tag tag-before" aria-hidden="true">Before</span>
+    <span class="tag tag-after" aria-hidden="true">After</span>
+    <span class="handle" aria-hidden="true"></span>
+    <input type="range" min="0" max="100" value="50" step="1" aria-label={`${label}: drag to compare before and after`} />
+  </div>
+  {caption && <figcaption>{caption}</figcaption>}
+</figure>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-compare]').forEach((fig) => {
+    const stage = fig.querySelector<HTMLElement>('.stage')!;
+    const input = fig.querySelector<HTMLInputElement>('input')!;
+    const set = () => {
+      stage.style.setProperty('--pos', `${input.value}%`);
+      input.setAttribute('aria-valuetext', `${input.value}% before`);
+    };
+    input.addEventListener('input', set);
+    set();
+  });
+</script>
+
+<style>
+  .compare { margin: 0; display: grid; gap: 0.5rem; }
+  .stage { position: relative; overflow: hidden; border-radius: var(--radius); aspect-ratio: 4 / 3; background: var(--sunken); }
+  .stage :global(.img) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .before-wrap { position: absolute; inset: 0; clip-path: inset(0 calc(100% - var(--pos)) 0 0); }
+  .handle { position: absolute; top: 0; bottom: 0; left: var(--pos); width: 2px; background: var(--bg); transform: translateX(-1px); pointer-events: none; }
+  .handle::after {
+    content: '‹ ›';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: grid;
+    place-items: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 50%;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+  .tag { position: absolute; top: 0.5rem; padding: 0.15rem 0.5rem; border-radius: 3px; background: var(--bg); color: var(--text); font-size: 0.75rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; pointer-events: none; }
+  .tag-before { left: 0.5rem; }
+  .tag-after { right: 0.5rem; }
+  input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: ew-resize; }
+  input:focus-visible + * , .stage:has(input:focus-visible) { outline: 2px solid var(--focus); outline-offset: 3px; }
+  figcaption { font-size: var(--step--1); color: var(--text-2); }
+</style>

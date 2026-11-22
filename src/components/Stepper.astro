@@ -1,0 +1,128 @@
+---
+// Click-through step sequence: photo + step number + heading + text. No autoplay.
+// Buttons, step dots, Left/Right keys. Optional shortcut buttons jump to a given step.
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Step { src: ImageMetadata; alt: string; title: string; text: string }
+interface Shortcut { label: string; step: number }
+interface Props {
+  steps: Step[];
+  label: string;
+  shortcuts?: Shortcut[];
+  prevLabel?: string;
+  nextLabel?: string;
+}
+const { steps, label, shortcuts = [], prevLabel = 'Previous', nextLabel = 'Next' } = Astro.props;
+const total = steps.length;
+const pad = (n: number) => String(n).padStart(2, '0');
+---
+
+<section class="stepper" aria-roledescription="step sequence" aria-label={label} data-stepper tabindex="-1">
+  <div class="frame">
+    {steps.map((s, i) => (
+      <figure class="shot" data-step={i} hidden={i !== 0}>
+        <Image src={s.src} alt={s.alt} widths={[480, 860]} sizes="(min-width: 48rem) 440px, 100vw" loading={i === 0 ? 'lazy' : 'lazy'} />
+      </figure>
+    ))}
+  </div>
+
+  <div class="panel">
+    <p class="count" aria-live="polite"><span class="cur">Step 01</span> / {pad(total)}</p>
+    {steps.map((s, i) => (
+      <div class="copy" data-step={i} hidden={i !== 0}>
+        <h3>{s.title}</h3>
+        <p>{s.text}</p>
+      </div>
+    ))}
+
+    <ol class="dots" role="list">
+      {steps.map((s, i) => (
+        <li>
+          <button type="button" data-go={i} aria-current={i === 0 ? 'step' : undefined}>
+            <span class="n">{pad(i + 1)}</span><span class="t">{s.title}</span>
+          </button>
+        </li>
+      ))}
+    </ol>
+
+    <div class="controls">
+      <button type="button" class="btn prev" disabled>← {prevLabel}</button>
+      <button type="button" class="btn btn-primary next">{nextLabel} →</button>
+    </div>
+    {shortcuts.length > 0 && (
+      <div class="shortcuts">
+        {shortcuts.map((s) => <button type="button" class="text-link" data-go={s.step}>{s.label}</button>)}
+      </div>
+    )}
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-stepper]').forEach((root) => {
+    const shots = [...root.querySelectorAll<HTMLElement>('.shot')];
+    const copies = [...root.querySelectorAll<HTMLElement>('.copy')];
+    const dots = [...root.querySelectorAll<HTMLButtonElement>('.dots [data-go]')];
+    const cur = root.querySelector('.cur')!;
+    const prev = root.querySelector<HTMLButtonElement>('.prev')!;
+    const next = root.querySelector<HTMLButtonElement>('.next')!;
+    const total = shots.length;
+    let i = 0;
+    const show = (n: number) => {
+      i = Math.max(0, Math.min(total - 1, n));
+      shots.forEach((s, j) => (s.hidden = j !== i));
+      copies.forEach((c, j) => (c.hidden = j !== i));
+      dots.forEach((d, j) => (j === i ? d.setAttribute('aria-current', 'step') : d.removeAttribute('aria-current')));
+      cur.textContent = `Step ${String(i + 1).padStart(2, '0')}`;
+      prev.disabled = i === 0;
+      next.disabled = i === total - 1;
+    };
+    prev.addEventListener('click', () => show(i - 1));
+    next.addEventListener('click', () => show(i + 1));
+    root.querySelectorAll<HTMLButtonElement>('[data-go]').forEach((b) => b.addEventListener('click', () => show(Number(b.dataset.go))));
+    root.addEventListener('keydown', (e) => {
+      if ((e.target as HTMLElement).closest('input, textarea')) return;
+      if (e.key === 'ArrowRight') { e.preventDefault(); show(i + 1); }
+      if (e.key === 'ArrowLeft') { e.preventDefault(); show(i - 1); }
+    });
+  });
+</script>
+
+<style>
+  .stepper { display: grid; gap: var(--space-3) var(--space-5); align-items: center; }
+  @media (min-width: 48rem) { .stepper { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
+  .frame { border-radius: var(--radius); overflow: hidden; background: var(--sunken); aspect-ratio: 3 / 4; max-width: 30rem; width: 100%; justify-self: center; }
+  .shot { margin: 0; height: 100%; }
+  .shot :global(img) { width: 100%; height: 100%; object-fit: cover; }
+  .panel { display: grid; gap: var(--space-2); align-content: center; }
+  .count { margin: 0; font-size: var(--step--1); font-weight: 600; color: var(--accent); font-variant-numeric: tabular-nums; }
+  .copy { display: grid; gap: 0.5rem; min-height: 9.5rem; }
+  .copy h3 { font-size: var(--step-2); font-weight: 600; }
+  .copy p { margin: 0; max-width: 52ch; }
+  .dots { display: grid; margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--line); }
+  .dots button {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    width: 100%;
+    min-height: 44px;
+    padding: 0 0.25rem;
+    border: 0;
+    border-bottom: 1px solid var(--line);
+    background: none;
+    color: var(--text-2);
+    font: inherit;
+    font-size: var(--step--1);
+    text-align: left;
+    cursor: pointer;
+  }
+  .dots button:hover { color: var(--text); }
+  .dots button[aria-current='step'] { color: var(--text); font-weight: 600; }
+  .dots button[aria-current='step'] .n { color: var(--accent); }
+  .n { font-variant-numeric: tabular-nums; }
+  .controls { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+  .controls button { cursor: pointer; font: inherit; }
+  .controls button:disabled { opacity: 0.4; cursor: default; }
+  .shortcuts { display: flex; gap: var(--space-3); flex-wrap: wrap; }
+  .shortcuts button { background: none; border: 0; padding: 0; font: inherit; font-size: var(--step--1); cursor: pointer; }
+</style>

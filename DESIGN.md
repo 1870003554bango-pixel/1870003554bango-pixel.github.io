@@ -82,7 +82,15 @@
 | `.num` | 蓝色编号 01 / 02 / 03 |
 | `.muted` `.small` | 次要文字、小号文字 |
 
-组件：`Cover`（图片或 TODO 占位）、`ProjectCard`、`Demo`（点击运行）、`PhotoCarousel`（照片切换：左右箭头、圆点、键盘方向键、触控滑动，不自动播放）。
+组件：`Cover`（图片或 TODO 占位）、`ProjectCard`、`Demo`（点击运行）、`PhotoCarousel`（照片切换：左右箭头、圆点、键盘方向键、触控滑动，不自动播放）、`Stepper`（分步演示：上一步/下一步、步骤列表、快捷跳转）、`Tabs`（选项卡：图片 + 简短说明）、`CompareSlider`（前后对比滑块，**只用于同机位、同构图的两张图**；否则并排放）、`Zoom` + `Lightbox`（点击放大，带说明和关闭按钮，每页放一个 `<Lightbox />`）。
+
+### 4.6 项目专属配色
+
+项目 brief 可以给自己的配色：在 `global.css` 里加 `.theme-<名字>` 覆盖颜色变量，页面用 `<Base theme="<名字>">` 启用；整页（含导航和页脚）一起换色，其他页面不受影响。仍然只用一个强调色，次要文字对比度 ≥ 4.5:1（必要时把 brief 给的色值调深并注明）。已有：`theme-cocoa`（Cocoa Reserve）。
+
+### 4.7 素材来自 PDF 时
+
+只有 PDF 时，用 `pdfimages` 提取原始嵌入图片（不是截整页），放到仓库外的临时目录挑选；AI 生成的概念图必须标注 "AI-generated — early visual exploration"；不要发布 PDF、学号或私人文档链接。
 
 ### 4.5 项目详情页的标准结构
 

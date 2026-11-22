@@ -15,9 +15,11 @@ interface Props {
   image?: ImageMetadata | null;
   /** Footer "Let's talk" block. Off on Home, which has its own contact section. */
   footerCta?: boolean;
+  /** Optional project palette, e.g. 'cocoa' → <html class="theme-cocoa"> (tokens in global.css). */
+  theme?: string;
 }
 
-const { lang, route, title, description, image, footerCta = true } = Astro.props;
+const { lang, route, title, description, image, footerCta = true, theme } = Astro.props;
 const t = useT(lang);
 const fullTitle = title ? `${title} — ${t('site.name')}` : `${t('site.name')} — Digital Media · Interactive Design`;
 const desc = description ?? t('site.description');
@@ -37,7 +39,7 @@ const ogImage = image ? abs((await getImage({ src: image, width: 1200, format: '
 ---
 
 <!doctype html>
-<html lang={lang === 'zh' ? 'zh-CN' : 'en'}>
+<html lang={lang === 'zh' ? 'zh-CN' : 'en'} class={theme ? `theme-${theme}` : undefined}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />

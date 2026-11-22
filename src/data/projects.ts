@@ -12,6 +12,7 @@ import type { Lang } from '../i18n/ui';
 import throughTheWindowCover from '../assets/through-the-window/cover.jpg';
 import ufoCover from '../assets/ufo-skyfeed/cover.jpg';
 import identityCover from '../assets/identity-press/cover.jpg';
+import cocoaCover from '../assets/cocoa-reserve/blender-draft-closed.jpg';
 
 type L = Record<Lang, string>;
 export type Category = 'interactive' | 'film' | 'immersive' | 'visual';
@@ -200,22 +201,30 @@ export const projects: Project[] = [
     order: 5,
     status: 'published',
     featured: false,
+    customPage: true,
     categories: ['visual'],
     title: 'Cocoa Reserve',
-    type: { en: '3D / Speculative Design', zh: '3D / 思辨设计' },
+    type: { en: 'Speculative Product Design · Physical Prototyping', zh: '思辨产品设计 · 实体原型' },
     subtitle: {
-      en: 'In 2060 cocoa is scarce, and chocolate becomes something you keep.',
-      zh: '2060 年，可可变得稀缺，巧克力成了需要珍藏的东西。',
+      en: 'Two Forms. One Origin. A collectible chocolate artefact exploring scarcity, preservation and value in 2060.',
+      zh: '两种形态，同一个起源。一件探讨 2060 年稀缺、保存与价值的可收藏巧克力器物。',
+    },
+    summary: {
+      en: 'What if chocolate became something we preserve rather than consume? Two chocolate forms from one cocoa pod, a laser-cut protective case, and the failures that shaped them.',
+      zh: '如果巧克力变成需要保存而不是吃掉的东西？来自同一颗可可荚的两块巧克力、一个激光切割的保护盒，以及塑造它们的那些失败。',
     },
     year: null,
-    collaboration: TODO,
-    role: TODO,
-    tools: ['Blender'],
-    cover: null,
-    coverAlt: { en: 'Blender render of the Cocoa Reserve box', zh: 'Cocoa Reserve 盒子的 Blender 渲染图' },
-    overview: TODO,
+    collaboration: 'solo',
+    role: { en: 'Concept, product design, physical prototyping and visualisation', zh: '概念、产品设计、实体原型与可视化' },
+    tools: ['Autodesk Fusion', 'Rhino', 'Blender'],
+    cover: cocoaCover,
+    coverAlt: {
+      en: 'Blender render: a smoked-bronze case on a pale travertine plinth, with the two cocoa-pod chocolate pieces beside it.',
+      zh: 'Blender 渲染：浅色石灰华底座上的烟熏青铜色盒子，旁边放着两块可可荚形状的巧克力。',
+    },
+    overview: null,
     process: [],
-    reflection: TODO,
+    reflection: null,
   },
   {
     slug: 'urban-pulse',

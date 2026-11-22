@@ -37,6 +37,22 @@
   color-scheme: light;
 }
 
+/* Project palettes. A project page may switch the whole page's tokens via <Base theme="…">. */
+/* Cocoa Reserve — ivory, cocoa, warm grey, one terracotta accent (brief § 2).
+   --text-2 darkened from the brief's #82786D to #6E645A for ≥ 4.5:1 contrast on the ivory. */
+.theme-cocoa {
+  --bg: #f5f1ea;
+  --surface: #fbf8f3;
+  --sunken: #eae3d8;
+  --text: #28231f;
+  --text-2: #6e645a;
+  --accent: #a94f43;
+  --line: #d8cec1;
+  --line-strong: #bfb2a2;
+  --focus: #a94f43;
+  --dark: #211b18;
+}
+
 *, *::before, *::after { box-sizing: border-box; }
 
 html { -webkit-text-size-adjust: 100%; scroll-padding-top: var(--header-h); }
@@ -53,6 +69,9 @@ body {
 }
 
 img, video, iframe { max-width: 100%; display: block; }
+
+/* The hidden attribute always wins over component display rules (steppers, tabs, filters). */
+[hidden] { display: none !important; }
 
 a { color: inherit; text-underline-offset: 0.2em; }
 a:hover { color: var(--accent); }
