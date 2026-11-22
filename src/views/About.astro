@@ -2,6 +2,9 @@
 import Base from '../layouts/Base.astro';
 import { useT, tools, contact, type Lang } from '../i18n/ui';
 import { page, url } from '../lib/url';
+import { Image } from 'astro:assets';
+import fa18 from '../assets/about/fa18-low-pass.jpg';
+import f35 from '../assets/about/f35-vapour.jpg';
 
 interface Props { lang: Lang }
 const { lang } = Astro.props;
@@ -16,9 +19,11 @@ const t = useT(lang);
         <p>{t('about.p1')}</p>
         <p>{t('about.p2')}</p>
       </div>
-      <div class="placeholder photo" role="img" aria-label={`TODO: ${t('about.photoTodo')}`}>
-        <span><strong>TODO</strong><br />{t('about.photoTodo')}</span>
-      </div>
+      <figure class="photos">
+        <Image src={fa18} alt={t('about.photo1.alt')} widths={[640, 960, 1440]} sizes="(min-width: 56rem) 460px, 100vw" loading="eager" />
+        <Image src={f35} alt={t('about.photo2.alt')} widths={[640, 960, 1440]} sizes="(min-width: 56rem) 460px, 100vw" />
+        <figcaption class="eyebrow">{t('about.photo.caption')}</figcaption>
+      </figure>
     </section>
 
     <dl class="facts">
@@ -53,7 +58,13 @@ const t = useT(lang);
   .text { display: grid; gap: var(--space-2); max-width: var(--measure); }
   h1 { font-size: var(--step-3); margin-bottom: var(--space-1); }
   .text p { margin: 0; }
-  .photo { aspect-ratio: 4 / 5; width: 100%; }
+  .photos { margin: 0; display: grid; gap: 0.75rem; }
+  .photos img { width: 100%; height: auto; aspect-ratio: 3 / 2; object-fit: cover; border-radius: var(--radius); }
+  .photos figcaption { margin: 0; font-size: 0.75rem; }
+  @media (min-width: 36rem) and (max-width: 55.99rem) {
+    .photos { grid-template-columns: 1fr 1fr; }
+    .photos figcaption { grid-column: 1 / -1; }
+  }
 
   .facts { display: grid; gap: 0; margin: 0; border-top: 1px solid var(--line); }
   .facts > div { display: grid; gap: var(--space-1) var(--space-4); padding-block: var(--space-3); border-bottom: 1px solid var(--line); }
