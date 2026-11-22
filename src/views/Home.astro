@@ -30,9 +30,11 @@ const cards = featured.slice(0, 4);
       </div>
     </div>
     <figure class="hero-media">
-      <Image src={rocket} alt={t('home.hero.alt')} widths={[640, 960, 1400, 2000]}
-        sizes="(min-width: 75rem) 560px, (min-width: 56rem) 48vw, 100vw"
-        loading="eager" fetchpriority="high" />
+      <div class="hero-frame">
+        <Image src={rocket} alt={t('home.hero.alt')} widths={[960, 1400, 2000]}
+          sizes="(min-width: 75rem) 960px, (min-width: 56rem) 70vw, 150vw"
+          loading="eager" fetchpriority="high" />
+      </div>
       <figcaption class="eyebrow">{t('home.hero.caption')}</figcaption>
     </figure>
   </section>
@@ -83,7 +85,7 @@ const cards = featured.slice(0, 4);
     padding-block: var(--space-5) var(--space-6);
   }
   @media (min-width: 56rem) {
-    .hero { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--space-5); min-height: calc(88vh - var(--header-h)); }
+    .hero { grid-template-columns: minmax(0, 11fr) minmax(0, 9fr); gap: var(--space-5); min-height: calc(88vh - var(--header-h)); }
   }
   .hero-text { display: grid; gap: var(--space-3); justify-items: start; }
   .hero-text .eyebrow { margin: 0; }
@@ -92,13 +94,15 @@ const cards = featured.slice(0, 4);
   .intro { margin: 0; max-width: 60ch; }
   .ctas { display: flex; flex-wrap: wrap; gap: 0.75rem; padding-top: var(--space-1); }
   .hero-media { margin: 0; display: grid; gap: 0.75rem; }
+  .hero-frame { overflow: hidden; border-radius: var(--radius); aspect-ratio: 4 / 5; }
   .hero-media img {
     width: 100%;
-    height: auto;
-    aspect-ratio: 4 / 5;
+    height: 100%;
     object-fit: cover;
-    object-position: 96% 50%; /* Centre the rocket (about 72% across the source) in the portrait crop. */
-    border-radius: var(--radius);
+    object-position: 96% 50%; /* Centre the rocket (about 71% across the source) in the portrait crop. */
+    /* Zoom in on the rocket; the origin is where the rocket sits inside that crop. */
+    transform: scale(1.5);
+    transform-origin: 49% 46%;
   }
   /* Keep the same focal crop at every breakpoint so the rocket stays centred. */
   .hero-media figcaption { margin: 0; font-size: 0.75rem; }
