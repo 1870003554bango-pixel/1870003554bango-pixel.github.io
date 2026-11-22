@@ -39,11 +39,6 @@ const demo = url('/demos/through-the-window/index.html');
 
     <!-- A · Hero -->
     <header class="wrap hero">
-      <figure class="hero-photo">
-        <Image src={photo} alt={c.photoAlt} widths={[480, 768, 1152, 1536]}
-          sizes="(min-width: 56rem) 420px, 100vw" loading="eager" fetchpriority="high" />
-        <figcaption>{c.photoCaption}</figcaption>
-      </figure>
       <div class="hero-text">
         <p class="eyebrow">{c.eyebrow}</p>
         <h1>{c.title}</h1>
@@ -57,6 +52,11 @@ const demo = url('/demos/through-the-window/index.html');
           {c.meta.map((m) => <div><dt>{m.k}</dt><dd>{m.v}</dd></div>)}
         </dl>
       </div>
+      <figure class="hero-photo">
+        <Image src={photo} alt={c.photoAlt} widths={[480, 768, 1152, 1536]}
+          sizes="(min-width: 75rem) 440px, (min-width: 44rem) 38vw, 100vw" loading="eager" fetchpriority="high" />
+        <figcaption>{c.photoCaption}</figcaption>
+      </figure>
     </header>
 
     <!-- B · Experience -->
@@ -216,10 +216,11 @@ const demo = url('/demos/through-the-window/index.html');
 
   /* A */
   .hero { display: grid; gap: var(--space-4); align-items: center; padding-block: var(--space-4) var(--space-5); }
-  @media (min-width: 56rem) { .hero { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); gap: var(--space-5); } }
+  @media (min-width: 44rem) { .hero { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: var(--space-4); } }
+  @media (min-width: 64rem) { .hero { gap: var(--space-5); } }
   .hero-photo { margin: 0; display: grid; gap: 0.6rem; }
   .hero-photo img { width: 100%; height: auto; border-radius: var(--radius); }
-  @media (max-width: 55.99rem) { .hero-photo { max-width: 26rem; } }
+  @media (max-width: 43.99rem) { .hero-photo { max-width: 26rem; } }
   .hero-photo figcaption, figcaption { font-size: var(--step--1); color: var(--text-2); }
   .hero-text { display: grid; gap: var(--space-2); justify-items: start; }
   h1 { font-size: var(--step-3); }
