@@ -5,7 +5,8 @@ Static site built with [Astro](https://astro.build), deployed to GitHub Pages.
 English at `/`, Chinese at `/zh/`.
 
 The target design and content rules are in
-[`Sitan_Ding_Portfolio_Claude_网站改造规范.md`](Sitan_Ding_Portfolio_Claude_网站改造规范.md).
+[`md文件/Sitan_Ding_Portfolio_Claude_网站改造规范.md`](md文件/Sitan_Ding_Portfolio_Claude_网站改造规范.md);
+the Home page copy is in [`md文件/Sitan_Ding_Home_Claude_Brief_EN.md`](md文件/Sitan_Ding_Home_Claude_Brief_EN.md).
 
 ## Run locally
 

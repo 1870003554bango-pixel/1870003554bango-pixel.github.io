@@ -11,7 +11,8 @@ Personal portfolio site. Astro 7, static output, deployed to GitHub Pages by
 
 ## Source of truth
 
-`Sitan_Ding_Portfolio_Claude_网站改造规范.md` (the spec) overrides PLAN.md and anything below
+`md文件/Sitan_Ding_Portfolio_Claude_网站改造规范.md` (the spec) and `md文件/Sitan_Ding_Home_Claude_Brief_EN.md`
+(exact Home copy) override PLAN.md and anything below
 when they disagree. Read it before changing content or structure. Key rules from it:
 no invented dates, roles, numbers or employers; team projects say `Team project`;
 no stock/AI images posing as Sitan's work; no fake buttons; English default, Chinese at `/zh/`.

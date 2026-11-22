@@ -13,9 +13,11 @@ interface Props {
   title?: string;
   description?: string;
   image?: ImageMetadata | null;
+  /** Footer "Let's talk" block. Off on Home, which has its own contact section. */
+  footerCta?: boolean;
 }
 
-const { lang, route, title, description, image } = Astro.props;
+const { lang, route, title, description, image, footerCta = true } = Astro.props;
 const t = useT(lang);
 const fullTitle = title ? `${title} — ${t('site.name')}` : `${t('site.name')} — Digital Media · Interactive Design`;
 const desc = description ?? t('site.description');
@@ -93,10 +95,12 @@ const ogImage = image ? abs((await getImage({ src: image, width: 1200, format: '
 
     <footer class="site-footer">
       <div class="wrap">
-        <div class="foot-cta">
-          <p class="foot-title">{t('footer.cta')}</p>
-          <a class="text-link foot-mail" href={`mailto:${contact.email}`}>{contact.email} <span class="arrow" aria-hidden="true">↗</span></a>
-        </div>
+        {footerCta && (
+          <div class="foot-cta">
+            <p class="foot-title">{t('footer.cta')}</p>
+            <a class="text-link foot-mail" href={`mailto:${contact.email}`}>{contact.email} <span class="arrow" aria-hidden="true">↗</span></a>
+          </div>
+        )}
         <div class="foot-row">
           <ul class="foot-nav" role="list">
             {nav.map((n) => <li><a href={page(lang, n.route)}>{n.label}</a></li>)}
@@ -104,7 +108,7 @@ const ogImage = image ? abs((await getImage({ src: image, width: 1200, format: '
           </ul>
           <a class="to-top" href="#main">{t('footer.top')} <span aria-hidden="true">↑</span></a>
         </div>
-        <p class="rights">© {new Date().getFullYear()} {t('site.name')}. {t('footer.rights')}</p>
+        <p class="rights">© {t('footer.rights')}</p>
       </div>
     </footer>
 

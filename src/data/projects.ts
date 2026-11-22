@@ -34,6 +34,8 @@ export interface Project {
   title: string;
   type: L;
   subtitle: L;
+  /** Card description on Home and Work. Falls back to subtitle. */
+  summary?: L;
   year: number | null;
   collaboration: 'solo' | 'team' | null;
   role: L | null;
@@ -59,10 +61,14 @@ export const projects: Project[] = [
     featured: true,
     categories: ['interactive'],
     title: 'Through the Window',
-    type: { en: 'Interactive Art / p5.js', zh: '互动艺术 / p5.js' },
+    type: { en: 'Interactive Art · Creative Coding', zh: '互动艺术 · 创意编程' },
     subtitle: {
       en: 'A quiet, interactive window into a changing 24-hour sky.',
       zh: '一扇可以自由探索 24 小时天空变化的互动窗口。',
+    },
+    summary: {
+      en: "Inspired by the skies I've photographed while travelling, this interactive artwork lets visitors move through a full day and watch a digital landscape change with time.",
+      zh: '灵感来自我旅行时拍下的天空。在这件互动作品里，你可以穿越完整的一天，看着数字风景随时间变化。',
     },
     year: null, // DECO1012 — date to be confirmed by Sitan (CV says 2024.04–06, transcript says 2025 S1)
     collaboration: 'solo',
@@ -95,10 +101,14 @@ export const projects: Project[] = [
     featured: true,
     categories: ['film'],
     title: 'Aerospace Stories',
-    type: { en: 'Filmmaking / Photography', zh: '影像 / 摄影' },
+    type: { en: 'Cinematography · Video Production', zh: '摄影 · 视频制作' },
     subtitle: {
       en: 'Cinematography and video production for three aerospace stories.',
       zh: '三个航天主题视频的拍摄与制作。',
+    },
+    summary: {
+      en: 'A collection of aerospace videos I contributed to through filming and, for one project, post-production. These experiences brought my interest in photography into real online storytelling.',
+      zh: '一组我参与拍摄的航天视频，其中一个我还参与了后期制作。这些经历让我对摄影的兴趣，变成了真正发布在网上的故事。',
     },
     year: null,
     collaboration: TODO,
@@ -137,10 +147,14 @@ export const projects: Project[] = [
     featured: true,
     categories: ['immersive'],
     title: 'Becoming Non-Human',
-    type: { en: 'VR / Unity', zh: 'VR / Unity' },
+    type: { en: 'Virtual Reality · Immersive Media', zh: '虚拟现实 · 沉浸式媒体' },
     subtitle: {
       en: 'A VR experience of the environment through non-human eyes — a sea turtle, a mangrove, a bat.',
       zh: '用海龟、红树林和蝙蝠的视角，在 VR 里重新感受环境。',
+    },
+    summary: {
+      en: 'A collaborative VR experience that invites people to explore different environments through the perspectives of a sea turtle, mangroves, and bats.',
+      zh: '一个合作完成的 VR 体验，邀请人们通过海龟、红树林和蝙蝠的视角，探索不同的环境。',
     },
     year: null,
     collaboration: 'team',
@@ -159,10 +173,14 @@ export const projects: Project[] = [
     featured: true,
     categories: ['interactive'],
     title: 'Scam Ready',
-    type: { en: 'Interactive Storytelling / UX', zh: '互动叙事 / UX' },
+    type: { en: 'Interactive Storytelling · Experience Design', zh: '互动叙事 · 体验设计' },
     subtitle: {
       en: 'An interactive story that lets international students practise spotting impersonation scams.',
       zh: '让国际学生练习识别冒充身份类诈骗的互动故事。',
+    },
+    summary: {
+      en: 'An interactive experience for international students. By making choices and seeing their consequences, visitors learn to pause, question suspicious claims, and verify information independently.',
+      zh: '一个为国际学生设计的互动体验。通过做出选择、看到后果，人们学会停下来、质疑可疑的说法，并独立核实信息。',
     },
     year: null,
     collaboration: 'team',

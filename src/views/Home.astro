@@ -1,54 +1,80 @@
 ---
+// Home page — copy from md文件/Sitan_Ding_Home_Claude_Brief_EN.md (sections A–D).
 import Base from '../layouts/Base.astro';
 import ProjectCard from '../components/ProjectCard.astro';
-import { useT, type Lang } from '../i18n/ui';
+import { useT, contact, type Lang } from '../i18n/ui';
 import { page } from '../lib/url';
 import { featured } from '../data/projects';
 
 interface Props { lang: Lang }
 const { lang } = Astro.props;
 const t = useT(lang);
+const cards = featured.slice(0, 4);
 ---
 
-<Base lang={lang} route="/">
-  <section class="hero wrap">
+<Base lang={lang} route="/" footerCta={false}>
+  <!-- A · Hero -->
+  <section class="hero wrap" aria-labelledby="hero-title">
     <div class="hero-text">
       <p class="eyebrow">{t('home.eyebrow')}</p>
-      <h1>{t('home.title')}</h1>
+      <h1 id="hero-title">
+        <span>{t('home.title1')}</span>
+        <span class="line2">{t('home.title2')}</span>
+      </h1>
       <p class="intro">{t('home.intro')}</p>
       <div class="ctas">
-        <a class="btn btn-primary" href={page(lang, '/work/')}>{t('home.cta.primary')} <span class="arrow" aria-hidden="true">↗</span></a>
-        <a class="btn" href={page(lang, '/about/')}>{t('home.cta.secondary')}</a>
+        <a class="btn btn-primary" href={page(lang, '/work/')}>{t('home.cta.primary')} <span class="arrow" aria-hidden="true">→</span></a>
+        <a class="btn" href={page(lang, '/about/')}>{t('home.cta.secondary')} <span class="arrow" aria-hidden="true">↗</span></a>
       </div>
     </div>
-    <div class="hero-media">
-      <!-- TODO: replace with Sitan's own rocket launch photo (src/assets/home/rocket-hero.jpg) -->
+    <figure class="hero-media">
+      <!-- TODO: Sitan's own rocket-launch photo → src/assets/home/rocket-hero.jpg.
+           Add the caption t('home.hero.caption') only once the photo is confirmed as Sitan's. -->
       <div class="placeholder" role="img" aria-label={`TODO: ${t('home.hero.todo')}`}>
         <span><strong>TODO</strong><br />{t('home.hero.todo')}</span>
       </div>
-    </div>
+    </figure>
   </section>
 
-  <section class="selected wrap" aria-labelledby="selected-title">
-    <div class="section-head">
+  <!-- B · Featured work -->
+  <section class="selected wrap" id="selected" aria-labelledby="selected-title">
+    <header class="section-head">
+      <p class="eyebrow">{t('home.selected.eyebrow')}</p>
       <h2 id="selected-title">{t('home.selected')}</h2>
-      <a class="text-link" href={page(lang, '/work/')}>{t('home.viewAll')} <span aria-hidden="true">→</span></a>
-    </div>
+      <p class="lede">{t('home.selected.intro')}</p>
+    </header>
     <ul class="grid" role="list">
-      {featured.map((p) => <li><ProjectCard project={p} lang={lang} /></li>)}
+      {cards.map((p, i) => <li><ProjectCard project={p} lang={lang} index={i + 1} /></li>)}
     </ul>
+    <a class="text-link all" href={page(lang, '/work/')}>{t('home.viewAll')} <span class="arrow" aria-hidden="true">→</span></a>
   </section>
 
+  <!-- C · Behind the work -->
   <section class="about wrap" aria-labelledby="about-title">
-    <h2 id="about-title">{t('home.aboutTitle')}</h2>
     <div>
-      <p class="measure">{t('home.aboutBody')}</p>
-      <a class="text-link" href={page(lang, '/about/')}>{t('home.aboutCta')} <span class="arrow" aria-hidden="true">↗</span></a>
+      <p class="eyebrow">{t('home.about.eyebrow')}</p>
+      <h2 id="about-title">{t('home.aboutTitle')}</h2>
+    </div>
+    <div class="about-body">
+      <p>{t('home.aboutBody1')}</p>
+      <p>{t('home.aboutBody2')}</p>
+      <a class="text-link" href={page(lang, '/about/')}>{t('home.aboutCta')} <span class="arrow" aria-hidden="true">→</span></a>
+    </div>
+  </section>
+
+  <!-- D · Contact -->
+  <section class="contact wrap" aria-labelledby="contact-title">
+    <h2 id="contact-title">{t('home.contact.title')}</h2>
+    <p>{t('home.contact.body')}</p>
+    <div class="contact-row">
+      <a class="btn btn-primary" href={`mailto:${contact.email}`}>{t('home.contact.cta')} <span class="arrow" aria-hidden="true">↗</span></a>
+      <a class="mail" href={`mailto:${contact.email}`}>{contact.email}</a>
     </div>
   </section>
 </Base>
 
 <style>
+  /* A */
   .hero {
     display: grid;
     gap: var(--space-4);
@@ -56,42 +82,51 @@ const t = useT(lang);
     padding-block: var(--space-5) var(--space-6);
   }
   @media (min-width: 56rem) {
-    .hero { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--space-5); min-height: calc(88vh - var(--header-h)); }
+    .hero { grid-template-columns: minmax(0, 11fr) minmax(0, 9fr); gap: var(--space-5); min-height: calc(88vh - var(--header-h)); }
   }
   .hero-text { display: grid; gap: var(--space-3); justify-items: start; }
   .hero-text .eyebrow { margin: 0; }
-  h1 { font-size: var(--step-3); }
-  .intro { margin: 0; max-width: 52ch; color: var(--text); }
+  h1 { display: grid; gap: 0.3em; font-size: var(--step-3); }
+  .line2 { max-width: 20ch; font-size: 0.62em; line-height: 1.2; color: var(--text-2); font-weight: 500; }
+  .intro { margin: 0; max-width: 60ch; }
   .ctas { display: flex; flex-wrap: wrap; gap: 0.75rem; padding-top: var(--space-1); }
+  .hero-media { margin: 0; }
   .hero-media .placeholder { aspect-ratio: 4 / 5; width: 100%; }
   @media (max-width: 55.99rem) { .hero-media .placeholder { aspect-ratio: 4 / 3; } }
 
-  .section-head {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: var(--space-1);
-    margin-bottom: var(--space-4);
-  }
-  .section-head h2 { font-size: var(--step-2); }
-  .grid {
-    display: grid;
-    gap: var(--space-5) var(--space-4);
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
+  /* B */
+  .section-head { display: grid; gap: var(--space-2); max-width: 60ch; margin-bottom: var(--space-4); }
+  .section-head .eyebrow { margin: 0; }
+  .section-head h2, .about h2, .contact h2 { font-size: var(--step-2); }
+  .lede { margin: 0; color: var(--text-2); }
+  .grid { display: grid; gap: var(--space-5) var(--space-4); margin: 0; padding: 0; list-style: none; }
   @media (min-width: 48rem) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  .all { margin-top: var(--space-4); }
 
+  /* C */
   .about {
     display: grid;
-    gap: var(--space-2) var(--space-5);
+    gap: var(--space-3) var(--space-5);
     margin-top: var(--space-6);
     padding-top: var(--space-5);
     border-top: 1px solid var(--line);
   }
   @media (min-width: 56rem) { .about { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
-  .about h2 { font-size: var(--step-2); }
-  .about p { margin: 0 0 var(--space-1); }
+  .about .eyebrow { margin: 0 0 var(--space-2); }
+  .about h2 { max-width: 18ch; }
+  .about-body { display: grid; gap: var(--space-2); justify-items: start; max-width: 60ch; }
+  .about-body p { margin: 0; }
+
+  /* D */
+  .contact {
+    display: grid;
+    gap: var(--space-2);
+    justify-items: start;
+    margin-top: var(--space-6);
+    padding-top: var(--space-5);
+    border-top: 1px solid var(--line);
+  }
+  .contact p { margin: 0; max-width: 60ch; color: var(--text-2); }
+  .contact-row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-1) var(--space-3); padding-top: var(--space-1); }
+  .mail { display: inline-flex; align-items: center; min-height: 44px; color: var(--text-2); overflow-wrap: anywhere; }
 </style>

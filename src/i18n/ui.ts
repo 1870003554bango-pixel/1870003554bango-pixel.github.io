@@ -20,7 +20,7 @@ export const contact = {
 export const ui = {
   en: {
     'site.name': 'Sitan Ding',
-    'site.brand': 'SITAN DING.',
+    'site.brand': 'SITAN DING',
     'site.description': 'Portfolio of Sitan Ding — digital media, interactive design and creative production.',
     'nav.label': 'Main',
     'nav.home': 'Home',
@@ -33,19 +33,30 @@ export const ui = {
     'lang.label': 'Language',
     'skip': 'Skip to content',
 
-    'home.eyebrow': 'Digital media / Interactive design / Video production',
-    'home.title': "Hi, I'm Sitan.",
+    'home.eyebrow': 'Digital media / Interactive design / Visual storytelling',
+    'home.title1': 'Hi, I’m Sitan.',
+    'home.title2': 'I make things to watch, play, and explore.',
     'home.intro':
-      'I enjoy exploring the many forms of entertainment on the internet — from videos and games to interactive experiences. I make visual stories and interactive projects, combining photography, design and technology.',
-    'home.cta.primary': 'Explore my work',
-    'home.cta.secondary': 'About me',
+      "I’ve always loved the variety of entertainment on the internet — from videos and games to interactive experiences. With a background in Interaction Design at the University of Sydney, I enjoy combining photography, storytelling, and technology to turn ideas into things people can experience for themselves.",
+    'home.cta.primary': 'Explore My Work',
+    'home.cta.secondary': 'More About Me',
     'home.hero.todo': 'Rocket launch photo by Sitan',
-    'home.selected': 'Selected Work',
-    'home.viewAll': 'View all projects',
-    'home.aboutTitle': 'A little about me',
-    'home.aboutBody':
-      "I study interaction design at the University of Sydney. Outside class I photograph rocket launches, make videos and write small programs that turn into pictures. I'm trying to move from watching the internet to making things for it.",
-    'home.aboutCta': 'More about me',
+    'home.hero.caption': 'Captured through my lens / Aerospace photography',
+    'home.selected.eyebrow': 'Selected projects / 01—04',
+    'home.selected': 'Selected Work.',
+    'home.selected.intro':
+      "A few things I’ve made and helped bring to life — from interactive worlds and VR experiences to videos shared online.",
+    'home.viewAll': 'View All Projects',
+    'home.about.eyebrow': 'Behind the work',
+    'home.aboutTitle': 'Curious by nature. Always making something.',
+    'home.aboutBody1':
+      "I enjoy discovering new forms of online entertainment, but what excites me most is figuring out how they’re made. Photography and video production taught me to pay attention to moments and stories. Interaction design gave me another way to create — one where people can take part rather than only watch.",
+    'home.aboutBody2': "I’m still exploring where these interests can lead, and this site is a collection of what I’ve tried so far.",
+    'home.aboutCta': 'Get to Know Me',
+    'home.contact.title': "Let’s make something interesting.",
+    'home.contact.body': "Have a project, an idea, or an opportunity in mind? I’d love to hear from you.",
+    'home.contact.cta': 'Say Hello',
+    'card.view': 'View Project',
 
     'work.title': 'Selected Work.',
     'work.sub': 'A collection of interactive experiences, visual stories, and creative experiments.',
@@ -102,7 +113,7 @@ export const ui = {
 
     'footer.cta': "Have something in mind? Let's talk.",
     'footer.top': 'Back to top',
-    'footer.rights': 'All work by Sitan Ding unless credited.',
+    'footer.rights': 'Sitan Ding · Digital Media & Interactive Design',
 
     'notfound.title': "This page doesn't exist.",
     'notfound.body': 'The link may be old, or the project has moved.',
@@ -110,7 +121,7 @@ export const ui = {
   },
   zh: {
     'site.name': '丁思覃',
-    'site.brand': 'SITAN DING.',
+    'site.brand': 'SITAN DING',
     'site.description': '丁思覃的作品集：数字媒体、交互设计与内容制作。',
     'nav.label': '主导航',
     'nav.home': '首页',
@@ -123,19 +134,29 @@ export const ui = {
     'lang.label': '语言',
     'skip': '跳到正文',
 
-    'home.eyebrow': '数字媒体 / 交互设计 / 视频制作',
-    'home.title': '你好，我是思覃。',
+    'home.eyebrow': '数字媒体 / 交互设计 / 视觉叙事',
+    'home.title1': '你好，我是思覃。',
+    'home.title2': '我做可以观看、游玩和探索的东西。',
     'home.intro':
-      '我喜欢互联网里各种不同的娱乐形式，从视频、游戏到互动体验。我也喜欢摄影和内容制作，正在尝试把设计与技术结合起来，做出可以观看、游玩和探索的作品。',
+      '我一直很喜欢互联网上各种各样的娱乐形式——从视频、游戏到互动体验。我在悉尼大学学习交互设计，喜欢把摄影、叙事和技术结合起来，把想法变成别人可以亲自体验的作品。',
     'home.cta.primary': '看看我的作品',
-    'home.cta.secondary': '关于我',
+    'home.cta.secondary': '更多关于我',
     'home.hero.todo': '思覃拍摄的火箭发射照片',
-    'home.selected': '精选作品',
+    'home.hero.caption': '我镜头里的航天 / 航天摄影',
+    'home.selected.eyebrow': '精选项目 / 01—04',
+    'home.selected': '精选作品。',
+    'home.selected.intro': '一些我做过、也参与实现的作品——从互动世界、VR 体验到发布在网上的视频。',
     'home.viewAll': '查看全部作品',
-    'home.aboutTitle': '简单介绍一下',
-    'home.aboutBody':
-      '我在悉尼大学学习交互设计。课外我拍火箭发射、做视频，也写一些能变成画面的小程序。我正在从“看互联网”慢慢变成“为互联网做东西”。',
-    'home.aboutCta': '更多关于我',
+    'home.about.eyebrow': '作品背后',
+    'home.aboutTitle': '天生好奇，总在做点什么。',
+    'home.aboutBody1':
+      '我喜欢发现新的网络娱乐形式，但最让我兴奋的，是弄清楚它们是怎么做出来的。摄影和视频制作让我学会留意瞬间和故事；交互设计给了我另一种创作方式——让人参与进来，而不只是观看。',
+    'home.aboutBody2': '我还在探索这些兴趣会把我带到哪里，这个网站记录的是我到目前为止的尝试。',
+    'home.aboutCta': '认识我',
+    'home.contact.title': '一起做点有意思的东西。',
+    'home.contact.body': '有项目、想法或机会？很想听你说说。',
+    'home.contact.cta': '打个招呼',
+    'card.view': '查看项目',
 
     'work.title': '精选作品',
     'work.sub': '互动体验、视觉故事和创意实验。',
@@ -190,7 +211,7 @@ export const ui = {
 
     'footer.cta': '有想法？聊聊吧。',
     'footer.top': '回到顶部',
-    'footer.rights': '除特别注明外，所有作品均由丁思覃创作。',
+    'footer.rights': '丁思覃 · 数字媒体与交互设计',
 
     'notfound.title': '这个页面不存在。',
     'notfound.body': '链接可能已经过期，或者项目换了位置。',
