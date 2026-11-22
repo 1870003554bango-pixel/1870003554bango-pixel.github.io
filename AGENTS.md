@@ -9,11 +9,20 @@ Personal portfolio site. Astro 7, static output, deployed to GitHub Pages by
 - `npm run build` — must pass before every commit
 - `npm run preview` — serve the built `dist/`
 
+## Design principles — read first
+
+**`DESIGN.md` is mandatory for every page and project.** It holds Sitan's layout rules
+(desktop first; dense, side-by-side text | image rows that alternate; each text sits beside the
+image it describes; 4rem between sections), the visual tokens, content-integrity rules, the
+standard project-page structure and the pre-delivery checklist. New project pages reuse the
+`.block / .row / .row.flip / .head-row / .prose` primitives in `src/styles/global.css` inside
+`<article class="project">`.
+
 ## Source of truth
 
 `md文件/Sitan_Ding_Portfolio_Claude_网站改造规范.md` (the spec) and `md文件/Sitan_Ding_Home_Claude_Brief_EN.md`
 (exact Home copy) override PLAN.md and anything below
-when they disagree. Read it before changing content or structure. Key rules from it:
+when they disagree; on layout and design, DESIGN.md (and each project's own brief) wins over the spec. Read it before changing content or structure. Key rules from it:
 no invented dates, roles, numbers or employers; team projects say `Team project`;
 no stock/AI images posing as Sitan's work; no fake buttons; English default, Chinese at `/zh/`.
 
@@ -51,7 +60,7 @@ Raw source material lives OUTSIDE this repo, in sibling folders on the drive
   Routes end with `/` (`trailingSlash: 'always'`).
 - Visible text never lives in a component: add a key to both `en` and `zh` in `src/i18n/ui.ts`.
 - Colours, spacing and type come from the tokens in `src/styles/global.css`. No raw hex in components.
-- Visual language: the spec's "Minimal Editorial" (section 8) — off-white `#F7F7F4`, near-black text,
+- Visual language and layout: see DESIGN.md (the spec's "Minimal Editorial", section 8) — off-white `#F7F7F4`, near-black text,
   one blue accent `#276B9B` for links and small emphasis, hairline borders, work images lead.
 - Follow the user's global UI rules: one accent colour, no gradients/glow/glassmorphism, hairline
   borders over shadows, body text ≥ 16px, visible focus states, click targets ≥ 44px,

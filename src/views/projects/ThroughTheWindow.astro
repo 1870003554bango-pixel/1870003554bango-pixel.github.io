@@ -40,7 +40,7 @@ const gallery = c.inspiration.gallery.map((g) => ({ src: windowPhotos[g.key as k
 ---
 
 <Base lang={lang} route="/work/through-the-window/" title={c.title} description={c.tagline} image={sunset}>
-  <article lang="en" class="ttw">
+  <article lang="en" class="project ttw">
     <nav class="wrap crumbs" aria-label="Breadcrumb">
       <ol role="list">
         <li><a href={page(lang, '/work/')}>{t('nav.work')}</a></li>
@@ -219,10 +219,6 @@ const gallery = c.inspiration.gallery.map((g) => ({ src: windowPhotos[g.key as k
 </Base>
 
 <style>
-  .ttw h2 { font-size: var(--step-2); }
-  .ttw p { margin: 0; }
-  .muted { color: var(--text-2); }
-  .small { font-size: var(--step--1); }
 
   .crumbs { padding-top: var(--space-3); }
   .crumbs ol { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0; padding: 0; list-style: none; font-size: var(--step--1); color: var(--text-2); }
@@ -248,23 +244,6 @@ const gallery = c.inspiration.gallery.map((g) => ({ src: windowPhotos[g.key as k
   .meta dt { font-size: var(--step--1); color: var(--text-2); }
   .meta dd { margin: 0; font-size: var(--step--1); font-weight: 500; }
 
-  .block { padding-top: var(--space-5); }
-  .prose { display: grid; gap: var(--space-2); max-width: 62ch; align-content: start; }
-
-  /* Paired layout: text beside the image it describes. DOM order is always text first,
-     so phones read text then image; .flip puts the image on the left on wider screens. */
-  .row { display: grid; gap: var(--space-3) var(--space-5); align-items: center; }
-  @media (min-width: 48rem) {
-    .row { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
-    .row.flip > :first-child { order: 2; }
-  }
-  .row + .row { margin-top: var(--space-5); }
-
-  .head-row { display: grid; gap: var(--space-2) var(--space-5); align-items: end; margin-bottom: var(--space-3); }
-  @media (min-width: 48rem) { .head-row { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
-  .head-row p { max-width: 58ch; color: var(--text-2); }
-
-  .num { font-size: var(--step--1); font-weight: 600; color: var(--accent); font-variant-numeric: tabular-nums; }
 
   /* B */
   .sketch-embed {
