@@ -9,6 +9,7 @@
 import type { ImageMetadata } from 'astro';
 import type { Lang } from '../i18n/ui';
 
+import aerospaceCover from '../assets/home/rocket-hero.jpg';
 import throughTheWindowCover from '../assets/through-the-window/cover.jpg';
 import ufoCover from '../assets/ufo-skyfeed/cover.jpg';
 import identityCover from '../assets/identity-press/cover.jpg';
@@ -104,6 +105,7 @@ export const projects: Project[] = [
     order: 2,
     status: 'published',
     featured: true,
+    customPage: true,
     categories: ['film'],
     title: 'Aerospace Stories',
     type: { en: 'Cinematography · Video Production', zh: '摄影 · 视频制作' },
@@ -116,10 +118,10 @@ export const projects: Project[] = [
       zh: '一组我参与拍摄的航天视频，其中一个我还参与了后期制作。这些经历让我对摄影的兴趣，变成了真正发布在网上的故事。',
     },
     year: null,
-    collaboration: TODO,
+    collaboration: 'team',
     role: { en: 'Filming; filming & production', zh: '拍摄；拍摄与制作' },
     tools: [],
-    cover: null,
+    cover: aerospaceCover,
     coverAlt: { en: 'Rocket launch photographed by Sitan Ding', zh: '丁思覃拍摄的火箭发射' },
     overview: TODO,
     process: [],

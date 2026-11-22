@@ -23,3 +23,6 @@ node_modules/
 *.mxf
 *.psd
 *.zip
+
+# User-supplied raw media stays local; only optimised derivatives are published
+/素材/

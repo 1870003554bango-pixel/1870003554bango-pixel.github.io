@@ -1,0 +1,81 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import Zoom from '../../components/Zoom.astro';
+import Lightbox from '../../components/Lightbox.astro';
+import { useT, type Lang } from '../../i18n/ui';
+import { page, url } from '../../lib/url';
+import { copy, videos } from '../../data/aerospace-stories';
+import rocket from '../../assets/home/rocket-hero.jpg';
+import tz9Cover from '../../assets/aerospace-stories/tz9-cover.webp';
+import lunarCover from '../../assets/aerospace-stories/lunar-cover.webp';
+import poster from '../../assets/aerospace-stories/footage-poster.jpg';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const c = copy[lang]; const t = useT(lang);
+---
+<Base lang={lang} route="/work/aerospace-stories/" title="Aerospace Stories" description={c.tagline} image={rocket}>
+  <article class="project aerospace">
+    <header class="wrap">
+      <a class="text-link back" href={page(lang, '/work/')}>← {t('project.back')}</a>
+      <div class="row hero">
+        <div class="prose"><p class="eyebrow">{c.eyebrow}</p><h1>Aerospace Stories</h1><h2>{c.tagline}</h2><p>{c.intro}</p><a class="btn btn-primary" href="#videos">{c.videos} ↓</a></div>
+        <Zoom src={rocket} alt={c.heroAlt} caption={c.personal} loading="eager" />
+      </div>
+      <p class="credit">{c.team}<br />{c.credit}</p>
+    </header>
+    <section id="videos" class="wrap block" aria-labelledby="videos-heading">
+      <div class="wide-text"><p class="eyebrow">01</p><h2 id="videos-heading">{c.videos}</h2><p>{c.videosIntro}</p></div>
+      <ol class="video-list">
+        {videos.map((v, i) => <li class="video-card">
+          <div class="video-heading"><span class="num">{String(i + 1).padStart(2, '0')} / {v.platform}</span><h3>{v.title[lang]}</h3></div>
+          {v.bvid ? <div class="player" style={`aspect-ratio: ${(v.id === 'tianzhou-9' ? tz9Cover : lunarCover).width} / ${(v.id === 'tianzhou-9' ? tz9Cover : lunarCover).height}`} data-ratio={v.ratio} data-player={`https://player.bilibili.com/player.html?bvid=${v.bvid}&page=1&autoplay=0&danmaku=0`} data-title={v.title[lang]}>
+            <Image class="video-poster" src={v.id === 'tianzhou-9' ? tz9Cover : lunarCover} alt={v.title[lang]} widths={[400, 800]} sizes="(min-width: 60rem) 33vw, 90vw" />
+            <div class="facade"><span class="eyebrow">{v.platform}</span><p>{v.title[lang]}</p><button class="btn btn-primary" type="button">▶ {c.play}</button></div>
+          </div> : <div class="douyin-fallback"><p>{c.douyin}</p><a class="btn" href={v.url} target="_blank" rel="noopener noreferrer">{c.watch} {v.platform} ↗</a></div>}
+          <p class="role">{c.role} · {v.role[lang]}</p><p>{v.description[lang]}</p>
+          <a class="text-link" href={v.url} target="_blank" rel="noopener noreferrer">{c.watch} {v.platform} ↗</a>
+        </li>)}
+      </ol><p class="small muted">{c.fallback}</p>
+    </section>
+    <section class="wrap block" aria-labelledby="footage-heading">
+      <div class="wide-text"><p class="eyebrow">02 / {c.footageLabel}</p><h2 id="footage-heading">{c.footage}</h2><p>{c.footageBody}</p></div>
+      <video class="footage" controls playsinline preload="metadata" poster={poster.src} width="1280" height="720" aria-label={c.footage}><source src={url('/video/aerospace-stories/original-footage.mp4')} type="video/mp4" /><a href={url('/video/aerospace-stories/original-footage.mp4')}>{c.footage}</a></video>
+    </section>
+    <section class="wrap block row flip" aria-labelledby="gallery-heading">
+      <div class="prose"><p class="eyebrow">03</p><h2 id="gallery-heading">{c.gallery}</h2><p>{c.galleryBody}</p><p class="pending">{c.missing}</p></div>
+      <Zoom src={rocket} alt={c.heroAlt} caption={c.personal} />
+    </section>
+    <section class="wrap block wide-text" aria-labelledby="role-heading"><h2 id="role-heading">{c.roles}</h2><p>{c.credit}</p><dl class="roles">{videos.map(v => <div><dt>{v.title[lang]}</dt><dd>{v.role[lang]}</dd></div>)}</dl></section>
+    <footer class="wrap block closing"><p>{c.closing}</p><a class="text-link" href={page(lang, '/work/')}>← {t('project.back')}</a></footer>
+  </article><Lightbox />
+</Base>
+<script>
+  document.querySelectorAll<HTMLElement>('[data-player]').forEach(stage => {
+    stage.querySelector('button')?.addEventListener('click', () => {
+      const frame = document.createElement('iframe'); frame.src = stage.dataset.player!;
+      frame.title = stage.dataset.title!; frame.allowFullscreen = true; frame.loading = 'lazy';
+      stage.style.aspectRatio = stage.dataset.ratio!; stage.replaceChildren(frame); frame.focus();
+    });
+  });
+</script>
+<style>
+  .back { display: inline-flex; align-items: center; min-height: 44px; margin-block: var(--space-3); }
+  .hero { align-items: center; } h1 { font-size: var(--step-3); } .hero h2 { font-size: var(--step-1); }
+  .credit { padding-block: var(--space-3); border-block: 1px solid var(--line); margin-top: var(--space-3); color: var(--text-2); }
+  .video-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-3); list-style: none; padding: 0; margin-block: var(--space-3); }
+  .video-card { min-width: 0; display: flex; flex-direction: column; gap: var(--space-2); border-top: 1px solid var(--line-strong); padding-top: var(--space-3); }
+  .video-heading { min-height: 10rem; } .video-heading h3 { font-size: var(--step-1); margin-top: var(--space-1); }
+  .video-card p { margin: 0; } .role { color: var(--text-2); } .video-card > a { min-height: 44px; display: inline-flex; align-items: center; }
+  .player { position: relative; width: 100%; background: var(--sunken); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+  .player :global(iframe) { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+  .player :global(.video-poster) { width: 100%; height: 100%; object-fit: contain; }
+  .facade > p, .facade > .eyebrow { display: none; }
+  .facade { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: var(--space-3); padding: var(--space-3); }
+  .douyin-fallback { padding: var(--space-3); background: var(--sunken); border-radius: var(--radius); display: grid; gap: var(--space-3); }
+  .footage { display: block; width: 100%; height: auto; margin-top: var(--space-3); border-radius: var(--radius); }
+  .pending { border: 1px dashed var(--line-strong); padding: var(--space-2); color: var(--text-2); }
+  .roles { margin-top: var(--space-3); } .roles > div { display: flex; justify-content: space-between; gap: var(--space-3); padding-block: var(--space-2); border-bottom: 1px solid var(--line); } dd { margin: 0; }
+  .closing { padding-bottom: var(--space-5); } .closing p { font-size: var(--step-2); }
+  @media(max-width: 60rem) { .video-list { grid-template-columns: 1fr; } .video-heading { min-height: 0; } .player { max-width: 28rem; margin-inline: auto; } .roles > div { flex-direction: column; gap: var(--space-1); } }
+</style>
