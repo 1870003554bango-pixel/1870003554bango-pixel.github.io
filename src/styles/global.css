@@ -53,6 +53,23 @@
   --dark: #211b18;
 }
 
+/* Scam Ready — warm white, charcoal, desaturated teal accent; amber only for labelled caveats (brief § 3).
+   --text-2 darkened from the brief's #6E7774 to #5F6865 for ≥ 4.5:1 contrast. */
+.theme-scam {
+  --bg: #f7f7f4;
+  --surface: #ffffff;
+  --sunken: #eef2ef;
+  --text: #202726;
+  --text-2: #5f6865;
+  --accent: #315d5a;
+  --line: #dde2de;
+  --line-strong: #bcc6c1;
+  --focus: #315d5a;
+  --warn: #9a6532;
+  --warn-bg: #f6ece1;
+  --dark: #172321;
+}
+
 *, *::before, *::after { box-sizing: border-box; }
 
 html { -webkit-text-size-adjust: 100%; scroll-padding-top: var(--header-h); }

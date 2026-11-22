@@ -88,7 +88,7 @@
 
 ### 4.6 项目专属配色
 
-项目 brief 可以给自己的配色：在 `global.css` 里加 `.theme-<名字>` 覆盖颜色变量，页面用 `<Base theme="<名字>">` 启用；整页（含导航和页脚）一起换色，其他页面不受影响。仍然只用一个强调色，次要文字对比度 ≥ 4.5:1（必要时把 brief 给的色值调深并注明）。已有：`theme-cocoa`（Cocoa Reserve）。
+项目 brief 可以给自己的配色：在 `global.css` 里加 `.theme-<名字>` 覆盖颜色变量，页面用 `<Base theme="<名字>">` 启用；整页（含导航和页脚）一起换色，其他页面不受影响。仍然只用一个强调色，次要文字对比度 ≥ 4.5:1（必要时把 brief 给的色值调深并注明）。已有：`theme-cocoa`（Cocoa Reserve）、`theme-scam`（Scam Ready，琥珀色只用于带文字标签的提醒）。
 
 ### 4.7 素材来自 PDF 时
 

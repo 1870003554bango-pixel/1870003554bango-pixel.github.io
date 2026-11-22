@@ -13,6 +13,7 @@ import throughTheWindowCover from '../assets/through-the-window/cover.jpg';
 import ufoCover from '../assets/ufo-skyfeed/cover.jpg';
 import identityCover from '../assets/identity-press/cover.jpg';
 import cocoaCover from '../assets/cocoa-reserve/blender-draft-closed.jpg';
+import scamCover from '../assets/scam-ready/hero-landing.jpg';
 
 type L = Record<Lang, string>;
 export type Category = 'interactive' | 'film' | 'immersive' | 'visual';
@@ -175,12 +176,13 @@ export const projects: Project[] = [
     order: 4,
     status: 'published',
     featured: true,
+    customPage: true,
     categories: ['interactive'],
     title: 'Scam Ready',
     type: { en: 'Interactive Storytelling · Experience Design', zh: '互动叙事 · 体验设计' },
     subtitle: {
-      en: 'An interactive story that lets international students practise spotting impersonation scams.',
-      zh: '让国际学生练习识别冒充身份类诈骗的互动故事。',
+      en: 'From Scam Awareness to Safer Decisions. Interactive learning for international students in Australia.',
+      zh: '从防诈意识到更安全的决定。为在澳国际学生设计的互动学习。',
     },
     summary: {
       en: 'An interactive experience for international students. By making choices and seeing their consequences, visitors learn to pause, question suspicious claims, and verify information independently.',
@@ -188,13 +190,16 @@ export const projects: Project[] = [
     },
     year: null,
     collaboration: 'team',
-    role: TODO,
-    tools: ['Figma'],
-    cover: null,
-    coverAlt: { en: 'Key screen from the Figma prototype', zh: 'Figma 原型关键界面' },
-    overview: TODO,
+    role: null, // to be confirmed by Sitan — do not invent
+    tools: ['Figma', 'FigJam'],
+    cover: scamCover,
+    coverAlt: {
+      en: 'Scam Ready landing screen: "A message you weren\u2019t expecting." beside a phone showing simulated incoming notifications.',
+      zh: 'Scam Ready 首页：“A message you weren’t expecting.” 旁边是一部显示模拟来电通知的手机。',
+    },
+    overview: null,
     process: [],
-    reflection: TODO,
+    reflection: null,
   },
   {
     slug: 'cocoa-reserve',
