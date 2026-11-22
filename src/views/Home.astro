@@ -97,10 +97,10 @@ const cards = featured.slice(0, 4);
     height: auto;
     aspect-ratio: 4 / 5;
     object-fit: cover;
-    object-position: 70% 50%; /* keep the rocket in frame */
+    object-position: 96% 50%; /* Centre the rocket (about 72% across the source) in the portrait crop. */
     border-radius: var(--radius);
   }
-  @media (max-width: 55.99rem) { .hero-media img { aspect-ratio: 3 / 2; object-position: 50% 50%; } }
+  /* Keep the same focal crop at every breakpoint so the rocket stays centred. */
   .hero-media figcaption { margin: 0; font-size: 0.75rem; }
 
   /* B */
