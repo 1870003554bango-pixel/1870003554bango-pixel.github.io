@@ -15,8 +15,8 @@ const cards = featured.slice(0, 4);
 ---
 
 <Base lang={lang} route="/" footerCta={false}>
-  <!-- A · Hero -->
-  <section class="hero wrap" aria-labelledby="hero-title">
+  <!-- A · Hero: split screen — centred text on the left, the photograph bleeding to the right edge -->
+  <section class="hero" aria-labelledby="hero-title">
     <div class="hero-text">
       <p class="eyebrow">{t('home.eyebrow')}</p>
       <h1 id="hero-title">
@@ -24,18 +24,28 @@ const cards = featured.slice(0, 4);
         <span class="line2">{t('home.title2')}</span>
       </h1>
       <p class="intro">{t('home.intro')}</p>
-      <div class="ctas">
-        <a class="btn btn-primary" href={page(lang, '/work/')}>{t('home.cta.primary')} <span class="arrow" aria-hidden="true">→</span></a>
-        <a class="btn" href={page(lang, '/about/')}>{t('home.cta.secondary')} <span class="arrow" aria-hidden="true">↗</span></a>
-      </div>
+      <a class="btn btn-primary cta" href={page(lang, '/work/')}>{t('home.cta.primary')} <span class="arrow" aria-hidden="true">→</span></a>
+      <ul class="social" role="list">
+        {contact.linkedin && (
+          <li><a href={contact.linkedin} target="_blank" rel="me noopener" aria-label="LinkedIn">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9.75h4V21H3V9.75Zm7 0h3.8v1.6h.06c.53-1 1.83-2.05 3.76-2.05 4.02 0 4.76 2.5 4.76 5.75V21h-4v-5.3c0-1.27-.02-2.9-1.77-2.9-1.77 0-2.04 1.38-2.04 2.8V21h-4V9.75Z"/></svg>
+          </a></li>
+        )}
+        {contact.facebook && (
+          <li><a href={contact.facebook} target="_blank" rel="me noopener" aria-label="Facebook">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.5 21v-7.6h2.55l.4-3h-2.95V8.5c0-.86.25-1.45 1.5-1.45h1.6V4.37A21 21 0 0 0 14.27 4.2c-2.3 0-3.87 1.4-3.87 3.97v2.23H7.8v3h2.6V21h3.1Z"/></svg>
+          </a></li>
+        )}
+        <li><a href={`mailto:${contact.email}`} aria-label={`${t('contact.email')}: ${contact.email}`}>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5.5h18a1 1 0 0 1 1 1V18a1.5 1.5 0 0 1-1.5 1.5h-17A1.5 1.5 0 0 1 2 18V6.5a1 1 0 0 1 1-1Zm1 2.3v.2l8 5.3 8-5.3v-.2H4Z"/></svg>
+        </a></li>
+      </ul>
+      <p class="credit eyebrow">{t('home.hero.caption')}</p>
     </div>
     <figure class="hero-media">
-      <div class="hero-frame">
-        <Image src={rocket} alt={t('home.hero.alt')} widths={[960, 1400, 2000]}
-          sizes="(min-width: 75rem) 960px, (min-width: 56rem) 70vw, 150vw"
-          loading="eager" fetchpriority="high" />
-      </div>
-      <figcaption class="eyebrow">{t('home.hero.caption')}</figcaption>
+      <Image src={rocket} alt={t('home.hero.alt')} widths={[960, 1400, 2000]}
+        sizes="(min-width: 56rem) 75vw, 150vw"
+        loading="eager" fetchpriority="high" />
     </figure>
   </section>
 
@@ -77,35 +87,45 @@ const cards = featured.slice(0, 4);
 </Base>
 
 <style>
-  /* A */
-  .hero {
+  /* A — split screen */
+  .hero { display: grid; }
+  .hero-text {
     display: grid;
-    gap: var(--space-4);
-    align-items: center;
-    padding-block: var(--space-5) var(--space-6);
+    justify-items: center;
+    align-content: center;
+    gap: var(--space-2);
+    padding: var(--space-5) var(--gutter, 1.25rem);
+    text-align: center;
   }
-  @media (min-width: 56rem) {
-    .hero { grid-template-columns: minmax(0, 11fr) minmax(0, 9fr); gap: var(--space-5); min-height: calc(88vh - var(--header-h)); }
-  }
-  .hero-text { display: grid; gap: var(--space-3); justify-items: start; }
   .hero-text .eyebrow { margin: 0; }
-  h1 { display: grid; gap: 0.3em; font-size: var(--step-3); }
-  .line2 { max-width: 20ch; font-size: 0.62em; line-height: 1.2; color: var(--text-2); font-weight: 500; }
-  .intro { margin: 0; max-width: 60ch; }
-  .ctas { display: flex; flex-wrap: wrap; gap: 0.75rem; padding-top: var(--space-1); }
-  .hero-media { margin: 0; display: grid; gap: 0.75rem; }
-  .hero-frame { overflow: hidden; border-radius: var(--radius); aspect-ratio: 4 / 5; }
+  h1 { display: grid; gap: 0.35em; margin: 0; font-size: var(--step-3); }
+  h1 > span:first-child { color: var(--accent); }
+  .line2 { font-size: 0.5em; line-height: 1.25; color: var(--text); font-weight: 500; }
+  .intro { margin: 0; max-width: 54ch; color: var(--text-2); }
+  .cta { margin-top: var(--space-2); border-radius: 999px; padding-inline: 1.6rem; background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+  .cta:hover { filter: brightness(0.92); }
+  .social { display: flex; gap: 0.5rem; margin: var(--space-2) 0 0; padding: 0; list-style: none; }
+  .social a { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; color: var(--accent); transition: background 0.2s ease-out; }
+  .social a:hover { background: var(--sunken); }
+  .social svg { width: 22px; height: 22px; fill: currentColor; }
+  .credit { margin-top: var(--space-3) !important; font-size: 0.75rem; }
+  .hero-media { margin: 0; overflow: hidden; aspect-ratio: 4 / 5; }
   .hero-media img {
+    display: block;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: 96% 50%; /* Centre the rocket (about 71% across the source) in the portrait crop. */
-    /* Zoom in on the rocket; the origin is where the rocket sits inside that crop. */
+    object-position: 96% 50%; /* Centre the rocket (about 71% across the source). */
+    /* Zoom in on the rocket; the origin is where the rocket sits inside the crop. */
     transform: scale(1.5);
     transform-origin: 49% 46%;
   }
-  /* Keep the same focal crop at every breakpoint so the rocket stays centred. */
-  .hero-media figcaption { margin: 0; font-size: 0.75rem; }
+  @media (min-width: 56rem) {
+    .hero { grid-template-columns: 1fr 1fr; min-height: calc(100svh - var(--header-h)); }
+    .hero-text { padding-inline: clamp(1.5rem, 4vw, 4rem); }
+    .hero-media { aspect-ratio: auto; height: 100%; }
+  }
+  @media (prefers-reduced-motion: reduce) { .social a { transition: none; } }
 
   /* B */
   .section-head { display: grid; gap: var(--space-2); max-width: 60ch; margin-bottom: var(--space-4); }
