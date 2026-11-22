@@ -113,14 +113,17 @@ const large = zoom ? await Promise.all(slides.map((s) => getImage({ src: s.src, 
   }
   .track::-webkit-scrollbar { display: none; }
   .track.light { background: var(--surface); border: 1px solid var(--line); }
-  .zoom-slide { display: block; width: 100%; height: 100%; padding: 0; border: 0; background: none; cursor: zoom-in; }
+  .zoom-slide { display: block; width: 100%; height: 100%; min-width: 0; min-height: 0; padding: 0; border: 0; background: none; cursor: zoom-in; }
   .slide {
     flex: 0 0 100%;
     margin: 0;
     aspect-ratio: var(--ratio);
     scroll-snap-align: start;
     display: grid;
+    grid-template: minmax(0, 1fr) / minmax(0, 1fr); /* never wider than the track, whatever the image size */
     place-items: center;
+    min-width: 0;
+    overflow: hidden;
   }
   .slide :global(img) { width: 100%; height: 100%; object-fit: contain; }
 

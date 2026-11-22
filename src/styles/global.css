@@ -12,6 +12,7 @@
   --line: #e6e5df;
   --line-strong: #cfcdc5;
   --focus: #276b9b;
+  --dark: #161616; /* media stage behind videos and players */
 
   --font-sans: 'Inter Variable', -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Hiragino Sans GB',
     'Noto Sans SC', 'Segoe UI', sans-serif;

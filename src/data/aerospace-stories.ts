@@ -6,9 +6,11 @@ export const copy = {
     "intro": "A collection of aerospace video projects and personal photography documenting launch events and space exploration. Through filming, visual storytelling and selected post-production work, I have had the opportunity to turn real moments and technical subjects into videos that people can watch and understand.",
     "videos": "Selected Video Projects",
     "videosIntro": "Three stories from space exploration, captured and brought to online audiences.",
-    "play": "Load video player",
+    "play": "Play video here",
+    "platformLabel": "Platform",
+    "photoCount": "photos",
     "watch": "Watch on",
-    "fallback": "If playback is unavailable, watch the original video on its platform.",
+    "fallback": "Players load only when you press play. If a video does not play here, use the link to watch it on its original platform.",
     "douyin": "Watch the published video on Douyin.",
     "role": "My contribution",
     "team": "Team projects · Filming and selected post-production",
@@ -19,7 +21,6 @@ export const copy = {
     "posterAlt": "A camera and long lens overlook trees and distant structures beneath a cloudy sky.",
     "gallery": "Behind the Lens",
     "galleryBody": "A selection of rocket photography captured through my own lens. Each image preserves a different moment, from the anticipation before launch to the brief instant when a rocket rises into the sky.",
-    "missing": "TODO — More personal rocket photographs to be added.",
     "personal": "Personal photography",
     "heroAlt": "A rocket rising through a deep blue sky, with a bright engine flame.",
     "roles": "From Capturing to Creating",
@@ -31,9 +32,11 @@ export const copy = {
     "intro": "一个围绕航天发射与空间探索展开的影像作品集，收录了我参与拍摄的航天主题视频，以及个人拍摄的火箭摄影作品。通过现场拍摄、影像记录和部分后期制作，我希望将真实发生的航天事件与技术内容转化为更直观、更容易理解的视觉故事。",
     "videos": "正式发布的视频",
     "videosIntro": "三个航天故事，从现场记录到线上呈现。",
-    "play": "加载视频播放器",
+    "play": "在此播放视频",
+    "platformLabel": "平台",
+    "photoCount": "张照片",
     "watch": "前往观看 ·",
-    "fallback": "如无法播放，请通过原平台链接观看。",
+    "fallback": "按下播放后才会加载播放器。如果这里无法播放，请通过链接到原平台观看。",
     "douyin": "前往抖音观看正式发布的视频。",
     "role": "我的参与",
     "team": "团队项目 · 拍摄及部分后期制作",
@@ -44,7 +47,6 @@ export const copy = {
     "posterAlt": "相机和长焦镜头面向树木与远处建筑，上方是布满云朵的天空。",
     "gallery": "镜头背后",
     "galleryBody": "精选个人拍摄的火箭摄影作品。从发射前的等待，到火箭升空的短暂瞬间，每张照片都记录了不同的现场细节与观察视角。",
-    "missing": "待补充 — 更多个人火箭摄影作品。",
     "personal": "个人摄影",
     "heroAlt": "火箭穿过深蓝色天空升起，发动机火焰明亮。",
     "roles": "从记录到创作",
@@ -70,7 +72,9 @@ export const videos = [
     "platform": "Douyin",
     "url": "https://v.douyin.com/7TDQCjaL7zE/",
     "bvid": null,
-    "ratio": null
+    // Official iframe from open.douyin.com get_iframe_by_video (video_id resolved from the share link).
+    "player": "https://open.douyin.com/player/video?vid=7437731678459579685&autoplay=0",
+    "ratio": "1080 / 1920"
   },
   {
     "id": "tianzhou-9",
@@ -89,6 +93,7 @@ export const videos = [
     "platform": "Bilibili",
     "url": "https://www.bilibili.com/video/BV1aguJzSEdn/",
     "bvid": "BV1aguJzSEdn",
+    "player": "https://player.bilibili.com/player.html?bvid=BV1aguJzSEdn&page=1&autoplay=0&danmaku=0",
     "ratio": "16 / 9"
   },
   {
@@ -108,6 +113,22 @@ export const videos = [
     "platform": "Bilibili",
     "url": "https://www.bilibili.com/video/BV1VGcszLEgY/",
     "bvid": "BV1VGcszLEgY",
-    "ratio": "9 / 16"
+    "player": "https://player.bilibili.com/player.html?bvid=BV1VGcszLEgY&page=1&autoplay=0&danmaku=0",
+    "ratio": "16 / 9"
   }
 ];
+
+// Personal rocket photography (re-encoded from 素材/火箭照片, metadata removed). Captions describe only
+// what is visible — no mission names, dates or places, which the brief requires to be verified first.
+export const photos = [
+  { key: 'photo-night-liftoff', en: 'Night liftoff — the engines light beside the service tower', zh: '夜间点火 · 发动机在发射塔旁点亮', altEn: 'A rocket lifting off at night, engine flames lighting the launch tower and smoke.', altZh: '夜间火箭点火升空，发动机火焰照亮发射塔和烟雾。' },
+  { key: 'photo-night-plume', en: 'The plume against a dark sky', zh: '夜空中的尾焰', altEn: 'A rocket climbing at night, a long orange and violet plume beneath it.', altZh: '火箭在夜空中上升，下方拖着橙紫色的长尾焰。' },
+  { key: 'photo-night-tower', en: 'On the pad before launch, lit at night', zh: '发射前 · 夜色中的火箭与发射塔', altEn: 'A rocket standing on the pad at night, lit beside the orange service tower.', altZh: '发射前夜，火箭立在橙色发射塔旁，被灯光照亮。' },
+  { key: 'photo-liftoff-day', en: 'Daytime liftoff between the lightning towers', zh: '白天点火 · 避雷塔之间升起', altEn: 'A rocket lifting off in daylight between two lattice towers, clouds of exhaust spreading across the pad.', altZh: '白天火箭在两座避雷塔之间点火升空，尾气在发射台上铺开。' },
+  { key: 'photo-pad', en: 'Waiting on the pad, seen across the trees', zh: '等待发射 · 隔着树林看发射塔', altEn: 'A white rocket beside its service tower under a blue sky, palm trees in the foreground.', altZh: '蓝天下白色火箭立在发射塔旁，前景是棕榈树。' },
+] as const;
+
+export const platformName = {
+  en: { Douyin: 'Douyin', Bilibili: 'Bilibili' },
+  zh: { Douyin: '抖音', Bilibili: '哔哩哔哩' },
+} as const;
