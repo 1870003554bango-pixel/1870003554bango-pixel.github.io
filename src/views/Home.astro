@@ -99,26 +99,28 @@ const cards = featured.slice(0, 4);
   }
   .hero-text .eyebrow { margin: 0; }
   h1 { display: grid; gap: 0.35em; margin: 0; font-size: var(--step-3); }
-  h1 > span:first-child { color: var(--accent); }
   .line2 { font-size: 0.5em; line-height: 1.25; color: var(--text); font-weight: 500; }
   .intro { margin: 0; max-width: 54ch; color: var(--text-2); }
-  .cta { margin-top: var(--space-2); border-radius: 999px; padding-inline: 1.6rem; background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
-  .cta:hover { filter: brightness(0.92); }
+  .cta { margin-top: var(--space-2); border-radius: 999px; padding-inline: 1.6rem; }
   .social { display: flex; gap: 0.5rem; margin: var(--space-2) 0 0; padding: 0; list-style: none; }
-  .social a { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; color: var(--accent); transition: background 0.2s ease-out; }
+  .social a { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; color: var(--text); transition: background 0.2s ease-out; }
   .social a:hover { background: var(--sunken); }
   .social svg { width: 22px; height: 22px; fill: currentColor; }
   .credit { margin-top: var(--space-3) !important; font-size: 0.75rem; }
-  .hero-media { margin: 0; overflow: hidden; aspect-ratio: 4 / 5; }
+  .hero-media { position: relative; margin: 0; overflow: hidden; aspect-ratio: 4 / 5; container-type: size; }
   .hero-media img {
+    /* The image box is the whole 3:2 photo at the frame's height (150cqh wide), centred in the frame. */
+    position: absolute;
+    top: 0;
+    left: 50%;
     display: block;
-    width: 100%;
+    width: 150cqh;
+    max-width: none;
     height: 100%;
-    object-fit: cover;
-    object-position: 96% 50%; /* Centre the rocket (about 71% across the source). */
-    /* Zoom in on the rocket; the origin is where the rocket sits inside the crop. */
-    transform: scale(1.5);
-    transform-origin: 49% 46%;
+    /* The rocket (nose to plume) is centred at 70.25% x / 51% y of the photo, i.e. 0.2025 × 150cqh =
+       30.4cqh right of the photo's centre. Move it to the centre, zoom 1.5× there, then centre the box. */
+    transform: translateX(-50%) scale(1.5) translate(-30.4cqh, -1.3cqh);
+    transform-origin: 50% 50%;
   }
   @media (min-width: 56rem) {
     .hero { grid-template-columns: 1fr 1fr; min-height: calc(100svh - var(--header-h)); }
