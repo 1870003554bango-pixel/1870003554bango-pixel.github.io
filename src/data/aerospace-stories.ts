@@ -3,9 +3,9 @@ export const copy = {
   "en": {
     "eyebrow": "Aerospace · Cinematography · Visual storytelling",
     "tagline": "Capturing the moments behind space exploration.",
-    "intro": "A collection of aerospace video projects and personal photography documenting launch events and space exploration. Through filming, visual storytelling and selected post-production work, I have had the opportunity to turn real moments and technical subjects into videos that people can watch and understand.",
+    "intro": "A collection of aerospace videos I helped film for authoritative Chinese media, alongside my own photography of launch events and space exploration. Through filming, visual storytelling and selected post-production work, I have had the opportunity to turn real moments and technical subjects into videos that people can watch and understand.",
     "videos": "Selected Video Projects",
-    "videosIntro": "Three stories from space exploration, captured and brought to online audiences.",
+    "videosIntro": "Three aerospace stories I helped film for authoritative Chinese media outlets, published on their official channels.",
     "play": "Play video here",
     "platformLabel": "Platform",
     "photoCount": "photos",
@@ -13,8 +13,8 @@ export const copy = {
     "fallback": "Players load only when you press play. If a video does not play here, use the link to watch it on its original platform.",
     "douyin": "Watch the published video on Douyin.",
     "role": "My contribution",
-    "team": "Team projects · Filming and selected post-production",
-    "credit": "The published videos are collaborative works. My credits describe my contribution, not sole authorship or every shot in the final videos.",
+    "team": "Filmed for authoritative Chinese media · Filming and selected post-production",
+    "credit": "These videos were produced and published by authoritative Chinese media outlets; I contributed filming, and selected post-production on one of them. My credits describe my contribution, not sole authorship or every shot in the final videos.",
     "footage": "Through My Lens",
     "footageLabel": "My footage / Playable excerpt",
     "footageBody": "Beyond the published projects, I also keep my own footage of rocket-related events. This video is part of my personal visual archive, documenting a moment through my own camera.",
@@ -29,9 +29,9 @@ export const copy = {
   "zh": {
     "eyebrow": "航天 · 影像拍摄 · 视觉叙事",
     "tagline": "记录航天探索背后的瞬间。",
-    "intro": "一个围绕航天发射与空间探索展开的影像作品集，收录了我参与拍摄的航天主题视频，以及个人拍摄的火箭摄影作品。通过现场拍摄、影像记录和部分后期制作，我希望将真实发生的航天事件与技术内容转化为更直观、更容易理解的视觉故事。",
+    "intro": "一个围绕航天发射与空间探索展开的影像作品集，收录了我协助中国权威媒体拍摄的航天主题视频，以及个人拍摄的火箭摄影作品。通过现场拍摄、影像记录和部分后期制作，我希望将真实发生的航天事件与技术内容转化为更直观、更容易理解的视觉故事。",
     "videos": "正式发布的视频",
-    "videosIntro": "三个航天故事，从现场记录到线上呈现。",
+    "videosIntro": "三个航天故事：我协助中国权威媒体完成拍摄，作品由其官方账号发布。",
     "play": "在此播放视频",
     "platformLabel": "平台",
     "photoCount": "张照片",
@@ -39,8 +39,8 @@ export const copy = {
     "fallback": "按下播放后才会加载播放器。如果这里无法播放，请通过链接到原平台观看。",
     "douyin": "前往抖音观看正式发布的视频。",
     "role": "我的参与",
-    "team": "团队项目 · 拍摄及部分后期制作",
-    "credit": "正式发布的视频由团队共同完成。这里标注的是我的实际参与，不代表独立制作，也不代表成片中的所有镜头均由我拍摄。",
+    "team": "协助中国权威媒体拍摄 · 拍摄及部分后期制作",
+    "credit": "这些视频由中国权威媒体制作并发布，我参与了拍摄，其中一个还参与了部分后期制作。这里标注的是我的实际参与，不代表独立制作，也不代表成片中的所有镜头均由我拍摄。",
     "footage": "通过我的镜头",
     "footageLabel": "个人拍摄 / 可播放片段",
     "footageBody": "除了参与发布的视频项目，我也保留了自己拍摄的火箭影像。这段视频属于我的个人拍摄素材，记录了我通过镜头捕捉到的真实瞬间。",
@@ -66,8 +66,8 @@ export const videos = [
       "zh": "拍摄"
     },
     "description": {
-      "en": "A video project centred on the Tianzhou-8 cargo spacecraft mission. My contribution focused on filming and capturing visual material that helped bring the mission and its launch-related moments to an online audience.",
-      "zh": "围绕天舟八号货运飞船任务展开的视频作品。我主要参与现场拍摄，记录与任务及发射相关的影像素材，并将真实的航天现场呈现给线上观众。"
+      "en": "A video on the Tianzhou-8 cargo spacecraft mission, published by an authoritative Chinese media outlet. I helped film it, capturing launch-related material that brought the mission to an online audience.",
+      "zh": "围绕天舟八号货运飞船任务的视频，由中国权威媒体发布。我协助完成现场拍摄，记录与任务及发射相关的影像素材，把真实的航天现场呈现给线上观众。"
     },
     "platform": "Douyin",
     "url": "https://v.douyin.com/7TDQCjaL7zE/",
@@ -87,8 +87,8 @@ export const videos = [
       "zh": "拍摄"
     },
     "description": {
-      "en": "A video project about the Tianzhou-9 cargo spacecraft mission. My contribution focused on filming and capturing visual material for the final online video.",
-      "zh": "围绕天舟九号货运飞船任务展开的视频作品。我主要负责相关影像拍摄，为最终发布的视频提供现场画面素材。"
+      "en": "A video on the Tianzhou-9 cargo spacecraft mission, published by an authoritative Chinese media outlet. I helped film it, capturing on-site footage for the final online video.",
+      "zh": "围绕天舟九号货运飞船任务的视频，由中国权威媒体发布。我协助完成相关影像拍摄，为最终发布的视频提供现场画面素材。"
     },
     "platform": "Bilibili",
     "url": "https://www.bilibili.com/video/BV1aguJzSEdn/",
@@ -107,8 +107,8 @@ export const videos = [
       "zh": "拍摄及后期制作参与"
     },
     "description": {
-      "en": "A video project exploring an important development in China's crewed lunar exploration programme. In addition to filming, I contributed to selected post-production tasks, including material review, rough editing and visual arrangement.",
-      "zh": "围绕我国载人登月工程重要进展展开的视频作品。除了参与拍摄，我还参与了部分后期制作工作，包括素材筛选、粗剪及画面编排。"
+      "en": "A video on an important development in China's crewed lunar exploration programme, published by an authoritative Chinese media outlet. Besides helping film it, I contributed to selected post-production tasks, including material review, rough editing and visual arrangement.",
+      "zh": "围绕我国载人登月工程重要进展的视频，由中国权威媒体发布。除了协助拍摄，我还参与了部分后期制作，包括素材筛选、粗剪及画面编排。"
     },
     "platform": "Bilibili",
     "url": "https://www.bilibili.com/video/BV1VGcszLEgY/",

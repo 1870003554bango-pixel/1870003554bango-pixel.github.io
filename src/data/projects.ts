@@ -110,12 +110,12 @@ export const projects: Project[] = [
     title: 'Aerospace Stories',
     type: { en: 'Cinematography · Video Production', zh: '摄影 · 视频制作' },
     subtitle: {
-      en: 'Cinematography and video production for three aerospace stories.',
-      zh: '三个航天主题视频的拍摄与制作。',
+      en: 'Filming for authoritative Chinese media on three aerospace stories.',
+      zh: '协助中国权威媒体拍摄的三个航天主题视频。',
     },
     summary: {
-      en: 'A collection of aerospace videos I contributed to through filming and, for one project, post-production. These experiences brought my interest in photography into real online storytelling.',
-      zh: '一组我参与拍摄的航天视频，其中一个我还参与了后期制作。这些经历让我对摄影的兴趣，变成了真正发布在网上的故事。',
+      en: 'Aerospace videos I helped film for authoritative Chinese media, with post-production on one of them. These experiences brought my interest in photography into real online storytelling.',
+      zh: '一组我协助中国权威媒体拍摄的航天视频，其中一个我还参与了后期制作。这些经历让我对摄影的兴趣，变成了真正发布在网上的故事。',
     },
     year: null,
     collaboration: 'team',
