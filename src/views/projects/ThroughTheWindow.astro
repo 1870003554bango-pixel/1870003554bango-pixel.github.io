@@ -93,8 +93,8 @@ const gallery = c.inspiration.gallery.map((g) => ({ src: windowPhotos[g.key as k
     </section>
 
     <!-- C · Inspiration: text | photo carousel -->
-    <section class="wrap block row" aria-labelledby="inspiration-heading">
-      <div class="prose">
+    <section class="wrap block row sticky" aria-labelledby="inspiration-heading">
+      <div class="prose pin">
         <h2 id="inspiration-heading">{c.inspiration.title}</h2>
         {c.inspiration.body.map((p) => <p>{p}</p>)}
       </div>
@@ -106,7 +106,7 @@ const gallery = c.inspiration.gallery.map((g) => ({ src: windowPhotos[g.key as k
     </section>
 
     <!-- D · Twenty-four hours: four frames | text + palette -->
-    <section class="wrap block row flip" aria-labelledby="day-heading">
+    <section class="wrap block row flip wide-media" aria-labelledby="day-heading">
       <div class="prose">
         <h2 id="day-heading">{c.day.title}</h2>
         {c.day.body.map((p) => <p>{p}</p>)}
@@ -131,7 +131,7 @@ const gallery = c.inspiration.gallery.map((g) => ({ src: windowPhotos[g.key as k
             <li>
               <figure>
                 <Image src={frames[f.key as keyof typeof frames]} alt={f.alt} widths={[400, 800, 1200]}
-                  sizes="(min-width: 48rem) 270px, 50vw" />
+                  sizes="(min-width: 48rem) 330px, 50vw" />
                 <figcaption><span class="eyebrow">{f.label}</span><span class="muted">{f.time}</span></figcaption>
               </figure>
             </li>

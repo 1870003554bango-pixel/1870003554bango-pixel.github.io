@@ -9,6 +9,7 @@ import Lightbox from '../../components/Lightbox.astro';
 import Stepper from '../../components/Stepper.astro';
 import Tabs from '../../components/Tabs.astro';
 import CompareSlider from '../../components/CompareSlider.astro';
+import PhotoCarousel from '../../components/PhotoCarousel.astro';
 import { useT, type Lang } from '../../i18n/ui';
 import { page } from '../../lib/url';
 import { nextOf } from '../../data/projects';
@@ -27,6 +28,7 @@ const img = (key: string): ImageMetadata => {
 };
 
 const steps = c.unboxing.steps.map((s) => ({ src: img(s.key), alt: s.alt, title: s.title, text: s.text }));
+const slides = (list: { key: string; alt: string; caption: string }[]) => list.map((m) => ({ src: img(m.key), alt: m.alt, caption: m.caption }));
 const materials = c.blender.materials.map((m) => ({ id: m.id, label: m.label, title: m.label, text: m.text, src: img(`material-${m.id}`), alt: m.alt }));
 ---
 
@@ -41,7 +43,7 @@ const materials = c.blender.materials.map((m) => ({ id: m.id, label: m.label, ti
     </nav>
 
     <!-- 01 · Hero: text | final render -->
-    <header class="wrap row hero">
+    <header class="wrap row hero sticky">
       <div class="prose hero-text">
         <p class="eyebrow">{c.hero.eyebrow}</p>
         <h1>{c.hero.title}</h1>
@@ -57,12 +59,12 @@ const materials = c.blender.materials.map((m) => ({ id: m.id, label: m.label, ti
           {c.hero.details.map((d) => <div><dt>{d.k}</dt><dd>{d.v}</dd></div>)}
         </dl>
       </div>
-      <Zoom src={img('hero-open-lid')} alt={c.hero.imageAlt} class="hero-img" loading="eager"
+      <Zoom src={img('hero-open-lid')} alt={c.hero.imageAlt} class="hero-img media" loading="eager"
         sizes="(min-width: 48rem) 460px, 100vw" widths={[480, 920, 1400]} />
     </header>
 
     <!-- 02 · Idea: AI concept images | text -->
-    <section id="idea" class="wrap block row flip" aria-labelledby="idea-h">
+    <section id="idea" class="wrap block row flip sticky" aria-labelledby="idea-h">
       <div class="prose">
         <p class="eyebrow">{c.idea.eyebrow}</p>
         <h2 id="idea-h">{c.idea.title}</h2>
@@ -71,50 +73,43 @@ const materials = c.blender.materials.map((m) => ({ id: m.id, label: m.label, ti
         <blockquote>{c.idea.question}</blockquote>
         <p class="small muted">{c.idea.note}</p>
       </div>
-      <div class="stack">
+      <div class="stack media">
         {c.idea.images.map((m) => <Zoom src={img(m.key)} alt={m.alt} caption={m.caption} sizes="(min-width: 48rem) 520px, 100vw" />)}
       </div>
     </section>
 
     <!-- 03 · Development: text | evolution 1 → 4 -->
-    <section class="wrap block row" aria-labelledby="dev-h">
+    <section class="wrap block row sticky" aria-labelledby="dev-h">
       <div class="prose">
         <p class="eyebrow">{c.development.eyebrow}</p>
         <h2 id="dev-h">{c.development.title}</h2>
         {c.development.body.map((p) => <p>{p}</p>)}
         <p class="key"><span class="num">Key idea</span> {c.development.keyIdea}</p>
       </div>
-      <ol class="evolution" role="list">
-        {c.development.steps.map((s, i) => (
-          <li>
-            <span class="num">{String(i + 1).padStart(2, '0')} {s.label}</span>
-            <Zoom src={img(s.key)} alt={s.alt} caption={s.caption} sizes="(min-width: 48rem) 260px, 50vw" ratio="4 / 3" fit="cover" />
-          </li>
-        ))}
-      </ol>
+      <div class="media">
+        <PhotoCarousel slides={slides(c.development.steps.map((x, i) => ({ key: x.key, alt: x.alt, caption: `${String(i + 1).padStart(2, '0')} ${x.label} — ${x.caption}` })))} label="From Memory Grid to Split Pod Relics" ratio="4 / 3" tone="light" zoom sizes="(min-width: 48rem) 560px, 100vw" prevLabel="Previous image" nextLabel="Next image" />
+      </div>
     </section>
 
     <!-- 04 · CAD: Loft stages | text, then specs | physical scale -->
     <section class="wrap block" aria-labelledby="cad-h">
-      <div class="row flip">
+      <div class="row flip sticky">
         <div class="prose">
           <p class="eyebrow">{c.cad.eyebrow}</p>
           <h2 id="cad-h">{c.cad.title}</h2>
           {c.cad.body.map((p) => <p>{p}</p>)}
         </div>
-        <ol class="grid-2" role="list">
-          {c.cad.loft.map((l, i) => (
-            <li><Zoom src={img(l.key)} alt={`Fusion screenshot, stage ${i + 1}: ${l.label}`} caption={`${String(i + 1).padStart(2, '0')} ${l.label}`} sizes="(min-width: 48rem) 260px, 50vw" ratio="16 / 9" fit="cover" /></li>
-          ))}
-        </ol>
+        <div class="media">
+          <PhotoCarousel slides={slides(c.cad.loft.map((l, i) => ({ key: l.key, alt: `Fusion screenshot, stage ${i + 1}: ${l.label}`, caption: `${String(i + 1).padStart(2, '0')} ${l.label}` })))} label="Fusion construction stages" ratio="16 / 9" tone="light" zoom sizes="(min-width: 48rem) 560px, 100vw" prevLabel="Previous image" nextLabel="Next image" />
+        </div>
       </div>
-      <div class="row">
+      <div class="row sticky">
         <div class="prose">
           <h3>{c.cad.specsTitle}</h3>
           <dl class="specs">{c.cad.specs.map((s) => <div><dt>{s.k}</dt><dd>{s.v}</dd></div>)}</dl>
           <p class="closing">{c.cad.closing}</p>
         </div>
-        <div class="grid-2">
+        <div class="stack media">
           <Zoom src={img('print-ruler')} alt="A 3D-printed chocolate form next to a ruler, showing its real size." caption="Printed form next to a ruler" sizes="(min-width: 48rem) 260px, 50vw" ratio="4 / 3" fit="cover" />
           <Zoom src={img('fusion-ribs-closeup')} alt="Fusion close-up of the shallow raised ribs and the 01 / 02 marking." caption="Shallow ribs and the 01 / 02 marking" sizes="(min-width: 48rem) 260px, 50vw" ratio="4 / 3" fit="cover" />
         </div>
@@ -123,22 +118,17 @@ const materials = c.blender.materials.map((m) => ({ id: m.id, label: m.label, ti
 
     <!-- 05 · Prototyping: text | print → mould → cast, then changes | detail loss -->
     <section id="prototyping" class="wrap block" aria-labelledby="proto-h">
-      <div class="row">
+      <div class="row sticky">
         <div class="prose">
           <p class="eyebrow">{c.prototyping.eyebrow}</p>
           <h2 id="proto-h">{c.prototyping.title}</h2>
           {c.prototyping.body.map((p) => <p>{p}</p>)}
         </div>
-        <ol class="grid-2" role="list">
-          {c.prototyping.sequence.map((s, i) => (
-            <li class:list={{ failed: s.failed }}>
-              {s.failed && <span class="flag">Failed test</span>}
-              <Zoom src={img(s.key)} alt={s.alt} caption={`${String(i + 1).padStart(2, '0')} ${s.caption}`} sizes="(min-width: 48rem) 260px, 50vw" ratio="4 / 3" fit="cover" />
-            </li>
-          ))}
-        </ol>
+        <div class="media">
+          <PhotoCarousel slides={slides(c.prototyping.sequence.map((x, i) => ({ key: x.key, alt: x.alt, caption: `${String(i + 1).padStart(2, '0')} ${x.failed ? 'Failed test — ' : ''}${x.caption}` })))} label="3D print to plaster cast" ratio="4 / 3" tone="light" zoom sizes="(min-width: 48rem) 560px, 100vw" prevLabel="Previous image" nextLabel="Next image" />
+        </div>
       </div>
-      <div class="row flip">
+      <div class="row flip sticky">
         <div class="prose">
           <h3>{c.prototyping.changedTitle}</h3>
           <div class="versus">
@@ -150,19 +140,19 @@ const materials = c.blender.materials.map((m) => ({ id: m.id, label: m.label, ti
           <h3>{c.prototyping.improveTitle}</h3>
           <p>{c.prototyping.improve}</p>
         </div>
-        <Zoom src={img(c.prototyping.detail.key)} alt={c.prototyping.detail.alt} caption={c.prototyping.detail.caption} sizes="(min-width: 48rem) 460px, 100vw" class="narrow" />
+        <Zoom src={img(c.prototyping.detail.key)} alt={c.prototyping.detail.alt} caption={c.prototyping.detail.caption} sizes="(min-width: 48rem) 460px, 100vw" class="narrow media" />
       </div>
     </section>
 
     <!-- 06 · Protective case: text + specs | closed box, then structure images | structure text -->
     <section class="wrap block" aria-labelledby="case-h">
-      <div class="row">
+      <div class="row sticky">
         <div class="prose">
           <p class="eyebrow">{c.case.eyebrow}</p>
           <h2 id="case-h">{c.case.title}</h2>
           {c.case.body.map((p) => <p>{p}</p>)}
         </div>
-        <div class="stack">
+        <div class="stack media">
           <Zoom src={img(c.case.image.key)} alt={c.case.image.alt} caption={c.case.image.caption} sizes="(min-width: 48rem) 540px, 100vw" />
           <div>
             <h3 class="small-h">{c.case.specsTitle}</h3>
@@ -170,39 +160,39 @@ const materials = c.blender.materials.map((m) => ({ id: m.id, label: m.label, ti
           </div>
         </div>
       </div>
-      <div class="row flip">
+      <div class="row flip sticky">
         <div class="prose">
           <h3>{c.case.structureTitle}</h3>
           {c.case.structure.map((p) => <p>{p}</p>)}
         </div>
-        <ol class="grid-2" role="list">
-          {c.case.structureImages.map((s) => <li><Zoom src={img(s.key)} alt={s.alt} caption={s.caption} sizes="(min-width: 48rem) 260px, 50vw" ratio="4 / 3" fit="cover" /></li>)}
-        </ol>
+        <div class="media">
+          <PhotoCarousel slides={slides(c.case.structureImages)} label="Case structure" ratio="4 / 3" tone="light" zoom sizes="(min-width: 48rem) 560px, 100vw" prevLabel="Previous image" nextLabel="Next image" />
+        </div>
       </div>
     </section>
 
     <!-- 07 · Hinge: text | failure photo, then redesign | images, then lessons -->
     <section class="wrap block" aria-labelledby="hinge-h">
-      <div class="row">
+      <div class="row sticky">
         <div class="prose">
           <p class="eyebrow">{c.hinge.eyebrow}</p>
           <h2 id="hinge-h">{c.hinge.title}</h2>
           {c.hinge.body.map((p) => <p>{p}</p>)}
         </div>
-        <div class="failed">
+        <div class="failed media">
           <span class="flag">Failed — first hinge</span>
           <Zoom src={img(c.hinge.failure.key)} alt={c.hinge.failure.alt} caption={c.hinge.failure.caption} sizes="(min-width: 48rem) 380px, 100vw" class="narrow" />
         </div>
       </div>
-      <div class="row flip">
+      <div class="row flip sticky">
         <div class="prose">
           <h3>{c.hinge.redesignTitle}</h3>
           <ul class="ticks">{c.hinge.redesign.map((x) => <li>{x}</li>)}</ul>
           {c.hinge.result.map((p) => <p>{p}</p>)}
         </div>
-        <ol class="grid-3" role="list">
-          {c.hinge.redesignImages.map((s) => <li><Zoom src={img(s.key)} alt={s.alt} caption={s.caption} sizes="(min-width: 48rem) 180px, 33vw" ratio="3 / 4" fit="cover" /></li>)}
-        </ol>
+        <div class="media">
+          <PhotoCarousel slides={slides(c.hinge.redesignImages)} label="Hinge redesign" ratio="4 / 3" tone="light" zoom sizes="(min-width: 48rem) 560px, 100vw" prevLabel="Previous image" nextLabel="Next image" />
+        </div>
       </div>
       <div class="wide-text learned">
         <h3>{c.hinge.learnedTitle}</h3>
@@ -223,24 +213,24 @@ const materials = c.blender.materials.map((m) => ({ id: m.id, label: m.label, ti
 
     <!-- 09 · Blender -->
     <section class="wrap block" aria-labelledby="blender-h">
-      <div class="row">
+      <div class="row sticky">
         <div class="prose">
           <p class="eyebrow">{c.blender.eyebrow}</p>
           <h2 id="blender-h">{c.blender.title}</h2>
           {c.blender.body.map((p) => <p>{p}</p>)}
         </div>
-        <div class="stack">
+        <div class="stack media">
           <Zoom src={img(c.blender.scene.key)} alt={c.blender.scene.alt} caption={c.blender.scene.caption} sizes="(min-width: 48rem) 400px, 100vw" class="narrow" />
         </div>
       </div>
 
-      <div class="row flip">
+      <div class="row flip sticky">
         <div class="prose">
           <h3>{c.blender.materialsTitle}</h3>
           <Tabs tabs={materials} label="Blender materials" />
           <p class="small muted">{c.blender.materialsNote}</p>
         </div>
-        <Zoom src={img(c.blender.blockout.key)} alt={c.blender.blockout.alt} caption={c.blender.blockout.caption} sizes="(min-width: 48rem) 540px, 100vw" />
+        <Zoom class="media" src={img(c.blender.blockout.key)} alt={c.blender.blockout.alt} caption={c.blender.blockout.caption} sizes="(min-width: 48rem) 540px, 100vw" />
       </div>
 
       <div class="experiments">
@@ -257,19 +247,14 @@ const materials = c.blender.materials.map((m) => ({ id: m.id, label: m.label, ti
         <p class="small muted">{c.blender.comparesNote}</p>
       </div>
 
-      <div class="row flip">
+      <div class="row flip sticky">
         <div class="prose">
           <h3>{c.blender.lightingTitle}</h3>
           <p>{c.blender.lightingIntro}</p>
           <dl class="specs compact">{c.blender.settings.map((s) => <div><dt>{s.k}</dt><dd>{s.v}</dd></div>)}</dl>
         </div>
-        <div class="stack">
-          <ol class="grid-2" role="list">
-            {c.blender.lights.map((l) => <li><Zoom src={img(l.key)} alt={l.alt} caption={l.label} sizes="(min-width: 48rem) 260px, 50vw" /></li>)}
-          </ol>
-          <ol class="grid-3" role="list">
-            {c.blender.cameras.map((l) => <li><Zoom src={img(l.key)} alt={l.alt} caption={l.label} sizes="(min-width: 48rem) 180px, 33vw" /></li>)}
-          </ol>
+        <div class="stack media">
+          <PhotoCarousel slides={[...c.blender.lights, ...c.blender.cameras].map((l) => ({ src: img(l.key), alt: l.alt, caption: l.label }))} label="Lighting and camera tests" ratio="4 / 3" tone="light" zoom sizes="(min-width: 48rem) 560px, 100vw" prevLabel="Previous image" nextLabel="Next image" />
           <p class="small muted">{c.blender.cameraNote} {c.blender.testsNote}</p>
         </div>
       </div>
@@ -277,7 +262,7 @@ const materials = c.blender.materials.map((m) => ({ id: m.id, label: m.label, ti
 
     <!-- 10 · Poster & feedback -->
     <section class="wrap block" aria-labelledby="poster-h">
-      <div class="row">
+      <div class="row sticky wide-media">
         <div class="prose">
           <p class="eyebrow">{c.poster.eyebrow}</p>
           <h2 id="poster-h">{c.poster.title}</h2>
@@ -285,12 +270,12 @@ const materials = c.blender.materials.map((m) => ({ id: m.id, label: m.label, ti
           <h3>{c.poster.feedbackTitle}</h3>
           <ul class="ticks">{c.poster.feedback.map((x) => <li>{x}</li>)}</ul>
         </div>
-        <div class="grid-2 posters">
+        <div class="grid-2 posters media">
           <Zoom src={img(c.poster.before.key)} alt={c.poster.before.alt} caption={c.poster.before.caption} sizes="(min-width: 48rem) 260px, 50vw" />
           <Zoom src={img(c.poster.after.key)} alt={c.poster.after.alt} caption={c.poster.after.caption} sizes="(min-width: 48rem) 260px, 50vw" />
         </div>
       </div>
-      <div class="row flip">
+      <div class="row flip sticky">
         <div class="prose">
           <h3>{c.poster.changedTitle}</h3>
           <p>{c.poster.changed}</p>
@@ -300,7 +285,7 @@ const materials = c.blender.materials.map((m) => ({ id: m.id, label: m.label, ti
           <h3>{c.poster.stillTitle}</h3>
           {c.poster.still.map((p) => <p>{p}</p>)}
         </div>
-        <Zoom src={img(c.poster.notes.key)} alt={c.poster.notes.alt} caption={c.poster.notes.caption} sizes="(min-width: 48rem) 380px, 100vw" class="narrow" />
+        <Zoom src={img(c.poster.notes.key)} alt={c.poster.notes.alt} caption={c.poster.notes.caption} sizes="(min-width: 48rem) 380px, 100vw" class="narrow media" />
       </div>
     </section>
 

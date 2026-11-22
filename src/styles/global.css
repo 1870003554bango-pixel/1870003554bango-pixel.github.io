@@ -195,7 +195,11 @@ a:hover > .arrow, .btn:hover .arrow { transform: translate(2px, -2px); }
   /* Long text beside a shorter image: the image stays in view while the text scrolls,
      instead of floating in the middle of empty space (DESIGN.md § 4.2). */
   .project .row.sticky { align-items: start; }
-  .project .row.sticky > .media { position: sticky; top: calc(var(--header-h) + 1.5rem); }
+  .project .row.sticky > .media,
+  .project .row.sticky > .pin { position: sticky; top: calc(var(--header-h) + 1.5rem); }
+  /* Media that needs more room (side-by-side comparisons): text 2 : media 3. */
+  .project .row.wide-media { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); }
+  .project .row.wide-media.flip { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); }
 }
 
 @media (prefers-reduced-motion: reduce) {
