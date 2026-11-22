@@ -1,0 +1,97 @@
+/* Placeholder system — the real visual direction is phase 2 of PLAN.md.
+   Semantic tokens only; components never use raw colours. */
+:root {
+  --bg: #fafaf9;
+  --surface: #ffffff;
+  --text: #1c1917;
+  --text-muted: #6b6560;
+  --line: #e7e5e4;
+  --accent: #c2410c;
+  --focus: #c2410c;
+
+  --font-sans: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB",
+    "Noto Sans SC", "Segoe UI", sans-serif;
+  --font-mono: ui-monospace, "SF Mono", Menlo, monospace;
+
+  --step--1: 0.875rem;
+  --step-0: 1rem;
+  --step-1: 1.25rem;
+  --step-2: 1.75rem;
+  --step-3: clamp(2rem, 4vw + 1rem, 3.25rem);
+
+  --space-1: 0.5rem;
+  --space-2: 1rem;
+  --space-3: 1.5rem;
+  --space-4: 2.5rem;
+  --space-5: 4rem;
+
+  --measure: 68ch;
+  --page: 72rem;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #121110;
+    --surface: #1a1918;
+    --text: #f2f0ee;
+    --text-muted: #a29d98;
+    --line: #2e2b29;
+    --accent: #fb923c;
+    --focus: #fb923c;
+    color-scheme: dark;
+  }
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: var(--step-0);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+img, video, iframe { max-width: 100%; display: block; }
+
+a { color: inherit; text-underline-offset: 0.2em; }
+a:hover { color: var(--accent); }
+
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+h1, h2, h3 { line-height: 1.2; text-wrap: balance; font-weight: 600; }
+
+.wrap {
+  max-width: var(--page);
+  margin-inline: auto;
+  padding-inline: clamp(1rem, 4vw, 2.5rem);
+}
+
+.prose { max-width: var(--measure); }
+.prose h2 { font-size: var(--step-1); margin-top: var(--space-4); }
+.prose blockquote {
+  margin: var(--space-3) 0;
+  padding-left: var(--space-2);
+  border-left: 2px solid var(--line);
+  color: var(--text-muted);
+}
+.prose code { font-family: var(--font-mono); font-size: 0.9em; }
+
+.skip {
+  position: absolute;
+  left: -999px;
+}
+.skip:focus { left: var(--space-2); top: var(--space-2); background: var(--surface); padding: var(--space-1) var(--space-2); }
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+}

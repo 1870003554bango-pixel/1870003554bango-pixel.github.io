@@ -1,0 +1,25 @@
+# build
+dist/
+.astro/
+node_modules/
+
+# macOS / exFAT metadata
+.DS_Store
+._*
+.Spotlight-V100
+.Trashes
+.fseventsd
+
+# env
+.env
+.env.*
+
+# large raw media must never land here — export compressed copies instead
+*.prproj
+*.blend
+*.blend1
+*.mov
+*.MOV
+*.mxf
+*.psd
+*.zip

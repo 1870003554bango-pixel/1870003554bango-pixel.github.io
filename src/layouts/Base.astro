@@ -1,0 +1,71 @@
+---
+import '../styles/global.css';
+import { url } from '../lib/url';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const siteName = '作品集';
+const { title, description = '个人作品集' } = Astro.props;
+const fullTitle = title ? `${title} · ${siteName}` : siteName;
+const path = Astro.url.pathname;
+const isActive = (href: string) => path.startsWith(url(href));
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <link rel="icon" type="image/svg+xml" href={url('/favicon.svg')} />
+  </head>
+  <body>
+    <a class="skip" href="#main">跳到正文</a>
+    <header class="site-header wrap">
+      <a class="brand" href={url('/')}>{siteName}</a>
+      <nav aria-label="主导航">
+        <a href={url('/')} aria-current={path === url('/') || path === url('/').replace(/\/$/, '') ? 'page' : undefined}>作品</a>
+        <a href={url('/about')} aria-current={isActive('/about') ? 'page' : undefined}>关于</a>
+      </nav>
+    </header>
+    <main id="main" class="wrap">
+      <slot />
+    </main>
+    <footer class="site-footer wrap">
+      <p>© {new Date().getFullYear()}</p>
+    </footer>
+  </body>
+</html>
+
+<style>
+  .site-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2);
+    padding-block: var(--space-3);
+  }
+  .brand { font-weight: 600; text-decoration: none; }
+  nav { display: flex; gap: var(--space-1); }
+  nav a, .brand {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    padding-inline: var(--space-1);
+    text-decoration: none;
+  }
+  nav a[aria-current='page'] { text-decoration: underline; }
+  .site-footer {
+    margin-top: var(--space-5);
+    padding-block: var(--space-4);
+    border-top: 1px solid var(--line);
+    color: var(--text-muted);
+    font-size: var(--step--1);
+  }
+</style>

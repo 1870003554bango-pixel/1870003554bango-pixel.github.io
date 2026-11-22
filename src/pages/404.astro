@@ -1,0 +1,11 @@
+---
+import Base from '../layouts/Base.astro';
+import { url } from '../lib/url';
+---
+
+<Base title="找不到页面">
+  <div class="prose" style="padding-block: var(--space-5)">
+    <h1>找不到这个页面</h1>
+    <p><a href={url('/')}>回到作品列表</a></p>
+  </div>
+</Base>
