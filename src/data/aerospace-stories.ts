@@ -121,11 +121,13 @@ export const videos = [
 // Personal rocket photography (re-encoded from 素材/火箭照片, metadata removed). Captions describe only
 // what is visible — no mission names, dates or places, which the brief requires to be verified first.
 export const photos = [
-  { key: 'photo-night-liftoff', en: 'Night liftoff — the engines light beside the service tower', zh: '夜间点火 · 发动机在发射塔旁点亮', altEn: 'A rocket lifting off at night, engine flames lighting the launch tower and smoke.', altZh: '夜间火箭点火升空，发动机火焰照亮发射塔和烟雾。' },
-  { key: 'photo-night-plume', en: 'The plume against a dark sky', zh: '夜空中的尾焰', altEn: 'A rocket climbing at night, a long orange and violet plume beneath it.', altZh: '火箭在夜空中上升，下方拖着橙紫色的长尾焰。' },
-  { key: 'photo-night-tower', en: 'On the pad before launch, lit at night', zh: '发射前 · 夜色中的火箭与发射塔', altEn: 'A rocket standing on the pad at night, lit beside the orange service tower.', altZh: '发射前夜，火箭立在橙色发射塔旁，被灯光照亮。' },
-  { key: 'photo-liftoff-day', en: 'Daytime liftoff between the lightning towers', zh: '白天点火 · 避雷塔之间升起', altEn: 'A rocket lifting off in daylight between two lattice towers, clouds of exhaust spreading across the pad.', altZh: '白天火箭在两座避雷塔之间点火升空，尾气在发射台上铺开。' },
   { key: 'photo-pad', en: 'Waiting on the pad, seen across the trees', zh: '等待发射 · 隔着树林看发射塔', altEn: 'A white rocket beside its service tower under a blue sky, palm trees in the foreground.', altZh: '蓝天下白色火箭立在发射塔旁，前景是棕榈树。' },
+  { key: 'photo-night-tower', en: 'On the pad before launch, lit at night', zh: '发射前 · 夜色中的火箭与发射塔', altEn: 'A rocket standing on the pad at night, lit beside the orange service tower.', altZh: '发射前夜，火箭立在橙色发射塔旁，被灯光照亮。' },
+  { key: 'photo-night-liftoff', en: 'Night liftoff — the engines light beside the service tower', zh: '夜间点火 · 发动机在发射塔旁点亮', altEn: 'A rocket lifting off at night, engine flames lighting the launch tower and smoke.', altZh: '夜间火箭点火升空，发动机火焰照亮发射塔和烟雾。' },
+  { key: 'photo-night-closeup', en: 'Liftoff seen up close, the tower lit by the flame', zh: '近看点火 · 火焰照亮发射塔', altEn: 'A rocket lifting off at night, bright engine flames and billowing smoke beside the illuminated tower.', altZh: '夜间火箭点火，明亮的火焰和翻滚的烟雾在被照亮的发射塔旁。' },
+  { key: 'photo-liftoff-day', en: 'Daytime liftoff between the lightning towers', zh: '白天点火 · 避雷塔之间升起', altEn: 'A rocket lifting off in daylight between two lattice towers, clouds of exhaust spreading across the pad.', altZh: '白天火箭在两座避雷塔之间点火升空，尾气在发射台上铺开。' },
+  { key: 'photo-night-plume', en: 'The plume against a dark sky', zh: '夜空中的尾焰', altEn: 'A rocket climbing at night, a long orange and violet plume beneath it.', altZh: '火箭在夜空中上升，下方拖着橙紫色的长尾焰。' },
+  { key: 'photo-ascent-sky', en: 'Climbing through thin cloud in a blue sky', zh: '穿过薄云 · 蓝天中的上升', altEn: 'A rocket climbing through a deep blue sky, its engine flame bright against thin white cloud.', altZh: '火箭穿过深蓝色天空上升，发动机火焰在薄薄的白云前格外明亮。' },
 ] as const;
 
 export const platformName = {

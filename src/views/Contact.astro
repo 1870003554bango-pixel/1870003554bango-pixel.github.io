@@ -1,20 +1,15 @@
 ---
 import Base from '../layouts/Base.astro';
+import SocialIcons from '../components/SocialIcons.astro';
 import { useT, contact, type Lang } from '../i18n/ui';
 
 interface Props { lang: Lang }
 const { lang } = Astro.props;
 const t = useT(lang);
-const others = [
-  { label: 'LinkedIn', href: contact.linkedin },
-  { label: 'Facebook', href: contact.facebook },
-  { label: 'GitHub', href: contact.github },
-  { label: 'Bilibili', href: contact.bilibili },
-  { label: 'Douyin', href: contact.douyin },
-].filter((o) => o.href);
+const hasSocial = Boolean(contact.linkedin || contact.facebook);
 ---
 
-<Base lang={lang} route="/contact/" title={t('nav.contact')} description={t('contact.title')}>
+<Base lang={lang} route="/contact/" title={t('nav.contact')} description={t('contact.title')} footerCta={false}>
   <div class="wrap contact">
     <h1>{t('contact.title')}</h1>
     <p class="sub">{t('contact.sub')}</p>
@@ -27,8 +22,8 @@ const others = [
       <div>
         <dt>{t('contact.elsewhere')}</dt>
         <dd>
-          {others.length ? (
-            <ul role="list">{others.map((o) => <li><a class="text-link" href={o.href} rel="me noopener" target="_blank">{o.label} ↗</a></li>)}</ul>
+          {hasSocial ? (
+            <SocialIcons lang={lang} email={false} />
           ) : (
             <span class="muted">{t('contact.soon')}</span>
           )}
@@ -49,6 +44,6 @@ const others = [
   dd { margin: 0; }
   .mail { font-size: var(--step-2); font-weight: 600; letter-spacing: -0.02em; text-decoration: none; overflow-wrap: anywhere; }
   .mail:hover { color: var(--accent); }
-  ul { display: flex; flex-wrap: wrap; gap: 0 1.5rem; margin: 0; padding: 0; list-style: none; }
+  dd :global(.social) { margin: -10px 0 0 -10px; } /* optical alignment with the label */
   .muted { color: var(--text-2); }
 </style>
