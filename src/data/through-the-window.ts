@@ -47,7 +47,16 @@ export const copy = {
     ],
     paletteTitle: 'The sky, hour by hour',
     paletteNote: 'The hourly sky colours in the sketch, sampled from my own photographs.',
-    closeupAlt: 'Close-up of the same photograph: the wing and the band of orange light at the horizon.',
+    galleryLabel: 'From my window seat',
+    galleryNote: 'More views I’ve photographed from the window seat, from daylight to night.',
+    gallery: [
+      { key: 'window-day-clouds', caption: 'Above the clouds', alt: 'Through a white cabin window: deep blue sky, the wingtip, and towering white clouds below.' },
+      { key: 'window-ocean-atoll', caption: 'Over the open ocean', alt: 'A wing over a deep blue ocean scattered with small clouds, with a turquoise ring-shaped reef below.' },
+      { key: 'window-last-light', caption: 'Last light along the wing', alt: 'A long wing with engines in silhouette over a sea of cloud, a thin orange line of sunset on the horizon.' },
+      { key: 'window-sunset-storm', caption: 'Sunset breaking through storm clouds', alt: 'Dark storm clouds with a bright orange gap of sunset, the wingtip silhouetted on the right.' },
+      { key: 'window-twilight-lights', caption: 'Twilight, with town lights below', alt: 'A dark wing against a deep blue twilight sky, a red band on the horizon and small town lights far below.' },
+      { key: 'window-night-stars', caption: 'Stars above the clouds at night', alt: 'A night sky full of stars above a pale layer of cloud, the red-lit wingtip at the right edge.' },
+    ],
   },
 
   day: {

@@ -29,7 +29,7 @@ no stock/AI images posing as Sitan's work; no fake buttons; English default, Chi
 | Runnable p5.js sketches / web demos | `public/demos/<slug>/index.html` |
 | Short videos (compressed) | `public/video/<slug>/` |
 | Bespoke project pages | `src/views/projects/<Name>.astro` + copy in `src/data/<slug>.ts`; set `customPage: true` in `projects.ts` and add `src/pages/work/<slug>.astro` and `src/pages/zh/work/<slug>.astro` (the generic `[slug]` route skips them). Briefs live in `md文件/<project>/` |
-| Components | `src/components/` — `Cover` (image or TODO box), `ProjectCard`, `Demo` (click-to-run) |
+| Components | `src/components/` — `Cover` (image or TODO box), `ProjectCard`, `Demo` (click-to-run), `PhotoCarousel` (swipe/arrow/dot photo switcher, no autoplay) |
 | Helper scripts (ffmpeg etc.) | `scripts/` |
 
 Raw source material lives OUTSIDE this repo, in sibling folders on the drive

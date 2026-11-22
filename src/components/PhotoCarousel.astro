@@ -1,0 +1,152 @@
+---
+// Swipeable photo carousel. Native horizontal scroll-snap does the moving (works with touch,
+// trackpad and keyboard); buttons and dots are a progressive layer on top. No autoplay.
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Slide { src: ImageMetadata; alt: string; caption: string }
+interface Props {
+  slides: Slide[];
+  label: string;
+  /** Frame ratio; photos are fitted inside without cropping. */
+  ratio?: string;
+  sizes?: string;
+  prevLabel?: string;
+  nextLabel?: string;
+}
+const { slides, label, ratio = '3 / 4', sizes = '(min-width: 56rem) 540px, 100vw', prevLabel = 'Previous photo', nextLabel = 'Next photo' } = Astro.props;
+const total = slides.length;
+---
+
+<section class="carousel" aria-roledescription="carousel" aria-label={label} data-carousel>
+  <div class="track" tabindex="0" aria-label={label} style={`--ratio: ${ratio}`}>
+    {slides.map((s, i) => (
+      <figure class="slide" role="group" aria-roledescription="slide" aria-label={`${i + 1} of ${total}`} data-caption={s.caption}>
+        <Image src={s.src} alt={s.alt} widths={[480, 800, 1200, 1500]} sizes={sizes} loading={i === 0 ? 'eager' : 'lazy'} />
+      </figure>
+    ))}
+  </div>
+
+  <div class="bar">
+    <p class="caption" aria-live="polite">
+      <span class="count">01 / {String(total).padStart(2, '0')}</span>
+      <span class="text">{slides[0].caption}</span>
+    </p>
+    <div class="controls">
+      <button type="button" class="prev" aria-label={prevLabel}>←</button>
+      <button type="button" class="next" aria-label={nextLabel}>→</button>
+    </div>
+  </div>
+  <div class="dots" role="group" aria-label={label}>
+    {slides.map((s, i) => (
+      <button type="button" aria-label={`${i + 1} of ${total}: ${s.caption}`} aria-current={i === 0 ? 'true' : undefined}></button>
+    ))}
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-carousel]').forEach((root) => {
+    const track = root.querySelector<HTMLElement>('.track')!;
+    const slides = [...root.querySelectorAll<HTMLElement>('.slide')];
+    const dots = [...root.querySelectorAll<HTMLButtonElement>('.dots button')];
+    const count = root.querySelector('.count')!;
+    const text = root.querySelector('.text')!;
+    const prev = root.querySelector<HTMLButtonElement>('.prev')!;
+    const next = root.querySelector<HTMLButtonElement>('.next')!;
+    const total = slides.length;
+    const pad = (n: number) => String(n).padStart(2, '0');
+    let index = 0;
+
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)');
+    const go = (i: number) => {
+      const target = Math.max(0, Math.min(total - 1, i));
+      track.scrollTo({ left: slides[target].offsetLeft - track.offsetLeft, behavior: reduce.matches ? 'auto' : 'smooth' });
+    };
+    const render = (i: number) => {
+      index = i;
+      count.textContent = `${pad(i + 1)} / ${pad(total)}`;
+      text.textContent = slides[i].dataset.caption ?? '';
+      dots.forEach((d, j) => (j === i ? d.setAttribute('aria-current', 'true') : d.removeAttribute('aria-current')));
+      prev.disabled = i === 0;
+      next.disabled = i === total - 1;
+    };
+
+    // Which slide is in view decides the state, so swipes and buttons stay in sync.
+    const io = new IntersectionObserver(
+      (entries) => entries.forEach((e) => e.isIntersecting && render(slides.indexOf(e.target as HTMLElement))),
+      { root: track, threshold: 0.6 },
+    );
+    slides.forEach((s) => io.observe(s));
+
+    prev.addEventListener('click', () => go(index - 1));
+    next.addEventListener('click', () => go(index + 1));
+    dots.forEach((d, j) => d.addEventListener('click', () => go(j)));
+    track.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') { e.preventDefault(); go(index + 1); }
+      if (e.key === 'ArrowLeft') { e.preventDefault(); go(index - 1); }
+    });
+    render(0);
+  });
+</script>
+
+<style>
+  .carousel { display: grid; gap: 0.75rem; min-width: 0; }
+  .track {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+    border-radius: var(--radius);
+    background: var(--text);
+  }
+  .track::-webkit-scrollbar { display: none; }
+  .slide {
+    flex: 0 0 100%;
+    margin: 0;
+    aspect-ratio: var(--ratio);
+    scroll-snap-align: start;
+    display: grid;
+    place-items: center;
+  }
+  .slide :global(img) { width: 100%; height: 100%; object-fit: contain; }
+
+  .bar { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); }
+  .caption { margin: 0; display: flex; gap: 0.75rem; align-items: baseline; font-size: var(--step--1); color: var(--text-2); min-width: 0; }
+  .count { font-variant-numeric: tabular-nums; color: var(--text); font-weight: 500; flex: none; }
+  .controls { display: flex; gap: 0.5rem; flex: none; }
+  .controls button {
+    width: 44px;
+    height: 44px;
+    border: 1px solid var(--line-strong);
+    border-radius: 50%;
+    background: transparent;
+    color: var(--text);
+    font: inherit;
+    cursor: pointer;
+    transition: border-color 200ms ease-out, background 200ms ease-out;
+  }
+  .controls button:hover:not(:disabled) { border-color: var(--text); }
+  .controls button:disabled { color: var(--line-strong); cursor: default; }
+
+  .dots { display: flex; gap: 0; margin-top: -0.75rem; }
+  .dots button {
+    width: 32px;
+    height: 44px;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+  }
+  .dots button::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--line-strong);
+    transition: background 200ms ease-out, transform 200ms ease-out;
+  }
+  .dots button[aria-current='true']::before { background: var(--text); transform: scale(1.25); }
+</style>

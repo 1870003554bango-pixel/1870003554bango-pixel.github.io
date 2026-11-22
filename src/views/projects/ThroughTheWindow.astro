@@ -3,6 +3,7 @@
 // Public copy is English on both language routes; the Chinese route keeps Chinese navigation.
 import { Image } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
+import PhotoCarousel from '../../components/PhotoCarousel.astro';
 import { useT, type Lang } from '../../i18n/ui';
 import { page, url } from '../../lib/url';
 import { nextOf, projects } from '../../data/projects';
@@ -16,6 +17,12 @@ import night from '../../assets/through-the-window/night.jpg';
 import detailClock from '../../assets/through-the-window/detail-analogue-clock.jpg';
 import detailDigital from '../../assets/through-the-window/detail-digital-clock.jpg';
 import detailBooks from '../../assets/through-the-window/detail-books.jpg';
+import wDay from '../../assets/through-the-window/window-day-clouds.jpg';
+import wOcean from '../../assets/through-the-window/window-ocean-atoll.jpg';
+import wLast from '../../assets/through-the-window/window-last-light.jpg';
+import wStorm from '../../assets/through-the-window/window-sunset-storm.jpg';
+import wTwilight from '../../assets/through-the-window/window-twilight-lights.jpg';
+import wNight from '../../assets/through-the-window/window-night-stars.jpg';
 
 interface Props { lang: Lang }
 const { lang } = Astro.props;
@@ -25,6 +32,11 @@ const next = nextOf(project.slug);
 const frames = { dawn, daylight, sunset, night } as const;
 const details = { 'detail-analogue-clock': detailClock, 'detail-digital-clock': detailDigital, 'detail-books': detailBooks } as const;
 const demo = url('/demos/through-the-window/index.html');
+const windowPhotos = {
+  'window-day-clouds': wDay, 'window-ocean-atoll': wOcean, 'window-last-light': wLast,
+  'window-sunset-storm': wStorm, 'window-twilight-lights': wTwilight, 'window-night-stars': wNight,
+} as const;
+const gallery = c.inspiration.gallery.map((g) => ({ src: windowPhotos[g.key as keyof typeof windowPhotos], alt: g.alt, caption: g.caption }));
 ---
 
 <Base lang={lang} route="/work/through-the-window/" title={c.title} description={c.tagline} image={sunset}>
@@ -88,8 +100,10 @@ const demo = url('/demos/through-the-window/index.html');
         {c.inspiration.body.map((p) => <p>{p}</p>)}
       </div>
       <div class="inspo-media">
-        <div class="closeup">
-          <Image src={photo} alt={c.inspiration.closeupAlt} widths={[480, 960]} sizes="(min-width: 56rem) 440px, 100vw" />
+        <div class="gallery">
+          <PhotoCarousel slides={gallery} label={c.inspiration.galleryLabel} ratio="3 / 4"
+            sizes="(min-width: 32rem) 480px, 100vw" />
+          <p class="muted small">{c.inspiration.galleryNote}</p>
         </div>
         <figure class="palette">
           <figcaption>
@@ -260,8 +274,8 @@ const demo = url('/demos/through-the-window/index.html');
 
   /* C */
   .inspo-media { display: grid; gap: var(--space-3); }
-  .closeup { aspect-ratio: 16 / 10; overflow: hidden; border-radius: var(--radius); }
-  .closeup img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 52%; }
+  .gallery { display: grid; gap: 0.5rem; width: 100%; max-width: 30rem; }
+  @media (min-width: 56rem) { .inspo-media { justify-items: end; } .inspo-media .palette { width: 100%; } }
   .palette { margin: 0; display: grid; gap: var(--space-2); }
   .palette figcaption { display: grid; gap: 0.25rem; }
   .palette .eyebrow { margin: 0; }
