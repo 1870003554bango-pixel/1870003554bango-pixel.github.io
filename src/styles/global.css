@@ -1,91 +1,46 @@
-/* Design tokens. Components read only these variables — no raw colours elsewhere.
-   Reading settings (src/components/ReadingPanel.astro) change them through
-   data-* attributes and --scale / --leading on <html>. */
+/* Design tokens — from section 8 of Sitan_Ding_Portfolio_Claude_网站改造规范.md.
+   Minimal editorial: work leads, text stays quiet. One accent (blue) for links and small emphasis.
+   Components read only these variables — no raw colours elsewhere. */
 :root {
-  --bg: #f5f4f0;
-  --band: #ebe9e4;
+  --bg: #f7f7f4;
   --surface: #ffffff;
-  --text: #18181a;
-  --text-muted: #6d6b68;
-  --line: #dedbd5;
-  --line-strong: #c9c5be;
-  --ink: #18181a;          /* solid controls (contact pill, avatar, switch on) */
-  --on-ink: #ffffff;
-  --accent: #f2c12e;       /* the one accent: ticker band, hand-drawn mark */
-  --on-accent: #1c1606;
-  --focus: #1d4ed8;
+  --sunken: #efeee9;
+  --text: #191919;
+  --text-2: #6b6b68;
+  --accent: #276b9b;
+  --on-accent: #ffffff;
+  --line: #e6e5df;
+  --line-strong: #cfcdc5;
+  --focus: #276b9b;
 
-  --font-sans: 'Inter Variable', -apple-system, BlinkMacSystemFont, 'PingFang SC',
-    'Hiragino Sans GB', 'Noto Sans SC', 'Segoe UI', sans-serif;
-  --font-hand: 'Caveat', 'Kaiti SC', 'STKaiti', cursive;
+  --font-sans: 'Inter Variable', -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Hiragino Sans GB',
+    'Noto Sans SC', 'Segoe UI', sans-serif;
 
-  --scale: 1;
-  --leading: 1.65;
-
-  --step--2: 0.75rem;
   --step--1: 0.875rem;
-  --step-0: 1rem;
+  --step-0: 1.0625rem;
   --step-1: 1.25rem;
-  --step-2: clamp(1.4rem, 1vw + 1.1rem, 1.75rem);
-  --step-3: clamp(1.9rem, 3vw + 1rem, 3.1rem);
+  --step-2: clamp(1.5rem, 1.2vw + 1.1rem, 2rem);
+  --step-3: clamp(2.25rem, 4vw + 1rem, 4rem);
 
   --space-1: 0.5rem;
   --space-2: 1rem;
   --space-3: 1.5rem;
   --space-4: 2.5rem;
   --space-5: 4rem;
-  --space-6: 6rem;
+  --space-6: 6.5rem;
 
-  --radius: 10px;
-  --radius-lg: 16px;
-  --measure: 66ch;
-  --page: 70rem;
+  --gutter: clamp(20px, 4.5vw, 64px);
+  --page: 1200px;
+  --measure: 58ch;
+  --radius: 6px;
+  --header-h: 4.5rem;
   color-scheme: light;
 }
 
-/* Contrast setting: 1 = higher, 2 = highest */
-:root[data-contrast='1'] { --text-muted: #4a4845; --line: #c4c0b9; --line-strong: #8f8a82; }
-:root[data-contrast='2'] { --text-muted: #18181a; --line: #6d6b68; --line-strong: #18181a; }
-
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme='light']) {
-    --bg: #111111;
-    --band: #181818;
-    --surface: #1e1e1e;
-    --text: #f1efeb;
-    --text-muted: #a3a09b;
-    --line: #2f2e2c;
-    --line-strong: #4a4845;
-    --ink: #f1efeb;
-    --on-ink: #111111;
-    --focus: #93b4ff;
-    color-scheme: dark;
-  }
-  :root:not([data-theme='light'])[data-contrast='1'] { --text-muted: #c9c6c0; --line: #4a4845; --line-strong: #7a7771; }
-  :root:not([data-theme='light'])[data-contrast='2'] { --text-muted: #f1efeb; --line: #a3a09b; --line-strong: #f1efeb; }
-}
-:root[data-theme='dark'] {
-  --bg: #111111;
-  --band: #181818;
-  --surface: #1e1e1e;
-  --text: #f1efeb;
-  --text-muted: #a3a09b;
-  --line: #2f2e2c;
-  --line-strong: #4a4845;
-  --ink: #f1efeb;
-  --on-ink: #111111;
-  --focus: #93b4ff;
-  color-scheme: dark;
-}
-:root[data-theme='dark'][data-contrast='1'] { --text-muted: #c9c6c0; --line: #4a4845; --line-strong: #7a7771; }
-:root[data-theme='dark'][data-contrast='2'] { --text-muted: #f1efeb; --line: #a3a09b; --line-strong: #f1efeb; }
-
 *, *::before, *::after { box-sizing: border-box; }
 
-html {
-  -webkit-text-size-adjust: 100%;
-  font-size: calc(100% * var(--scale));
-}
+html { -webkit-text-size-adjust: 100%; scroll-padding-top: var(--header-h); }
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
 
 body {
   margin: 0;
@@ -93,59 +48,87 @@ body {
   color: var(--text);
   font-family: var(--font-sans);
   font-size: var(--step-0);
-  line-height: var(--leading);
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
-  font-feature-settings: 'cv11', 'ss01';
 }
 
 img, video, iframe { max-width: 100%; display: block; }
 
-a { color: inherit; text-decoration: none; }
-.prose a, :root[data-underline='1'] a { text-decoration: underline; text-underline-offset: 0.2em; }
+a { color: inherit; text-underline-offset: 0.2em; }
+a:hover { color: var(--accent); }
 
-:focus-visible {
-  outline: 2px solid var(--focus);
-  outline-offset: 3px;
-  border-radius: 4px;
-}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; border-radius: 3px; }
 
-h1, h2, h3 { line-height: 1.2; text-wrap: balance; font-weight: 500; letter-spacing: -0.015em; }
+h1, h2, h3 { line-height: 1.15; text-wrap: balance; font-weight: 600; letter-spacing: -0.02em; margin: 0; }
+p { text-wrap: pretty; }
 
-.wrap {
-  max-width: var(--page);
-  margin-inline: auto;
-  padding-inline: clamp(1rem, 4vw, 2.5rem);
-}
+.wrap { max-width: var(--page); margin-inline: auto; padding-inline: var(--gutter); }
+.measure { max-width: var(--measure); }
 
 .eyebrow {
-  font-size: var(--step--2);
+  font-size: var(--step--1);
   font-weight: 500;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--text-muted);
+  color: var(--text-2);
 }
 
-.prose { max-width: var(--measure); }
-.prose h2 { font-size: var(--step-1); margin-top: var(--space-4); }
-.prose blockquote {
-  margin: var(--space-3) 0;
-  padding-left: var(--space-2);
-  border-left: 2px solid var(--line-strong);
-  border-radius: 0;
-  color: var(--text-muted);
+/* Buttons: one primary per view */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-height: 48px;
+  padding: 0 1.25rem;
+  border-radius: var(--radius);
+  font-size: var(--step-0);
+  font-weight: 500;
+  text-decoration: none;
+  border: 1px solid var(--line-strong);
+  color: var(--text);
+  background: transparent;
+  transition: border-color 200ms ease-out, background 200ms ease-out;
 }
-.prose code { font-size: 0.9em; }
+.btn:hover { border-color: var(--text); color: var(--text); }
+.btn-primary { background: var(--text); border-color: var(--text); color: var(--bg); }
+.btn-primary:hover { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+.arrow { display: inline-block; transition: transform 200ms ease-out; }
+a:hover > .arrow, .btn:hover .arrow { transform: translate(2px, -2px); }
+
+.text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-height: 44px;
+  font-weight: 500;
+  color: var(--accent);
+  text-decoration: none;
+}
+.text-link:hover { text-decoration: underline; }
+
+/* Labelled placeholder for missing real material. Never replaced with stock/AI images. */
+.placeholder {
+  display: grid;
+  place-items: center;
+  gap: 0.25rem;
+  padding: var(--space-2);
+  background: var(--sunken);
+  border: 1px dashed var(--line-strong);
+  border-radius: var(--radius);
+  color: var(--text-2);
+  font-size: var(--step--1);
+  text-align: center;
+}
+.placeholder strong { font-weight: 600; letter-spacing: 0.06em; color: var(--text); }
 
 .skip { position: absolute; left: -999px; }
-.skip:focus { left: var(--space-2); top: var(--space-2); background: var(--surface); padding: var(--space-1) var(--space-2); z-index: 10; }
+.skip:focus { left: var(--space-2); top: var(--space-2); z-index: 50; background: var(--surface); padding: var(--space-1) var(--space-2); }
 
 .sr-only {
   position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
   overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
 }
 
-/* Reduced motion: system setting OR the site's own switch */
 @media (prefers-reduced-motion: reduce) {
-  :root:not([data-motion='full']) * { animation-play-state: paused !important; transition: none !important; }
+  *, *::before, *::after { transition: none !important; animation: none !important; }
 }
-:root[data-motion='reduce'] * { animation-play-state: paused !important; transition: none !important; }

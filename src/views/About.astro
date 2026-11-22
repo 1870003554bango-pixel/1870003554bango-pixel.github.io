@@ -1,0 +1,68 @@
+---
+import Base from '../layouts/Base.astro';
+import { useT, tools, contact, type Lang } from '../i18n/ui';
+import { page, url } from '../lib/url';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = useT(lang);
+---
+
+<Base lang={lang} route="/about/" title={t('about.title')} description={t('about.p1')}>
+  <div class="wrap">
+    <section class="intro">
+      <div class="text">
+        <h1>{t('about.title')}</h1>
+        <p>{t('about.p1')}</p>
+        <p>{t('about.p2')}</p>
+      </div>
+      <div class="placeholder photo" role="img" aria-label={`TODO: ${t('about.photoTodo')}`}>
+        <span><strong>TODO</strong><br />{t('about.photoTodo')}</span>
+      </div>
+    </section>
+
+    <dl class="facts">
+      <div>
+        <dt>{t('about.education')}</dt>
+        <dd>
+          <p class="strong">{t('about.school')}</p>
+          <p>{t('about.degree')}</p>
+          <p class="muted">{t('about.dates')}</p>
+        </dd>
+      </div>
+      <div>
+        <dt>{t('about.whatIDo')}</dt>
+        <dd><ul role="list">{t('about.do').map((d) => <li>{d}</li>)}</ul></dd>
+      </div>
+      <div>
+        <dt>{t('about.tools')}</dt>
+        <dd><ul role="list" class="tools">{tools.map((x) => <li>{x}</li>)}</ul></dd>
+      </div>
+    </dl>
+
+    <div class="actions">
+      <a class="btn btn-primary" href={page(lang, '/contact/')}>{t('about.contact')} <span class="arrow" aria-hidden="true">↗</span></a>
+      {contact.resume && <a class="btn" href={url(contact.resume)}>{t('nav.resume')} <span class="arrow" aria-hidden="true">↗</span></a>}
+    </div>
+  </div>
+</Base>
+
+<style>
+  .intro { display: grid; gap: var(--space-4); padding-block: var(--space-5) var(--space-4); align-items: start; }
+  @media (min-width: 56rem) { .intro { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: var(--space-5); } }
+  .text { display: grid; gap: var(--space-2); max-width: var(--measure); }
+  h1 { font-size: var(--step-3); margin-bottom: var(--space-1); }
+  .text p { margin: 0; }
+  .photo { aspect-ratio: 4 / 5; width: 100%; }
+
+  .facts { display: grid; gap: 0; margin: 0; border-top: 1px solid var(--line); }
+  .facts > div { display: grid; gap: var(--space-1) var(--space-4); padding-block: var(--space-3); border-bottom: 1px solid var(--line); }
+  @media (min-width: 48rem) { .facts > div { grid-template-columns: 14rem minmax(0, 1fr); } }
+  .facts dt { color: var(--text-2); font-size: var(--step--1); font-weight: 500; }
+  .facts dd { margin: 0; }
+  .facts p { margin: 0; }
+  .strong { font-weight: 600; }
+  .muted { color: var(--text-2); font-size: var(--step--1); }
+  .facts ul { margin: 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 0.25rem 1.5rem; }
+  .actions { display: flex; flex-wrap: wrap; gap: 0.75rem; padding-top: var(--space-4); }
+</style>

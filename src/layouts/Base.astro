@@ -1,137 +1,254 @@
 ---
 import '@fontsource-variable/inter';
-import '@fontsource/caveat/500.css';
 import '../styles/global.css';
-import { url } from '../lib/url';
-import { site } from '../site';
+import type { ImageMetadata } from 'astro';
+import { getImage } from 'astro:assets';
+import { languages, useT, contact, type Lang } from '../i18n/ui';
+import { page, url } from '../lib/url';
 
 interface Props {
+  lang: Lang;
+  /** Language-free route of this page, e.g. '/work/scam-ready/'. Used for the language switch. */
+  route: string;
   title?: string;
   description?: string;
+  image?: ImageMetadata | null;
 }
 
-const { title, description = site.description } = Astro.props;
-const fullTitle = title ? `${title} · ${site.name}` : site.name;
-const path = Astro.url.pathname.replace(/\/$/, '') || '/';
-const home = url('/').replace(/\/$/, '') || '/';
+const { lang, route, title, description, image } = Astro.props;
+const t = useT(lang);
+const fullTitle = title ? `${title} — ${t('site.name')}` : `${t('site.name')} — Digital Media · Interactive Design`;
+const desc = description ?? t('site.description');
+const other: Lang = lang === 'en' ? 'zh' : 'en';
+
 const nav = [
-  { href: url('/'), label: '作品', current: path === home || path.startsWith(url('/work')) },
-  { href: url('/about'), label: '关于', current: path.startsWith(url('/about')) },
+  { route: '/', label: t('nav.home') },
+  { route: '/work/', label: t('nav.work') },
+  { route: '/about/', label: t('nav.about') },
+  { route: '/contact/', label: t('nav.contact') },
 ];
+const isCurrent = (r: string) => (r === '/' ? route === '/' : route.startsWith(r));
+
+const site = Astro.site ?? new URL('http://localhost:4321');
+const abs = (p: string) => new URL(p, site).href;
+const ogImage = image ? abs((await getImage({ src: image, width: 1200, format: 'jpeg' })).src) : undefined;
 ---
 
 <!doctype html>
-<html lang="zh-CN">
+<html lang={lang === 'zh' ? 'zh-CN' : 'en'}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{fullTitle}</title>
-    <meta name="description" content={description} />
+    <meta name="description" content={desc} />
+    <link rel="canonical" href={abs(page(lang, route))} />
+    <link rel="alternate" hreflang="en" href={abs(page('en', route))} />
+    <link rel="alternate" hreflang="zh-CN" href={abs(page('zh', route))} />
+    <link rel="alternate" hreflang="x-default" href={abs(page('en', route))} />
+    <meta property="og:type" content="website" />
     <meta property="og:title" content={fullTitle} />
-    <meta property="og:description" content={description} />
+    <meta property="og:description" content={desc} />
+    <meta property="og:url" content={abs(page(lang, route))} />
+    {ogImage && <meta property="og:image" content={ogImage} />}
+    <meta name="twitter:card" content={ogImage ? 'summary_large_image' : 'summary'} />
     <link rel="icon" type="image/svg+xml" href={url('/favicon.svg')} />
-    <!-- Apply saved reading settings before first paint (no flash). -->
-    <script is:inline>
-      try {
-        var p = JSON.parse(localStorage.getItem('reading-prefs') || '{}');
-        var r = document.documentElement;
-        if (p.motion) r.dataset.motion = p.motion;
-        if (p.theme && p.theme !== 'system') r.dataset.theme = p.theme;
-        if (p.contrast) r.dataset.contrast = String(p.contrast);
-        if (p.underline) r.dataset.underline = '1';
-        if (p.scale) r.style.setProperty('--scale', p.scale);
-        if (p.leading) r.style.setProperty('--leading', p.leading);
-      } catch (e) {}
-    </script>
   </head>
   <body>
-    <a class="skip" href="#main">跳到正文</a>
-    <header class="site-header wrap">
-      <a class="brand" href={url('/')}>
-        <span class="avatar" aria-hidden="true">{site.initials}</span>
-        <span>{site.name}</span>
-      </a>
-      <nav aria-label="主导航">
-        {nav.map((n) => (
-          <a class="nav-link" href={n.href} aria-current={n.current ? 'page' : undefined}>{n.label}</a>
-        ))}
-        <a class="contact" href={url('/about#contact')}>联系我 <span aria-hidden="true">→</span></a>
-      </nav>
+    <a class="skip" href="#main">{t('skip')}</a>
+
+    <header class="site-header">
+      <div class="wrap bar">
+        <a class="brand" href={page(lang, '/')}>{t('site.brand')}</a>
+
+        <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav"
+          data-open={t('nav.menu')} data-close={t('nav.close')}>
+          <span class="menu-icon" aria-hidden="true"></span>
+          <span class="menu-label">{t('nav.menu')}</span>
+        </button>
+
+        <nav id="site-nav" class="nav" aria-label={t('nav.label')}>
+          <ul role="list">
+            {nav.map((n) => (
+              <li><a href={page(lang, n.route)} aria-current={isCurrent(n.route) ? 'page' : undefined}>{n.label}</a></li>
+            ))}
+          </ul>
+          <div class="nav-end">
+            {contact.resume && (
+              <a class="resume" href={url(contact.resume)}>{t('nav.resume')} <span class="arrow" aria-hidden="true">↗</span></a>
+            )}
+            <a class="lang" href={page(other, route)} hreflang={other === 'zh' ? 'zh-CN' : 'en'} lang={other === 'zh' ? 'zh-CN' : 'en'}>
+              <span class="sr-only">{t('lang.label')}: </span>
+              <span aria-current="true" class="lang-on">{languages[lang]}</span>
+              <span aria-hidden="true">/</span>
+              <span>{languages[other]}</span>
+            </a>
+          </div>
+        </nav>
+      </div>
     </header>
+
     <main id="main">
       <slot />
     </main>
-    <footer class="site-footer wrap">
-      <span>© {new Date().getFullYear()} {site.name}</span>
-      <span>Astro · GitHub Pages</span>
+
+    <footer class="site-footer">
+      <div class="wrap">
+        <div class="foot-cta">
+          <p class="foot-title">{t('footer.cta')}</p>
+          <a class="text-link foot-mail" href={`mailto:${contact.email}`}>{contact.email} <span class="arrow" aria-hidden="true">↗</span></a>
+        </div>
+        <div class="foot-row">
+          <ul class="foot-nav" role="list">
+            {nav.map((n) => <li><a href={page(lang, n.route)}>{n.label}</a></li>)}
+            <li><a href={page(other, route)} lang={other === 'zh' ? 'zh-CN' : 'en'}>{languages[other]}</a></li>
+          </ul>
+          <a class="to-top" href="#main">{t('footer.top')} <span aria-hidden="true">↑</span></a>
+        </div>
+        <p class="rights">© {new Date().getFullYear()} {t('site.name')}. {t('footer.rights')}</p>
+      </div>
     </footer>
+
+    <script>
+      const btn = document.querySelector<HTMLButtonElement>('.menu-btn')!;
+      const nav = document.getElementById('site-nav')!;
+      const label = btn.querySelector('.menu-label')!;
+      const set = (open: boolean) => {
+        btn.setAttribute('aria-expanded', String(open));
+        nav.classList.toggle('open', open);
+        label.textContent = open ? btn.dataset.close! : btn.dataset.open!;
+      };
+      btn.addEventListener('click', () => set(btn.getAttribute('aria-expanded') !== 'true'));
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && nav.classList.contains('open')) { set(false); btn.focus(); }
+      });
+      matchMedia('(min-width: 48rem)').addEventListener('change', () => set(false));
+    </script>
   </body>
 </html>
 
 <style>
   .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: var(--bg);
+    border-bottom: 1px solid var(--line);
+  }
+  .bar {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: var(--space-2);
-    padding-block: var(--space-2);
+    min-height: var(--header-h);
   }
   .brand {
     display: inline-flex;
     align-items: center;
-    gap: 0.6rem;
     min-height: 44px;
-    font-size: var(--step--1);
-    font-weight: 500;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-decoration: none;
   }
-  .avatar {
-    display: inline-grid;
-    place-items: center;
-    width: 1.9rem;
-    height: 1.9rem;
-    border-radius: 50%;
-    background: var(--ink);
-    color: var(--on-ink);
-    font-size: 0.65rem;
-    font-weight: 600;
-    letter-spacing: 0.02em;
-  }
-  nav { display: flex; align-items: center; gap: 0.25rem; }
-  .nav-link {
+  .nav { display: flex; align-items: center; gap: var(--space-3); }
+  .nav ul { display: flex; gap: 0.25rem; margin: 0; padding: 0; list-style: none; }
+  .nav a { text-decoration: none; }
+  .nav ul a {
     display: inline-flex;
     align-items: center;
     min-height: 44px;
-    padding-inline: 0.7rem;
-    font-size: var(--step--1);
-    color: var(--text-muted);
-  }
-  .nav-link:hover, .nav-link[aria-current='page'] { color: var(--text); }
-  .contact {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.35rem;
-    min-height: 44px;
-    margin-left: 0.4rem;
-    padding: 0 1rem;
-    border-radius: 999px;
-    background: var(--ink);
-    color: var(--on-ink);
+    padding-inline: 0.75rem;
+    color: var(--text-2);
     font-size: var(--step--1);
     font-weight: 500;
   }
-  .contact span { transition: transform 200ms ease-out; }
-  .contact:hover span { transform: translateX(2px); }
+  .nav ul a:hover, .nav ul a[aria-current='page'] { color: var(--text); }
+  .nav ul a[aria-current='page'] { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 0.5em; }
+  .nav-end { display: flex; align-items: center; gap: var(--space-2); }
+  .lang, .resume {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    min-height: 44px;
+    padding-inline: 0.5rem;
+    font-size: var(--step--1);
+    color: var(--text-2);
+  }
+  .lang-on { color: var(--text); font-weight: 600; }
+
+  .menu-btn {
+    display: none;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 44px;
+    padding: 0 0.25rem;
+    border: 0;
+    background: none;
+    font: inherit;
+    font-size: var(--step--1);
+    font-weight: 500;
+    color: var(--text);
+    cursor: pointer;
+  }
+  .menu-icon, .menu-icon::before {
+    display: block;
+    width: 18px;
+    height: 2px;
+    background: currentColor;
+    border-radius: 1px;
+    transition: transform 200ms ease-out;
+  }
+  .menu-icon { position: relative; transform: translateY(-3px); }
+  .menu-icon::before { content: ''; position: absolute; top: 6px; }
+  .menu-btn[aria-expanded='true'] .menu-icon { transform: translateY(0) rotate(45deg); }
+  .menu-btn[aria-expanded='true'] .menu-icon::before { transform: translateY(-6px) rotate(-90deg); }
+
+  @media (max-width: 47.99rem) {
+    .menu-btn { display: inline-flex; }
+    .nav {
+      display: none;
+      position: absolute;
+      inset: var(--header-h) 0 auto 0;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0;
+      padding: var(--space-1) var(--gutter) var(--space-3);
+      background: var(--bg);
+      border-bottom: 1px solid var(--line);
+    }
+    .nav.open { display: flex; }
+    .nav ul { flex-direction: column; }
+    .nav ul a { padding-inline: 0; font-size: var(--step-1); color: var(--text); width: 100%; }
+    .nav-end { padding-top: var(--space-1); border-top: 1px solid var(--line); margin-top: var(--space-1); }
+    .lang { padding-inline: 0; }
+  }
 
   .site-footer {
+    margin-top: var(--space-6);
+    padding-block: var(--space-5) var(--space-3);
+    border-top: 1px solid var(--line);
+  }
+  .foot-cta { padding-bottom: var(--space-4); }
+  .foot-title { margin: 0 0 var(--space-1); font-size: var(--step-2); font-weight: 600; letter-spacing: -0.02em; }
+  .foot-mail { font-size: var(--step-1); }
+  .foot-row {
     display: flex;
     flex-wrap: wrap;
+    align-items: center;
     justify-content: space-between;
-    gap: var(--space-1);
-    padding-block: var(--space-4);
-    color: var(--text-muted);
+    gap: var(--space-2);
+    padding-block: var(--space-2);
+    border-top: 1px solid var(--line);
+  }
+  .foot-nav { display: flex; flex-wrap: wrap; gap: 0 1.25rem; margin: 0; padding: 0; list-style: none; }
+  .foot-nav a, .to-top {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    min-height: 44px;
     font-size: var(--step--1);
+    color: var(--text-2);
+    text-decoration: none;
   }
-  @media (max-width: 30rem) {
-    .brand > span:last-child { display: none; }
-  }
+  .foot-nav a:hover, .to-top:hover { color: var(--text); }
+  .rights { margin: var(--space-1) 0 0; font-size: var(--step--1); color: var(--text-2); }
 </style>

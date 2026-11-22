@@ -1,11 +1,27 @@
 ---
 import Base from '../layouts/Base.astro';
-import { url } from '../lib/url';
+import { useT } from '../i18n/ui';
+import { page } from '../lib/url';
+const en = useT('en');
+const zh = useT('zh');
 ---
 
-<Base title="找不到页面">
-  <div class="prose" style="padding-block: var(--space-5)">
-    <h1>找不到这个页面</h1>
-    <p><a href={url('/')}>回到作品列表</a></p>
+<Base lang="en" route="/" title="404">
+  <div class="wrap nf">
+    <p class="eyebrow">404</p>
+    <h1>{en('notfound.title')}</h1>
+    <p>{en('notfound.body')}</p>
+    <p lang="zh-CN">{zh('notfound.title')} {zh('notfound.body')}</p>
+    <div class="actions">
+      <a class="btn btn-primary" href={page('en', '/work/')}>{en('notfound.cta')} <span aria-hidden="true">→</span></a>
+      <a class="btn" href={page('zh', '/work/')} lang="zh-CN">{zh('notfound.cta')}</a>
+    </div>
   </div>
 </Base>
+
+<style>
+  .nf { display: grid; gap: var(--space-2); justify-items: start; padding-block: var(--space-6); }
+  h1 { font-size: var(--step-3); }
+  p { margin: 0; color: var(--text-2); }
+  .actions { display: flex; flex-wrap: wrap; gap: 0.75rem; padding-top: var(--space-2); }
+</style>

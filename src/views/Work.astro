@@ -1,0 +1,85 @@
+---
+import Base from '../layouts/Base.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { useT, type Lang } from '../i18n/ui';
+import { published, categories } from '../data/projects';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = useT(lang);
+const filters = [
+  { id: 'all', label: t('cat.all'), n: published.length },
+  ...categories.map((c) => ({ id: c, label: t(`cat.${c}`), n: published.filter((p) => p.categories.includes(c)).length })),
+].filter((f) => f.n > 0);
+---
+
+<Base lang={lang} route="/work/" title={t('nav.work')} description={t('work.sub')}>
+  <div class="wrap">
+    <header class="head">
+      <h1>{t('work.title')}</h1>
+      <p class="measure">{t('work.sub')}</p>
+    </header>
+
+    <div class="filters" role="group" aria-label={t('work.filter')}>
+      {filters.map((f, i) => (
+        <button type="button" data-filter={f.id} aria-pressed={i === 0 ? 'true' : 'false'}>
+          {f.label} <span class="n">{f.n}</span>
+        </button>
+      ))}
+    </div>
+    <p class="sr-only" aria-live="polite" id="work-status"></p>
+
+    <ul class="grid" role="list">
+      {published.map((p) => (
+        <li data-cats={p.categories.join(' ')}><ProjectCard project={p} lang={lang} headingLevel="h2" /></li>
+      ))}
+    </ul>
+  </div>
+</Base>
+
+<script>
+  const buttons = document.querySelectorAll<HTMLButtonElement>('.filters button');
+  const items = document.querySelectorAll<HTMLElement>('.grid > li');
+  const status = document.getElementById('work-status')!;
+  buttons.forEach((b) =>
+    b.addEventListener('click', () => {
+      const f = b.dataset.filter!;
+      buttons.forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+      let shown = 0;
+      items.forEach((li) => {
+        const on = f === 'all' || li.dataset.cats!.split(' ').includes(f);
+        li.hidden = !on;
+        if (on) shown++;
+      });
+      status.textContent = `${b.firstChild!.textContent!.trim()}: ${shown}`;
+    }),
+  );
+</script>
+
+<style>
+  .head { display: grid; gap: var(--space-2); padding-block: var(--space-5) var(--space-4); }
+  h1 { font-size: var(--step-3); }
+  .head p { margin: 0; color: var(--text-2); font-size: var(--step-1); }
+
+  .filters { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: var(--space-4); }
+  .filters button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    min-height: 44px;
+    padding: 0 1rem;
+    border: 1px solid var(--line-strong);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--text-2);
+    font: inherit;
+    font-size: var(--step--1);
+    cursor: pointer;
+  }
+  .filters button:hover { color: var(--text); border-color: var(--text); }
+  .filters button[aria-pressed='true'] { background: var(--text); border-color: var(--text); color: var(--bg); }
+  .n { font-variant-numeric: tabular-nums; opacity: 0.7; }
+
+  .grid { display: grid; gap: var(--space-5) var(--space-4); margin: 0; padding: 0; list-style: none; }
+  @media (min-width: 48rem) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+</style>

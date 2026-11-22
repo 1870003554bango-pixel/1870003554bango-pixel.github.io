@@ -9,17 +9,25 @@ Personal portfolio site. Astro 7, static output, deployed to GitHub Pages by
 - `npm run build` — must pass before every commit
 - `npm run preview` — serve the built `dist/`
 
+## Source of truth
+
+`Sitan_Ding_Portfolio_Claude_网站改造规范.md` (the spec) overrides PLAN.md and anything below
+when they disagree. Read it before changing content or structure. Key rules from it:
+no invented dates, roles, numbers or employers; team projects say `Team project`;
+no stock/AI images posing as Sitan's work; no fake buttons; English default, Chinese at `/zh/`.
+
 ## Where things go
 
 | What | Where |
 |---|---|
-| One project = one file | `src/content/work/<slug>.md` or `.mdx` (schema in `src/content.config.ts`) |
-| Images for a project | `src/assets/<slug>/` (Astro optimises them; reference relatively from the .md) |
+| All interface text (en + zh), email, social links, resume path | `src/i18n/ui.ts` |
+| All project data (en + zh), order, featured, links | `src/data/projects.ts` |
+| Page layouts (shared by both languages) | `src/views/*.astro` |
+| Routes (thin wrappers, one per language) | `src/pages/` (en) and `src/pages/zh/` (zh) |
+| Images for a project | `src/assets/<slug>/`, imported in `projects.ts` |
+| Runnable p5.js sketches / web demos | `public/demos/<slug>/index.html` |
 | Short videos (compressed) | `public/video/<slug>/` |
-| Runnable p5.js sketches | `public/sketches/<name>/index.html` (+ sketch.js) |
-| Other runnable web demos | `public/demos/<name>/` |
-| Reusable embeds | `src/components/` — `Demo` (click-to-run p5/web demos, set via `demo:` frontmatter), `WorkCard`, `ReadingPanel`, `Ticker`; still to build: Bilibili, Video, FigmaEmbed, Gallery |
-| Name, headline, ticker, tools, contact | `src/site.ts` (single place for personal text) |
+| Components | `src/components/` — `Cover` (image or TODO box), `ProjectCard`, `Demo` (click-to-run) |
 | Helper scripts (ffmpeg etc.) | `scripts/` |
 
 Raw source material lives OUTSIDE this repo, in sibling folders on the drive
@@ -31,17 +39,18 @@ Raw source material lives OUTSIDE this repo, in sibling folders on the drive
 - Any single file in the repo: **< 10 MB** (GitHub hard limit is 100 MB; Pages site should stay < 1 GB).
 - Video: H.264 MP4, ≤ 1080p, muted loops ≤ 10 MB. Anything longer → Bilibili / YouTube / Vimeo embed.
 - Photos: export at 2400 px long edge before adding; strip GPS EXIF.
-- p5.js: load p5 from cdnjs with a pinned version; never commit `p5.js` / `p5.sound.min.js` copies.
+- p5.js: load p5 from a CDN with a pinned version; never commit `p5.js` / `p5.sound.min.js` copies.
 - Heavy embeds (Bilibili, Figma, p5 iframes) load only after a click: show a poster image + a labelled button first.
 
 ## Code rules
 
-- Internal links and `public/` asset URLs go through `url()` from `src/lib/url.ts`
-  (the site may be served under `/<repo>/`). Never hard-code a leading `/` in an `href`/`src`.
+- Page links go through `page(lang, route)` and `public/` files through `url()`, both in
+  `src/lib/url.ts` (the site may be served under `/<repo>/`). Never hard-code a leading `/`.
+  Routes end with `/` (`trailingSlash: 'always'`).
+- Visible text never lives in a component: add a key to both `en` and `zh` in `src/i18n/ui.ts`.
 - Colours, spacing and type come from the tokens in `src/styles/global.css`. No raw hex in components.
-- Visual language (chosen 2026-11-22): warm off-white, light-weight large type, one yellow accent
-  (ticker band + hand-drawn underline), hairline cards on a grey band, working reading-settings panel.
-  Keep it; don't add a second accent.
+- Visual language: the spec's "Minimal Editorial" (section 8) — off-white `#F7F7F4`, near-black text,
+  one blue accent `#276B9B` for links and small emphasis, hairline borders, work images lead.
 - Follow the user's global UI rules: one accent colour, no gradients/glow/glassmorphism, hairline
   borders over shadows, body text ≥ 16px, visible focus states, click targets ≥ 44px,
   status never by colour alone, motion only when it explains something and respects reduced motion.
@@ -56,7 +65,8 @@ Raw source material lives OUTSIDE this repo, in sibling folders on the drive
 
 ## Drive quirks
 
-The repo sits on an exFAT external drive: macOS writes `._*` files (ignored in `.gitignore`),
+The repo sits on an exFAT external drive: macOS writes `._*` files (ignored in `.gitignore`,
+and deleted by `npm run clean:mac`, which runs before `dev` and `build`),
 and `core.fileMode` is set to false. Use npm, not pnpm (pnpm needs symlinks).
 
 If the dev server shows stale content after changing `src/content.config.ts` (a new frontmatter

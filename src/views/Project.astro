@@ -1,0 +1,188 @@
+---
+import Base from '../layouts/Base.astro';
+import Cover from '../components/Cover.astro';
+import Demo from '../components/Demo.astro';
+import { useT, type Lang } from '../i18n/ui';
+import { page } from '../lib/url';
+import { nextOf, type Project } from '../data/projects';
+
+interface Props { lang: Lang; project: Project }
+const { lang, project: p } = Astro.props;
+const t = useT(lang);
+const next = nextOf(p.slug);
+const tbc = t('project.tbc');
+const todo = (what: string) => `TODO — ${what}`;
+
+const collab = p.collaboration === 'solo' ? t('project.solo') : p.collaboration === 'team' ? t('project.team') : tbc;
+const meta = [
+  { k: t('project.year'), v: p.year ? String(p.year) : tbc },
+  { k: t('project.type'), v: p.type[lang] },
+  { k: t('project.role'), v: p.role ? p.role[lang] : tbc },
+  { k: t('project.tools'), v: p.tools.length ? p.tools.join(', ') : tbc },
+  { k: t('project.collab'), v: collab },
+];
+const platformName = {
+  en: { Bilibili: 'Bilibili', Douyin: 'Douyin' },
+  zh: { Bilibili: '哔哩哔哩', Douyin: '抖音' },
+} as const;
+const hasExperience =!!p.demo || !!p.videos?.length;
+---
+
+<Base lang={lang} route={`/work/${p.slug}/`} title={p.title} description={p.subtitle[lang]} image={p.cover}>
+  <article>
+    <header class="wrap head">
+      <a class="text-link back" href={page(lang, '/work/')}>← {t('project.back')}</a>
+      <p class="eyebrow">{p.type[lang]}</p>
+      <h1>{p.title}</h1>
+      <p class="sub measure">{p.subtitle[lang]}</p>
+      {p.collaboration === 'team' && <p class="team-badge">{t('project.team')}</p>}
+      {p.demo && (
+        <a class="btn btn-primary" href="#experience">{t('project.runDemo')} <span aria-hidden="true">↓</span></a>
+      )}
+    </header>
+
+    <div class="wrap">
+      <Cover image={p.cover} alt={p.coverAlt[lang]} ratio="16 / 9" widths={[960, 1600, 2400]}
+        sizes="(min-width: 75rem) 1072px, 100vw" todo={p.coverAlt[lang]} loading="eager" />
+
+      <dl class="meta">
+        {meta.map((m) => (
+          <div><dt>{m.k}</dt><dd class:list={{ tbc: m.v === tbc }}>{m.v}</dd></div>
+        ))}
+      </dl>
+
+      <div class="sections">
+        <section aria-labelledby="s-overview">
+          <h2 id="s-overview">{t('project.overview')}</h2>
+          {p.overview ? <p>{p.overview[lang]}</p> : <p class="todo">{todo(t('project.overview'))}</p>}
+        </section>
+
+        {hasExperience && (
+          <section id="experience" class="wide" aria-labelledby="s-exp">
+            <h2 id="s-exp">{t('project.experience')}</h2>
+            {p.demo && <Demo src={p.demo.src} ratio={p.demo.ratio} poster={p.cover} title={p.title} lang={lang} />}
+            {p.videos && (
+              <ol class="videos" role="list">
+                {p.videos.map((v, i) => (
+                  <li>
+                    <span class="v-index" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+                    <div class="v-body">
+                      <h3>{v.title[lang]}</h3>
+                      <p>{t('project.videoRole')}: {v.role[lang]}</p>
+                    </div>
+                    <a class="btn" href={v.url} target="_blank" rel="noopener">
+                      {t('project.watchOn')} {platformName[lang][v.platform]} <span class="arrow" aria-hidden="true">↗</span>
+                    </a>
+                  </li>
+                ))}
+              </ol>
+            )}
+          </section>
+        )}
+
+        <section aria-labelledby="s-process">
+          <h2 id="s-process">{t('project.process')}</h2>
+          {p.process.length ? (
+            <ol class="steps">{p.process.map((s) => <li>{s[lang]}</li>)}</ol>
+          ) : (
+            <p class="todo">{todo(t('project.process'))}</p>
+          )}
+        </section>
+
+        <section aria-labelledby="s-reflection">
+          <h2 id="s-reflection">{t('project.reflection')}</h2>
+          {p.reflection ? <blockquote>{p.reflection[lang]}</blockquote> : <p class="todo">{todo(t('project.reflection'))}</p>}
+        </section>
+
+        {p.credits && (
+          <section aria-labelledby="s-credits">
+            <h2 id="s-credits">{t('project.credits')}</h2>
+            <p>{p.credits[lang]}</p>
+          </section>
+        )}
+      </div>
+    </div>
+
+    <nav class="wrap next" aria-label={t('project.next')}>
+      <a class="text-link" href={page(lang, '/work/')}>← {t('project.back')}</a>
+      <a class="next-link" href={page(lang, `/work/${next.slug}/`)}>
+        <span class="eyebrow">{t('project.next')}</span>
+        <span class="next-title">{next.title} <span class="arrow" aria-hidden="true">→</span></span>
+      </a>
+    </nav>
+  </article>
+</Base>
+
+<style>
+  .head { display: grid; gap: var(--space-2); justify-items: start; padding-block: var(--space-3) var(--space-4); }
+  .back { font-size: var(--step--1); margin-bottom: var(--space-2); }
+  .head .eyebrow { margin: 0; }
+  h1 { font-size: var(--step-3); }
+  .sub { margin: 0; font-size: var(--step-1); color: var(--text-2); }
+  .team-badge {
+    margin: 0;
+    padding: 0.2rem 0.7rem;
+    border: 1px solid var(--line-strong);
+    border-radius: 999px;
+    font-size: var(--step--1);
+    font-weight: 500;
+  }
+
+  .meta {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+    gap: var(--space-2) var(--space-3);
+    margin: var(--space-4) 0 0;
+    padding-block: var(--space-3);
+    border-block: 1px solid var(--line);
+  }
+  .meta dt { font-size: var(--step--1); color: var(--text-2); margin-bottom: 0.2rem; }
+  .meta dd { margin: 0; }
+  .meta dd.tbc { color: var(--text-2); }
+
+  .sections { display: grid; gap: var(--space-5); padding-top: var(--space-5); }
+  .sections section { display: grid; gap: var(--space-2); max-width: var(--measure); }
+  .sections section.wide { max-width: none; }
+  .sections h2 { font-size: var(--step-2); }
+  .sections p { margin: 0; }
+  .todo {
+    padding: var(--space-2);
+    border: 1px dashed var(--line-strong);
+    border-radius: var(--radius);
+    background: var(--sunken);
+    color: var(--text-2);
+    font-size: var(--step--1);
+  }
+  blockquote { margin: 0; font-size: var(--step-2); font-weight: 500; letter-spacing: -0.01em; line-height: 1.3; }
+  .steps { margin: 0; padding-left: 1.25rem; display: grid; gap: var(--space-1); }
+
+  .videos { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--line); }
+  .videos li {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: var(--space-1) var(--space-3);
+    padding-block: var(--space-3);
+    border-bottom: 1px solid var(--line);
+  }
+  @media (max-width: 40rem) {
+    .videos li { grid-template-columns: auto minmax(0, 1fr); }
+    .videos .btn { grid-column: 2; justify-self: start; }
+  }
+  .v-index { font-size: var(--step--1); color: var(--text-2); font-variant-numeric: tabular-nums; }
+  .v-body h3 { font-size: var(--step-1); font-weight: 600; margin-bottom: 0.2rem; }
+  .v-body p { color: var(--text-2); font-size: var(--step--1); }
+
+  .next {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    justify-content: space-between;
+    gap: var(--space-3);
+    margin-top: var(--space-6);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--line);
+  }
+  .next-link { display: grid; gap: 0.3rem; text-align: right; text-decoration: none; margin-left: auto; }
+  .next-title { font-size: var(--step-2); font-weight: 600; letter-spacing: -0.02em; }
+</style>

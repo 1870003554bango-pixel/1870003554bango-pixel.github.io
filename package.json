@@ -3,14 +3,16 @@
   "type": "module",
   "private": true,
   "scripts": {
+    "clean:mac": "find src public -name '._*' -delete",
+    "predev": "npm run clean:mac",
     "dev": "astro dev",
+    "prebuild": "npm run clean:mac",
     "build": "astro build",
     "preview": "astro preview",
     "check": "astro check"
   },
   "dependencies": {
     "@fontsource-variable/inter": "^5.3.0",
-    "@fontsource/caveat": "^5.3.0",
     "astro": "^7.4.13"
   }
 }

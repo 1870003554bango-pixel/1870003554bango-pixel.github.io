@@ -1,0 +1,278 @@
+/**
+ * All project data, in both languages. Pages render from this file only.
+ *
+ * Rules (from Sitan_Ding_Portfolio_Claude_网站改造规范.md):
+ * - Unknown facts stay null → shown as "TBC". Never guess years, roles, numbers.
+ * - Team projects: collaboration 'team' and only verified personal contributions in `role`.
+ * - cover: null → a labelled placeholder is shown. Never use stock or AI images as a cover.
+ */
+import type { ImageMetadata } from 'astro';
+import type { Lang } from '../i18n/ui';
+
+import throughTheWindowCover from '../assets/through-the-window/cover.jpg';
+import ufoCover from '../assets/ufo-skyfeed/cover.jpg';
+import identityCover from '../assets/identity-press/cover.jpg';
+
+type L = Record<Lang, string>;
+export type Category = 'interactive' | 'film' | 'immersive' | 'visual';
+export const categories: Category[] = ['interactive', 'film', 'immersive', 'visual'];
+
+export interface Video {
+  title: L;
+  role: L;
+  platform: 'Bilibili' | 'Douyin';
+  url: string;
+}
+
+export interface Project {
+  slug: string;
+  order: number;
+  /** 'hidden' = kept in the data but not built or listed. */
+  status: 'published' | 'hidden';
+  featured: boolean;
+  categories: Category[];
+  title: string;
+  type: L;
+  subtitle: L;
+  year: number | null;
+  collaboration: 'solo' | 'team' | null;
+  role: L | null;
+  tools: string[];
+  cover: ImageMetadata | null;
+  coverAlt: L;
+  overview: L | null;
+  process: L[];
+  reflection: L | null;
+  credits?: L;
+  /** Runnable piece in public/demos/<slug>/ */
+  demo?: { src: string; ratio: string };
+  videos?: Video[];
+}
+
+const TODO = null;
+
+export const projects: Project[] = [
+  {
+    slug: 'through-the-window',
+    order: 1,
+    status: 'published',
+    featured: true,
+    categories: ['interactive'],
+    title: 'Through the Window',
+    type: { en: 'Interactive Art / p5.js', zh: '互动艺术 / p5.js' },
+    subtitle: {
+      en: 'A quiet, interactive window into a changing 24-hour sky.',
+      zh: '一扇可以自由探索 24 小时天空变化的互动窗口。',
+    },
+    year: null, // DECO1012 — date to be confirmed by Sitan (CV says 2024.04–06, transcript says 2025 S1)
+    collaboration: 'solo',
+    role: { en: 'Concept, interaction and visuals', zh: '概念、交互与视觉' },
+    tools: ['p5.js', 'JavaScript'],
+    cover: throughTheWindowCover,
+    coverAlt: {
+      en: 'Screenshot of the sketch: a window in a wooden wall looking out on blue sky, clouds and a green field, with a 24-hour clock in the corner.',
+      zh: '作品截图：木纹墙上的窗户外是蓝天、云和草地，角落里有一个 24 小时时钟。',
+    },
+    overview: {
+      en: 'One window, one full day. The sky outside moves through dawn, day, sunset and night. Drag the clock to travel through the 24 hours, click the digital clock to speed time up, and click the books to find small hidden details.',
+      zh: '一扇窗，一整天。窗外的天空会经历清晨、白天、日落和夜晚。拖动时钟可以在 24 小时之间穿梭，点击数字时钟可以让时间加速，点击书本会发现一些藏起来的小细节。',
+    },
+    process: [],
+    reflection: {
+      en: 'Stop and look more at the things around you.',
+      zh: '停下来，多看看身边的东西。',
+    },
+    credits: {
+      en: 'Concept / Interaction / Visuals: Sitan Ding',
+      zh: '概念 / 交互 / 视觉：丁思覃',
+    },
+    demo: { src: '/demos/through-the-window/', ratio: '4 / 3' },
+  },
+  {
+    slug: 'aerospace-stories',
+    order: 2,
+    status: 'published',
+    featured: true,
+    categories: ['film'],
+    title: 'Aerospace Stories',
+    type: { en: 'Filmmaking / Photography', zh: '影像 / 摄影' },
+    subtitle: {
+      en: 'Cinematography and video production for three aerospace stories.',
+      zh: '三个航天主题视频的拍摄与制作。',
+    },
+    year: null,
+    collaboration: TODO,
+    role: { en: 'Filming; filming & production', zh: '拍摄；拍摄与制作' },
+    tools: [],
+    cover: null,
+    coverAlt: { en: 'Rocket launch photographed by Sitan Ding', zh: '丁思覃拍摄的火箭发射' },
+    overview: TODO,
+    process: [],
+    reflection: TODO,
+    videos: [
+      {
+        title: { en: 'Tianzhou-8 — Your "space delivery" is on its way!', zh: '天舟八号｜您的“太空快递”正在配送！' },
+        role: { en: 'Filming', zh: '拍摄' },
+        platform: 'Douyin',
+        url: 'https://v.douyin.com/7TDQCjaL7zE/',
+      },
+      {
+        title: { en: 'Tianzhou-9 — Delivered in 3 hours: this "space parcel" has arrived', zh: '天舟九号｜3 小时速达！这份“太空快递”已签收' },
+        role: { en: 'Filming', zh: '拍摄' },
+        platform: 'Bilibili',
+        url: 'https://www.bilibili.com/video/BV1aguJzSEdn/',
+      },
+      {
+        title: { en: 'Crewed lunar exploration — an important breakthrough', zh: '我国载人登月，有重要突破！' },
+        role: { en: 'Filming & production', zh: '拍摄及制作' },
+        platform: 'Bilibili',
+        url: 'https://www.bilibili.com/video/BV1VGcszLEgY/',
+      },
+    ],
+  },
+  {
+    slug: 'becoming-non-human',
+    order: 3,
+    status: 'published',
+    featured: true,
+    categories: ['immersive'],
+    title: 'Becoming Non-Human',
+    type: { en: 'VR / Unity', zh: 'VR / Unity' },
+    subtitle: {
+      en: 'A VR experience of the environment through non-human eyes — a sea turtle, a mangrove, a bat.',
+      zh: '用海龟、红树林和蝙蝠的视角，在 VR 里重新感受环境。',
+    },
+    year: null,
+    collaboration: 'team',
+    role: TODO, // must match the team's real split of work
+    tools: ['Unity', 'Pico 4'],
+    cover: null,
+    coverAlt: { en: 'Screenshot from the VR experience', zh: 'VR 体验截图' },
+    overview: TODO,
+    process: [],
+    reflection: TODO,
+  },
+  {
+    slug: 'scam-ready',
+    order: 4,
+    status: 'published',
+    featured: true,
+    categories: ['interactive'],
+    title: 'Scam Ready',
+    type: { en: 'Interactive Storytelling / UX', zh: '互动叙事 / UX' },
+    subtitle: {
+      en: 'An interactive story that lets international students practise spotting impersonation scams.',
+      zh: '让国际学生练习识别冒充身份类诈骗的互动故事。',
+    },
+    year: null,
+    collaboration: 'team',
+    role: TODO,
+    tools: ['Figma'],
+    cover: null,
+    coverAlt: { en: 'Key screen from the Figma prototype', zh: 'Figma 原型关键界面' },
+    overview: TODO,
+    process: [],
+    reflection: TODO,
+  },
+  {
+    slug: 'cocoa-reserve',
+    order: 5,
+    status: 'published',
+    featured: false,
+    categories: ['visual'],
+    title: 'Cocoa Reserve',
+    type: { en: '3D / Speculative Design', zh: '3D / 思辨设计' },
+    subtitle: {
+      en: 'In 2060 cocoa is scarce, and chocolate becomes something you keep.',
+      zh: '2060 年，可可变得稀缺，巧克力成了需要珍藏的东西。',
+    },
+    year: null,
+    collaboration: TODO,
+    role: TODO,
+    tools: ['Blender'],
+    cover: null,
+    coverAlt: { en: 'Blender render of the Cocoa Reserve box', zh: 'Cocoa Reserve 盒子的 Blender 渲染图' },
+    overview: TODO,
+    process: [],
+    reflection: TODO,
+  },
+  {
+    slug: 'urban-pulse',
+    order: 6,
+    status: 'published',
+    featured: false,
+    categories: ['visual'],
+    title: 'Urban Pulse',
+    type: { en: 'Generative Art / p5.js', zh: '生成艺术 / p5.js' },
+    subtitle: {
+      en: 'Moving particles that play with the rhythm of a city.',
+      zh: '用动态粒子表现城市节奏的生成视觉。',
+    },
+    year: null,
+    collaboration: TODO,
+    role: TODO,
+    tools: ['p5.js'],
+    cover: null,
+    coverAlt: { en: 'Particle visuals from Urban Pulse', zh: 'Urban Pulse 的粒子画面' },
+    overview: TODO,
+    process: [],
+    reflection: TODO,
+  },
+
+  // Earlier projects, not part of the current spec. Kept so nothing is lost; not built.
+  {
+    slug: 'ufo-skyfeed',
+    order: 90,
+    status: 'hidden',
+    featured: false,
+    categories: ['film', 'interactive'],
+    title: 'UFO / SkyFeed',
+    type: { en: 'AI Video / Web', zh: 'AI 影像 / 网页' },
+    subtitle: {
+      en: 'How a blurry UFO clip becomes "evidence" through filters, news, reposts and AI.',
+      zh: '一段模糊的 UFO 画面，怎样被滤镜、新闻、转发和 AI 一步步加工成“证据”。',
+    },
+    year: 2026,
+    collaboration: TODO,
+    role: TODO,
+    tools: ['Premiere Pro', 'HTML/CSS/JS'],
+    cover: ufoCover,
+    coverAlt: { en: 'Repost Wall page from the project', zh: '项目中的 Repost Wall 页面' },
+    overview: TODO,
+    process: [],
+    reflection: TODO,
+  },
+  {
+    slug: 'identity-press',
+    order: 91,
+    status: 'hidden',
+    featured: false,
+    categories: ['visual'],
+    title: 'Identity Press',
+    type: { en: '3D Animation', zh: '3D 动画' },
+    subtitle: {
+      en: 'A slot-machine "identity press" that acts out how a phone scam persuades someone.',
+      zh: '把电话诈骗的话术做成一台老虎机式的“身份印刷机”。',
+    },
+    year: 2026,
+    collaboration: TODO,
+    role: TODO,
+    tools: ['Blender', 'Python'],
+    cover: identityCover,
+    coverAlt: { en: 'Blender render of the Identity Press machine', zh: 'Identity Press 机器的 Blender 渲染图' },
+    overview: TODO,
+    process: [],
+    reflection: TODO,
+  },
+];
+
+export const published = projects
+  .filter((p) => p.status === 'published')
+  .sort((a, b) => a.order - b.order);
+
+export const featured = published.filter((p) => p.featured);
+
+export function nextOf(slug: string): Project {
+  const i = published.findIndex((p) => p.slug === slug);
+  return published[(i + 1) % published.length];
+}
