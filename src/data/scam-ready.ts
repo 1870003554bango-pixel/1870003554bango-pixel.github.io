@@ -8,12 +8,10 @@
  */
 
 export const figma = {
-  // Visible prototype viewport measured from Sitan's live embed screenshot.
-  // The report's hero image has a different crop; do not use it for this ratio.
-  viewport: { width: 1440, height: 820 },
-  // Keep Sitan’s prototype and starting frame; fill the proportional embed width.
+  // Fit the complete frame; fit-width can crop tall screens and add internal scrolling.
+  // The prototype's exact frame/viewport dimensions still need verification in Figma.
   embed:
-    'https://embed.figma.com/proto/fMPiMEP5QmqCmVa9cwCCva/DECO3200-prototype?node-id=1-1519&p=f&scaling=fit-width&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=1%3A3998&embed-host=share&hide-ui=1&footer=false&device-frame=false&viewport-controls=false&show-proto-sidebar=false',
+    'https://embed.figma.com/proto/fMPiMEP5QmqCmVa9cwCCva/DECO3200-prototype?node-id=1-1519&p=f&scaling=contain&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=1%3A3998&embed-host=share&hide-ui=1&footer=false&device-frame=false&viewport-controls=false&show-proto-sidebar=false',
   direct:
     'https://www.figma.com/proto/fMPiMEP5QmqCmVa9cwCCva/DECO3200-prototype?node-id=1-1519&p=f&t=fQNaCMD6IZ0ixjvZ-1&scaling=contain&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=1%3A3998',
 };

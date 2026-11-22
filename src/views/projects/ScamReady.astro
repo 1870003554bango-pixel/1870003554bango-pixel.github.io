@@ -186,9 +186,9 @@ const slides = (list: { key: string; alt: string; caption: string }[]) => list.m
         <h2 id="pt-h">{c.prototype.title}</h2>
         <div class="cols">{c.prototype.body.map((p) => <p>{p}</p>)}</div>
       </div>
-      <div class="figma-embed" style={`--prototype-ratio: ${figma.viewport.width} / ${figma.viewport.height}`}>
+      <div class="figma-embed" style={`--prototype-ratio: ${img('hero-landing').width} / ${img('hero-landing').height}`}>
         <!-- Direct embed: scale the complete prototype to fit the available viewport. -->
-        <iframe class="figma-frame" title={c.prototype.iframeTitle} width={figma.viewport.width} height={figma.viewport.height} src={figma.embed} allowfullscreen></iframe>
+        <iframe class="figma-frame" title={c.prototype.iframeTitle} width={img('hero-landing').width} height={img('hero-landing').height} src={figma.embed} allowfullscreen></iframe>
       </div>
       <div class="embed-foot">
         <a class="btn btn-primary" href={figma.direct} target="_blank" rel="noopener noreferrer">{c.prototype.open} <span class="arrow" aria-hidden="true">↗</span></a>
