@@ -17,6 +17,14 @@ const work = defineCollection({
       cover: image().optional(),
       coverAlt: z.string().optional(),
       /** Lower number = shown first on the home page. */
+      /** A runnable piece under public/ (p5 sketch or web demo), shown behind a "run" button. */
+      demo: z
+        .object({
+          src: z.string(),
+          label: z.string().default('运行作品'),
+          ratio: z.string().default('4 / 3'),
+        })
+        .optional(),
       order: z.number().default(100),
       draft: z.boolean().default(false),
     }),

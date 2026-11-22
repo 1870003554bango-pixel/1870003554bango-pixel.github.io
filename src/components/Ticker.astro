@@ -1,0 +1,45 @@
+---
+interface Props { items: string[] }
+const { items } = Astro.props;
+// Repeat enough times to fill wide screens; the second half makes the loop seamless.
+const row = [...items, ...items, ...items];
+---
+
+<section class="ticker" aria-label="近况">
+  <p class="sr-only">{items.join('；')}</p>
+  <div class="track" aria-hidden="true">
+    {[0, 1].map(() => (
+      <ul role="list">
+        {row.map((t) => <li>{t}</li>)}
+      </ul>
+    ))}
+  </div>
+</section>
+
+<style>
+  .ticker {
+    overflow: hidden;
+    background: var(--accent);
+    color: var(--on-accent);
+    border-block: 1px solid color-mix(in srgb, var(--on-accent) 15%, transparent);
+  }
+  .track {
+    display: flex;
+    width: max-content;
+    animation: slide 60s linear infinite;
+  }
+  .ticker:hover .track { animation-play-state: paused; }
+  ul { display: flex; margin: 0; padding: 0; list-style: none; }
+  li {
+    padding: 0.55rem 0;
+    font-size: var(--step--2);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  li::after { content: '·'; padding-inline: 1.1rem; }
+  @keyframes slide {
+    to { transform: translateX(-50%); }
+  }
+</style>

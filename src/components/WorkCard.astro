@@ -1,0 +1,69 @@
+---
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import { url } from '../lib/url';
+import { site } from '../site';
+
+interface Props { item: CollectionEntry<'work'> }
+const { item } = Astro.props;
+const d = item.data;
+---
+
+<a class="card" href={url(`/work/${item.id}`)}>
+  <div class="top">
+    <span class="eyebrow">{d.type} · {d.year}</span>
+    <span class="tag">{d.demo ? '可运行' : '案例'}</span>
+  </div>
+  <h3>{d.title}</h3>
+  <p class="summary">{d.summary}</p>
+  <div class="media">
+    {d.cover ? (
+      <Image src={d.cover} alt={d.coverAlt ?? ''} widths={[480, 800, 1200]} sizes="(min-width: 56rem) 30rem, 100vw" />
+    ) : (
+      <div class="placeholder">封面待补充</div>
+    )}
+  </div>
+  <div class="foot">
+    <span class="by"><span class="avatar" aria-hidden="true">{site.initials}</span>{site.name}</span>
+    <span class="more">查看案例 <span aria-hidden="true">→</span></span>
+  </div>
+</a>
+
+<style>
+  .card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 1.1rem;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    transition: border-color 200ms ease-out;
+  }
+  .card:hover { border-color: var(--line-strong); }
+  .top { display: flex; justify-content: space-between; align-items: center; gap: var(--space-1); }
+  .tag {
+    font-size: var(--step--2);
+    padding: 0.15rem 0.55rem;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    color: var(--text-muted);
+  }
+  h3 { margin: 0; font-size: var(--step-1); }
+  .summary { margin: 0; color: var(--text-muted); font-size: var(--step--1); }
+  .media { overflow: hidden; border-radius: var(--radius); background: var(--band); }
+  .media img, .placeholder { width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; transition: transform 300ms ease-out; }
+  .card:hover .media img { transform: scale(1.02); }
+  .placeholder { display: grid; place-items: center; color: var(--text-muted); font-size: var(--step--1); }
+  .foot { display: flex; justify-content: space-between; align-items: center; font-size: var(--step--1); }
+  .by { display: inline-flex; align-items: center; gap: 0.5rem; color: var(--text-muted); }
+  .avatar {
+    display: inline-grid; place-items: center;
+    width: 1.5rem; height: 1.5rem; border-radius: 50%;
+    background: var(--ink); color: var(--on-ink);
+    font-size: 0.55rem; font-weight: 600;
+  }
+  .more { font-weight: 500; }
+  .more span { display: inline-block; transition: transform 200ms ease-out; }
+  .card:hover .more span { transform: translateX(3px); }
+</style>

@@ -1,17 +1,48 @@
 ---
 import Base from '../layouts/Base.astro';
+import { site } from '../site';
+
+const links = [
+  { label: '邮箱', href: site.contact.email ? `mailto:${site.contact.email}` : '', text: site.contact.email },
+  { label: 'Bilibili', href: site.contact.bilibili, text: site.contact.bilibili.replace(/^https?:\/\//, '') },
+  { label: 'GitHub', href: site.contact.github, text: site.contact.github.replace(/^https?:\/\//, '') },
+];
 ---
 
-<Base title="关于" description="关于我">
-  <div class="prose about">
-    <h1>关于</h1>
-    <p>待补充：背景、学校、方向、正在找什么样的机会。</p>
-    <h2>联系</h2>
-    <p>待补充：邮箱、B 站、GitHub 等。</p>
+<Base title="关于" description={`关于 ${site.name}`}>
+  <div class="wrap about">
+    <header>
+      <p class="eyebrow">关于</p>
+      <h1>待补充：两三句话介绍你自己。</h1>
+    </header>
+    <div class="prose">
+      <p>待补充：背景、学校、方向、正在找什么样的机会。</p>
+    </div>
+
+    <section id="contact" aria-labelledby="contact-title">
+      <h2 id="contact-title" class="eyebrow">联系</h2>
+      <dl>
+        {links.map((l) => (
+          <div>
+            <dt>{l.label}</dt>
+            <dd>{l.href ? <a href={l.href}>{l.text}</a> : <span class="todo">待补充（在 src/site.ts 填写）</span>}</dd>
+          </div>
+        ))}
+      </dl>
+    </section>
   </div>
 </Base>
 
 <style>
-  .about { padding-block: var(--space-4); }
-  .about h1 { font-size: var(--step-3); }
+  .about { padding-block: var(--space-5); max-width: 46rem; }
+  header .eyebrow { margin: 0 0 0.6rem; }
+  h1 { margin: 0 0 var(--space-3); font-size: var(--step-3); font-weight: 300; letter-spacing: -0.02em; }
+  #contact { margin-top: var(--space-5); }
+  #contact h2 { margin: 0 0 var(--space-2); }
+  dl { margin: 0; border-top: 1px solid var(--line); }
+  dl div { display: flex; justify-content: space-between; gap: var(--space-2); padding-block: 0.9rem; border-bottom: 1px solid var(--line); }
+  dt { color: var(--text-muted); }
+  dd { margin: 0; text-align: right; }
+  dd a { text-decoration: underline; text-underline-offset: 0.2em; }
+  .todo { color: var(--text-muted); font-size: var(--step--1); }
 </style>

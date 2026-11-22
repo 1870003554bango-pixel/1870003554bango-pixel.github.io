@@ -1,0 +1,239 @@
+---
+// Working reading settings. Every control changes the real page and is remembered
+// in this browser (localStorage). The <head> script in Base.astro re-applies them.
+---
+
+<section class="panel" aria-labelledby="reading-title">
+  <h2 id="reading-title" class="sr-only">阅读设置</h2>
+
+  <div class="cell">
+    <span class="eyebrow" id="lbl-motion">减少动效</span>
+    <button class="switch" type="button" role="switch" aria-checked="false" aria-labelledby="lbl-motion" data-pref="motion">
+      <span class="knob" aria-hidden="true"></span><span class="state">关</span>
+    </button>
+  </div>
+
+  <div class="cell">
+    <span class="eyebrow" id="lbl-underline">链接下划线</span>
+    <button class="switch" type="button" role="switch" aria-checked="false" aria-labelledby="lbl-underline" data-pref="underline">
+      <span class="knob" aria-hidden="true"></span><span class="state">关</span>
+    </button>
+  </div>
+
+  <div class="cell wide">
+    <span class="eyebrow" id="lbl-scale">字号</span>
+    <div class="seg" role="group" aria-labelledby="lbl-scale" data-pref="scale">
+      <button type="button" data-value="1" aria-pressed="true">100%</button>
+      <button type="button" data-value="1.12" aria-pressed="false">112%</button>
+      <button type="button" data-value="1.25" aria-pressed="false">125%</button>
+    </div>
+  </div>
+
+  <div class="cell">
+    <label class="eyebrow" for="pref-contrast">对比度</label>
+    <div class="range">
+      <input id="pref-contrast" type="range" min="0" max="2" step="1" value="0" data-pref="contrast" aria-valuetext="标准" />
+      <output for="pref-contrast">标准</output>
+    </div>
+  </div>
+
+  <div class="cell">
+    <span class="eyebrow" id="lbl-leading">行高</span>
+    <div class="stepper" role="group" aria-labelledby="lbl-leading" data-pref="leading">
+      <button type="button" data-step="-0.1" aria-label="减小行高">−</button>
+      <output aria-live="polite">1.65</output>
+      <button type="button" data-step="0.1" aria-label="增大行高">+</button>
+    </div>
+  </div>
+
+  <div class="cell wide">
+    <span class="eyebrow" id="lbl-theme">外观</span>
+    <div class="seg" role="group" aria-labelledby="lbl-theme" data-pref="theme">
+      <button type="button" data-value="light" aria-pressed="false">浅色</button>
+      <button type="button" data-value="dark" aria-pressed="false">深色</button>
+      <button type="button" data-value="system" aria-pressed="true">系统</button>
+    </div>
+  </div>
+</section>
+
+<script>
+  type Prefs = {
+    motion?: 'reduce' | 'full';
+    scale?: string;
+    contrast?: number;
+    leading?: string;
+    theme?: 'light' | 'dark' | 'system';
+    underline?: boolean;
+  };
+  const KEY = 'reading-prefs';
+  const root = document.documentElement;
+  const contrastNames = ['标准', '较高', '最高'];
+
+  function load(): Prefs {
+    try { return JSON.parse(localStorage.getItem(KEY) || '{}'); } catch { return {}; }
+  }
+  function save(p: Prefs) {
+    try { localStorage.setItem(KEY, JSON.stringify(p)); } catch { /* storage blocked: settings still apply for this visit */ }
+  }
+
+  let prefs = load();
+  const systemReduce = matchMedia('(prefers-reduced-motion: reduce)');
+
+  function apply() {
+    // motion
+    if (prefs.motion) root.dataset.motion = prefs.motion; else delete root.dataset.motion;
+    const reduced = prefs.motion ? prefs.motion === 'reduce' : systemReduce.matches;
+    setSwitch('motion', reduced);
+    document.querySelectorAll<HTMLVideoElement>('video[autoplay]').forEach((v) => (reduced ? v.pause() : v.play().catch(() => {})));
+
+    // scale
+    root.style.setProperty('--scale', prefs.scale ?? '1');
+    setSeg('scale', prefs.scale ?? '1');
+
+    // contrast
+    const c = prefs.contrast ?? 0;
+    if (c) root.dataset.contrast = String(c); else delete root.dataset.contrast;
+    const range = document.querySelector<HTMLInputElement>('[data-pref="contrast"]')!;
+    range.value = String(c);
+    range.setAttribute('aria-valuetext', contrastNames[c]);
+    range.nextElementSibling!.textContent = contrastNames[c];
+
+    // leading
+    const l = prefs.leading ?? '1.65';
+    root.style.setProperty('--leading', l);
+    document.querySelector('[data-pref="leading"] output')!.textContent = l;
+
+    // theme
+    const t = prefs.theme ?? 'system';
+    if (t === 'system') delete root.dataset.theme; else root.dataset.theme = t;
+    setSeg('theme', t);
+
+    // underline
+    if (prefs.underline) root.dataset.underline = '1'; else delete root.dataset.underline;
+    setSwitch('underline', !!prefs.underline);
+  }
+
+  function setSwitch(name: string, on: boolean) {
+    const el = document.querySelector(`[data-pref="${name}"]`)!;
+    el.setAttribute('aria-checked', String(on));
+    el.querySelector('.state')!.textContent = on ? '开' : '关';
+  }
+  function setSeg(name: string, value: string) {
+    document.querySelectorAll(`[data-pref="${name}"] button`).forEach((b) =>
+      b.setAttribute('aria-pressed', String((b as HTMLElement).dataset.value === value)),
+    );
+  }
+  function update(p: Partial<Prefs>) {
+    prefs = { ...prefs, ...p };
+    save(prefs);
+    apply();
+  }
+
+  document.querySelector('[data-pref="motion"]')!.addEventListener('click', (e) => {
+    const on = (e.currentTarget as HTMLElement).getAttribute('aria-checked') === 'true';
+    update({ motion: on ? 'full' : 'reduce' });
+  });
+  document.querySelector('[data-pref="underline"]')!.addEventListener('click', () => update({ underline: !prefs.underline }));
+  document.querySelectorAll('[data-pref="scale"] button').forEach((b) =>
+    b.addEventListener('click', () => update({ scale: (b as HTMLElement).dataset.value })),
+  );
+  document.querySelectorAll('[data-pref="theme"] button').forEach((b) =>
+    b.addEventListener('click', () => update({ theme: (b as HTMLElement).dataset.value as Prefs['theme'] })),
+  );
+  document.querySelector('[data-pref="contrast"]')!.addEventListener('input', (e) =>
+    update({ contrast: Number((e.target as HTMLInputElement).value) }),
+  );
+  document.querySelectorAll('[data-pref="leading"] button').forEach((b) =>
+    b.addEventListener('click', () => {
+      const next = Math.min(2.1, Math.max(1.4, parseFloat(prefs.leading ?? '1.65') + parseFloat((b as HTMLElement).dataset.step!)));
+      update({ leading: next.toFixed(2).replace(/0$/, '') });
+    }),
+  );
+  systemReduce.addEventListener('change', apply);
+  apply();
+</script>
+
+<style>
+  .panel {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.6rem;
+    max-width: 46rem;
+    margin-inline: auto;
+  }
+  @media (max-width: 40rem) {
+    .panel { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .wide { grid-column: 1 / -1; }
+  }
+  .cell {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 0.6rem;
+    padding: 0.8rem 0.9rem;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    text-align: left;
+  }
+  .cell .eyebrow { font-size: 0.66rem; }
+
+  button {
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+    background: none;
+    border: 0;
+  }
+
+  .switch {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    min-height: 44px;
+    margin-block: -0.4rem;
+    font-size: var(--step--1);
+  }
+  .knob {
+    position: relative;
+    width: 2.1rem;
+    height: 1.2rem;
+    border-radius: 999px;
+    background: var(--line);
+    transition: background 200ms ease-out;
+  }
+  .knob::after {
+    content: '';
+    position: absolute;
+    top: 0.15rem;
+    left: 0.15rem;
+    width: 0.9rem;
+    height: 0.9rem;
+    border-radius: 50%;
+    background: var(--surface);
+    box-shadow: 0 0 0 1px var(--line-strong);
+    transition: transform 200ms ease-out;
+  }
+  .switch[aria-checked='true'] .knob { background: var(--ink); }
+  .switch[aria-checked='true'] .knob::after { transform: translateX(0.9rem); box-shadow: none; }
+
+  .seg { display: flex; gap: 2px; padding: 2px; background: var(--bg); border-radius: 8px; }
+  .seg button {
+    flex: 1;
+    min-height: 40px;
+    border-radius: 6px;
+    font-size: var(--step--1);
+    white-space: nowrap;
+    color: var(--text-muted);
+  }
+  .seg button[aria-pressed='true'] { background: var(--surface); color: var(--text); box-shadow: 0 0 0 1px var(--line); }
+
+  .range { display: flex; align-items: center; gap: 0.6rem; min-height: 40px; }
+  .range input { flex: 1; min-width: 0; accent-color: var(--ink); }
+  .range output { font-size: var(--step--1); min-width: 2.5em; text-align: right; }
+
+  .stepper { display: flex; align-items: center; justify-content: space-between; background: var(--bg); border-radius: 8px; padding: 2px; }
+  .stepper button { width: 44px; min-height: 40px; border-radius: 6px; font-size: var(--step-0); }
+  .stepper button:hover { background: var(--surface); }
+  .stepper output { font-size: var(--step--1); font-variant-numeric: tabular-nums; }
+</style>

@@ -1,17 +1,23 @@
 ---
+import '@fontsource-variable/inter';
+import '@fontsource/caveat/500.css';
 import '../styles/global.css';
 import { url } from '../lib/url';
+import { site } from '../site';
 
 interface Props {
   title?: string;
   description?: string;
 }
 
-const siteName = '作品集';
-const { title, description = '个人作品集' } = Astro.props;
-const fullTitle = title ? `${title} · ${siteName}` : siteName;
-const path = Astro.url.pathname;
-const isActive = (href: string) => path.startsWith(url(href));
+const { title, description = site.description } = Astro.props;
+const fullTitle = title ? `${title} · ${site.name}` : site.name;
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const home = url('/').replace(/\/$/, '') || '/';
+const nav = [
+  { href: url('/'), label: '作品', current: path === home || path.startsWith(url('/work')) },
+  { href: url('/about'), label: '关于', current: path.startsWith(url('/about')) },
+];
 ---
 
 <!doctype html>
@@ -24,21 +30,40 @@ const isActive = (href: string) => path.startsWith(url(href));
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <link rel="icon" type="image/svg+xml" href={url('/favicon.svg')} />
+    <!-- Apply saved reading settings before first paint (no flash). -->
+    <script is:inline>
+      try {
+        var p = JSON.parse(localStorage.getItem('reading-prefs') || '{}');
+        var r = document.documentElement;
+        if (p.motion) r.dataset.motion = p.motion;
+        if (p.theme && p.theme !== 'system') r.dataset.theme = p.theme;
+        if (p.contrast) r.dataset.contrast = String(p.contrast);
+        if (p.underline) r.dataset.underline = '1';
+        if (p.scale) r.style.setProperty('--scale', p.scale);
+        if (p.leading) r.style.setProperty('--leading', p.leading);
+      } catch (e) {}
+    </script>
   </head>
   <body>
     <a class="skip" href="#main">跳到正文</a>
     <header class="site-header wrap">
-      <a class="brand" href={url('/')}>{siteName}</a>
+      <a class="brand" href={url('/')}>
+        <span class="avatar" aria-hidden="true">{site.initials}</span>
+        <span>{site.name}</span>
+      </a>
       <nav aria-label="主导航">
-        <a href={url('/')} aria-current={path === url('/') || path === url('/').replace(/\/$/, '') ? 'page' : undefined}>作品</a>
-        <a href={url('/about')} aria-current={isActive('/about') ? 'page' : undefined}>关于</a>
+        {nav.map((n) => (
+          <a class="nav-link" href={n.href} aria-current={n.current ? 'page' : undefined}>{n.label}</a>
+        ))}
+        <a class="contact" href={url('/about#contact')}>联系我 <span aria-hidden="true">→</span></a>
       </nav>
     </header>
-    <main id="main" class="wrap">
+    <main id="main">
       <slot />
     </main>
     <footer class="site-footer wrap">
-      <p>© {new Date().getFullYear()}</p>
+      <span>© {new Date().getFullYear()} {site.name}</span>
+      <span>Astro · GitHub Pages</span>
     </footer>
   </body>
 </html>
@@ -49,23 +74,64 @@ const isActive = (href: string) => path.startsWith(url(href));
     align-items: center;
     justify-content: space-between;
     gap: var(--space-2);
-    padding-block: var(--space-3);
+    padding-block: var(--space-2);
   }
-  .brand { font-weight: 600; text-decoration: none; }
-  nav { display: flex; gap: var(--space-1); }
-  nav a, .brand {
-    min-height: 44px;
+  .brand {
     display: inline-flex;
     align-items: center;
-    padding-inline: var(--space-1);
-    text-decoration: none;
+    gap: 0.6rem;
+    min-height: 44px;
+    font-size: var(--step--1);
+    font-weight: 500;
   }
-  nav a[aria-current='page'] { text-decoration: underline; }
+  .avatar {
+    display: inline-grid;
+    place-items: center;
+    width: 1.9rem;
+    height: 1.9rem;
+    border-radius: 50%;
+    background: var(--ink);
+    color: var(--on-ink);
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+  nav { display: flex; align-items: center; gap: 0.25rem; }
+  .nav-link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding-inline: 0.7rem;
+    font-size: var(--step--1);
+    color: var(--text-muted);
+  }
+  .nav-link:hover, .nav-link[aria-current='page'] { color: var(--text); }
+  .contact {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    min-height: 44px;
+    margin-left: 0.4rem;
+    padding: 0 1rem;
+    border-radius: 999px;
+    background: var(--ink);
+    color: var(--on-ink);
+    font-size: var(--step--1);
+    font-weight: 500;
+  }
+  .contact span { transition: transform 200ms ease-out; }
+  .contact:hover span { transform: translateX(2px); }
+
   .site-footer {
-    margin-top: var(--space-5);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--space-1);
     padding-block: var(--space-4);
-    border-top: 1px solid var(--line);
     color: var(--text-muted);
     font-size: var(--step--1);
+  }
+  @media (max-width: 30rem) {
+    .brand > span:last-child { display: none; }
   }
 </style>

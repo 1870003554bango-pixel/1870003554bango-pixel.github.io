@@ -2,56 +2,89 @@
 import { getCollection, render, type CollectionEntry } from 'astro:content';
 import { Image } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
+import Demo from '../../components/Demo.astro';
 import { url } from '../../lib/url';
 
 export async function getStaticPaths() {
-  const work = await getCollection('work', ({ data }) => !data.draft);
-  return work.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+  const work = (await getCollection('work', ({ data }) => !data.draft)).sort((a, b) => a.data.order - b.data.order);
+  return work.map((entry, i) => ({
+    params: { slug: entry.id },
+    props: { entry, next: work[(i + 1) % work.length] },
+  }));
 }
 
-interface Props { entry: CollectionEntry<'work'> }
-const { entry } = Astro.props;
+interface Props { entry: CollectionEntry<'work'>; next: CollectionEntry<'work'> }
+const { entry, next } = Astro.props;
 const { Content } = await render(entry);
 const d = entry.data;
 ---
 
 <Base title={d.title} description={d.summary}>
   <article>
-    <p class="back"><a href={url('/')}>← 全部作品</a></p>
-    <header class="head">
+    <header class="head wrap">
+      <p class="back"><a href={url('/')}>← 全部作品</a></p>
+      <p class="eyebrow">{d.type} · {d.year}</p>
       <h1>{d.title}</h1>
       <p class="summary">{d.summary}</p>
-      <dl class="facts">
-        <div><dt>时间</dt><dd>{d.year}</dd></div>
-        <div><dt>角色</dt><dd>{d.role}</dd></div>
-        <div><dt>工具</dt><dd>{d.tools.join(' · ')}</dd></div>
-        <div><dt>类型</dt><dd>{d.type}</dd></div>
-      </dl>
     </header>
-    {d.cover && (
-      <Image class="cover" src={d.cover} alt={d.coverAlt ?? ''} widths={[960, 1600, 2400]} sizes="(min-width: 72rem) 72rem, 100vw" />
-    )}
-    <div class="prose">
-      <Content />
+
+    <div class="wrap">
+      <dl class="facts">
+        <div><dt class="eyebrow">时间</dt><dd>{d.year}</dd></div>
+        <div><dt class="eyebrow">角色</dt><dd>{d.role}</dd></div>
+        <div><dt class="eyebrow">工具</dt><dd>{d.tools.join(' · ')}</dd></div>
+        <div><dt class="eyebrow">类型</dt><dd>{d.type}</dd></div>
+      </dl>
+
+      {d.demo ? (
+        <Demo src={d.demo.src} label={d.demo.label} ratio={d.demo.ratio} poster={d.cover} title={d.title} />
+      ) : d.cover && (
+        <Image class="cover" src={d.cover} alt={d.coverAlt ?? ''} widths={[960, 1600, 2400]} sizes="(min-width: 70rem) 70rem, 100vw" />
+      )}
+
+      <div class="prose body">
+        <Content />
+      </div>
     </div>
+
+    {next.id !== entry.id && (
+      <nav class="next" aria-label="下一个项目">
+        <a class="wrap" href={url(`/work/${next.id}`)}>
+          <span class="eyebrow">下一个项目</span>
+          <span class="next-title">{next.data.title} <span aria-hidden="true">→</span></span>
+        </a>
+      </nav>
+    )}
   </article>
 </Base>
 
 <style>
-  .back { margin: var(--space-2) 0 var(--space-3); font-size: var(--step--1); }
-  .back a { display: inline-flex; min-height: 44px; align-items: center; color: var(--text-muted); }
-  .head { max-width: var(--measure); margin-bottom: var(--space-4); }
-  .head h1 { font-size: var(--step-3); margin: 0 0 var(--space-2); }
-  .summary { font-size: var(--step-1); margin: 0 0 var(--space-3); }
+  .head { text-align: center; padding-block: var(--space-4) var(--space-4); }
+  .back { margin: 0 0 var(--space-4); font-size: var(--step--1); }
+  .back a { display: inline-flex; align-items: center; min-height: 44px; color: var(--text-muted); }
+  .back a:hover { color: var(--text); }
+  .head .eyebrow { margin: 0 0 0.6rem; }
+  .head h1 { margin: 0 auto var(--space-2); font-size: var(--step-3); font-weight: 300; letter-spacing: -0.02em; }
+  .summary { max-width: 34em; margin: 0 auto; color: var(--text-muted); font-size: var(--step-1); line-height: 1.5; font-weight: 300; }
+
   .facts {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: var(--space-2);
-    margin: 0;
-    padding-top: var(--space-2);
-    border-top: 1px solid var(--line);
+    margin: 0 0 var(--space-4);
+    padding-block: var(--space-2);
+    border-block: 1px solid var(--line);
   }
-  .facts dt { font-size: var(--step--1); color: var(--text-muted); }
-  .facts dd { margin: 0; }
-  .cover { width: 100%; height: auto; border-radius: 4px; margin-bottom: var(--space-4); }
+  @media (max-width: 40rem) { .facts { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  .facts dt { margin-bottom: 0.2rem; }
+  .facts dd { margin: 0; font-size: var(--step--1); }
+
+  .cover { width: 100%; height: auto; border-radius: var(--radius-lg); margin-bottom: var(--space-4); }
+  .body { margin-inline: auto; }
+
+  .next { margin-top: var(--space-6); background: var(--band); }
+  .next a { display: flex; flex-direction: column; gap: 0.4rem; padding-block: var(--space-5); text-align: center; }
+  .next-title { font-size: var(--step-3); font-weight: 300; letter-spacing: -0.02em; }
+  .next-title span { display: inline-block; transition: transform 200ms ease-out; }
+  .next a:hover .next-title span { transform: translateX(4px); }
 </style>

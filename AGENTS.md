@@ -18,7 +18,8 @@ Personal portfolio site. Astro 7, static output, deployed to GitHub Pages by
 | Short videos (compressed) | `public/video/<slug>/` |
 | Runnable p5.js sketches | `public/sketches/<name>/index.html` (+ sketch.js) |
 | Other runnable web demos | `public/demos/<name>/` |
-| Reusable embeds | `src/components/` (Bilibili, Video, P5Sketch, FigmaEmbed, Gallery) |
+| Reusable embeds | `src/components/` — `Demo` (click-to-run p5/web demos, set via `demo:` frontmatter), `WorkCard`, `ReadingPanel`, `Ticker`; still to build: Bilibili, Video, FigmaEmbed, Gallery |
+| Name, headline, ticker, tools, contact | `src/site.ts` (single place for personal text) |
 | Helper scripts (ffmpeg etc.) | `scripts/` |
 
 Raw source material lives OUTSIDE this repo, in sibling folders on the drive
@@ -38,6 +39,9 @@ Raw source material lives OUTSIDE this repo, in sibling folders on the drive
 - Internal links and `public/` asset URLs go through `url()` from `src/lib/url.ts`
   (the site may be served under `/<repo>/`). Never hard-code a leading `/` in an `href`/`src`.
 - Colours, spacing and type come from the tokens in `src/styles/global.css`. No raw hex in components.
+- Visual language (chosen 2026-11-22): warm off-white, light-weight large type, one yellow accent
+  (ticker band + hand-drawn underline), hairline cards on a grey band, working reading-settings panel.
+  Keep it; don't add a second accent.
 - Follow the user's global UI rules: one accent colour, no gradients/glow/glassmorphism, hairline
   borders over shadows, body text ≥ 16px, visible focus states, click targets ≥ 44px,
   status never by colour alone, motion only when it explains something and respects reduced motion.
@@ -54,3 +58,7 @@ Raw source material lives OUTSIDE this repo, in sibling folders on the drive
 
 The repo sits on an exFAT external drive: macOS writes `._*` files (ignored in `.gitignore`),
 and `core.fileMode` is set to false. Use npm, not pnpm (pnpm needs symlinks).
+
+If the dev server shows stale content after changing `src/content.config.ts` (a new frontmatter
+field missing in dev but present in `npm run build`), stop the server and delete both caches:
+`rm -rf .astro node_modules/.astro`, then restart.
