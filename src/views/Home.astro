@@ -31,7 +31,7 @@ const cards = featured.slice(0, 4);
     </div>
     <figure class="hero-media">
       <Image src={rocket} alt={t('home.hero.alt')} widths={[640, 960, 1400, 2000]}
-        sizes="(min-width: 75rem) 480px, (min-width: 56rem) 42vw, 100vw"
+        sizes="(min-width: 75rem) 560px, (min-width: 56rem) 48vw, 100vw"
         loading="eager" fetchpriority="high" />
       <figcaption class="eyebrow">{t('home.hero.caption')}</figcaption>
     </figure>
@@ -83,7 +83,7 @@ const cards = featured.slice(0, 4);
     padding-block: var(--space-5) var(--space-6);
   }
   @media (min-width: 56rem) {
-    .hero { grid-template-columns: minmax(0, 11fr) minmax(0, 9fr); gap: var(--space-5); min-height: calc(88vh - var(--header-h)); }
+    .hero { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--space-5); min-height: calc(88vh - var(--header-h)); }
   }
   .hero-text { display: grid; gap: var(--space-3); justify-items: start; }
   .hero-text .eyebrow { margin: 0; }
