@@ -24,8 +24,8 @@ const en = {
     'Bottle Passport explores how interaction design can encourage more responsible recycling habits on a university campus. It connects a simple action — returning a drink container — with personal progress, rewards and a wider environmental purpose.',
   ctaPrimary: 'See how it works',
   ctaSecondary: 'Try the bottle journey',
-  heroAlt: 'A smart bin on campus with a touch screen asking "Was it correct?" above the opening.',
-  heroCaption: 'Observation photo by the team: an existing smart bin on campus. This is not the Bottle Passport system.',
+  heroAlt: 'Cover of the team report: "Bottle Passport — A Campus-Based System for Reducing Marine Plastic Pollution" in white over blue water.',
+  heroCaption: 'Cover of the team’s final report, DESN3003.',
   details: [
     { k: 'Course', v: 'DESN3003 — Major Project' },
     { k: 'Project type', v: 'Team project · 5 members' },
@@ -254,8 +254,8 @@ const zh: Copy = {
     'Bottle Passport 探索如何通过交互设计，让校园里的日常回收行为变得更容易参与、更有反馈。我们希望把归还饮料瓶这样一个简单的动作，与个人记录、奖励机制以及海洋环境保护联系起来。',
   ctaPrimary: '看看它如何运作',
   ctaSecondary: '体验瓶子的两种去向',
-  heroAlt: '校园里的一台智能垃圾桶，投放口上方的触摸屏显示"Was it correct?"。',
-  heroCaption: '团队拍摄的观察照片：校园里现有的智能垃圾桶，并不是 Bottle Passport 系统。',
+  heroAlt: '团队报告封面：蓝色水面上的白字"Bottle Passport — A Campus-Based System for Reducing Marine Plastic Pollution"。',
+  heroCaption: '团队期末报告封面，DESN3003。',
   details: [
     { k: '课程', v: 'DESN3003 — 毕业设计' },
     { k: '项目类型', v: '团队项目 · 5 人' },

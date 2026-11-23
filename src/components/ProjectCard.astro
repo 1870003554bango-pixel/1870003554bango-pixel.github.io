@@ -13,7 +13,7 @@ const H = headingLevel;
 <a class="card" href={page(lang, `/work/${p.slug}/`)}>
   <div class="media">
     <Cover image={p.cover} alt={p.cover ? p.coverAlt[lang] : ''} ratio="4 / 3" widths={[480, 800, 1200]}
-      sizes="(min-width: 48rem) 560px, 100vw" todo={t('project.coverTodo')} />
+      sizes="(min-width: 48rem) 560px, 100vw" todo={t('project.coverTodo')} fit={p.coverFit} />
     <span class="view" aria-hidden="true">{t('card.view')} ↗</span>
   </div>
   <div class="text">

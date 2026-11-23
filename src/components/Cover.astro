@@ -11,12 +11,14 @@ interface Props {
   sizes: string;
   todo: string;
   loading?: 'lazy' | 'eager';
+  /** 'contain' shows the whole image on a dark ground instead of cropping it to the frame. */
+  fit?: 'cover' | 'contain';
 }
-const { image, alt, ratio, widths, sizes, todo, loading = 'lazy' } = Astro.props;
+const { image, alt, ratio, widths, sizes, todo, loading = 'lazy', fit = 'cover' } = Astro.props;
 ---
 
 {image ? (
-  <Image class="cover" src={image} alt={alt} widths={widths} sizes={sizes} loading={loading} style={`aspect-ratio: ${ratio}`} />
+  <Image class:list={['cover', { contain: fit === 'contain' }]} src={image} alt={alt} widths={widths} sizes={sizes} loading={loading} style={`aspect-ratio: ${ratio}`} />
 ) : (
   <div class="placeholder cover" style={`aspect-ratio: ${ratio}`} role="img" aria-label={`TODO: ${todo}`}>
     <span><strong>TODO</strong><br />{todo}</span>
@@ -25,4 +27,5 @@ const { image, alt, ratio, widths, sizes, todo, loading = 'lazy' } = Astro.props
 
 <style>
   .cover { width: 100%; height: auto; object-fit: cover; border-radius: var(--radius); }
+  .cover.contain { object-fit: contain; background: var(--dark); }
 </style>

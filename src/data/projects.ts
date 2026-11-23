@@ -15,7 +15,7 @@ import ufoCover from '../assets/ufo-skyfeed/cover.jpg';
 import identityCover from '../assets/identity-press/cover.jpg';
 import cocoaCover from '../assets/cocoa-reserve/blender-draft-closed.jpg';
 import scamCover from '../assets/scam-ready/hero-landing.jpg';
-import bottleCover from '../assets/bottle-passport/obs-feedback-screen.jpg';
+import bottleCover from '../assets/bottle-passport/report-cover.jpg';
 
 type L = Record<Lang, string>;
 export type Category = 'interactive' | 'film' | 'immersive' | 'visual';
@@ -45,6 +45,8 @@ export interface Project {
   role: L | null;
   tools: string[];
   cover: ImageMetadata | null;
+  /** 'contain' = show the whole cover on a dark ground (e.g. a wide title page in the 4:3 card). */
+  coverFit?: 'cover' | 'contain';
   coverAlt: L;
   overview: L | null;
   process: L[];
@@ -226,9 +228,10 @@ export const projects: Project[] = [
     role: { en: 'Project concept development & planning', zh: '项目整体构思规划与设计深化' },
     tools: [],
     cover: bottleCover,
+    coverFit: 'contain',
     coverAlt: {
-      en: 'Observation photo: an existing smart bin on campus asking "Was it correct?" on its screen.',
-      zh: '观察照片：校园里现有的智能垃圾桶，屏幕上显示"Was it correct?"。',
+      en: 'Cover of the team report: "Bottle Passport — A Campus-Based System for Reducing Marine Plastic Pollution" in white over blue water.',
+      zh: '团队报告封面：蓝色水面上的白字"Bottle Passport — A Campus-Based System for Reducing Marine Plastic Pollution"。',
     },
     overview: null,
     process: [],
