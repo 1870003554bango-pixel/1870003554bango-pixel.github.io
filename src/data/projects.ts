@@ -336,7 +336,7 @@ export const projects: Project[] = [
   {
     slug: 'urban-pulse',
     order: 7,
-    status: 'published',
+    status: 'hidden', // no images or text yet — publish again once it has content
     featured: false,
     categories: ['visual'],
     title: 'Urban Pulse',

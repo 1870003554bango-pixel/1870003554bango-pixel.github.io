@@ -405,14 +405,13 @@ export const copy = {
     eyebrow: '17 / Teamwork',
     title: 'A collaborative project shaped through research and prototyping.',
     body: 'Scam Ready was developed by a four-person team. The research, decisions and prototype described on this page are the team’s shared work.',
-    // TODO (Sitan): replace each value with your confirmed individual contribution before publishing.
+    // Fill in a value to show that line under “My contribution”; empty values are not shown.
     mine: [
       { k: 'Research and problem framing', v: null as string | null },
       { k: 'Interaction flow and learning logic', v: null as string | null },
       { k: 'Figma prototype and motion design', v: null as string | null },
       { k: 'Testing, iteration and documentation', v: null as string | null },
     ],
-    pending: 'Individual contribution to be confirmed',
   },
 
   references: [

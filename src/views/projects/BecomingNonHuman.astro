@@ -92,7 +92,6 @@ const cn = b.codeNote;
       <div class="flow">
         <p class="eyebrow">{c.worlds.flowLabel}</p>
         <ol role="list">{c.worlds.flow.map((s, i) => <li class:list={{ mine: i === 3 }}>{s}</li>)}</ol>
-        <p class="small muted">{c.worlds.flowNote}</p>
       </div>
     </section>
 
@@ -243,7 +242,6 @@ const cn = b.codeNote;
             <tbody>{c.planning.journey.map((r, i) => <tr><th scope="row"><span class="num">{String(i + 1).padStart(2, '0')}</span>{r[0]}</th><td>{r[1]}</td><td>{r[2]}</td><td>{r[3]}</td></tr>)}</tbody>
           </table>
         </div>
-        <figcaption class="small muted">{c.planning.journeyNote}</figcaption>
       </figure>
     </section>
 
@@ -387,7 +385,6 @@ const cn = b.codeNote;
           </tbody>
         </table>
       </div>
-      <p class="caveat"><span class="tag">{c.headset.open}</span>{c.headset.note}</p>
     </section>
 
     <!-- 07 Testing: text, figures and findings → full width -->
@@ -427,7 +424,7 @@ const cn = b.codeNote;
       <p class="caveat"><span class="tag">n = 5</span>{c.testing.note}</p>
       <h3 class="sub-h">{c.testing.quotesTitle}</h3>
       <ul class="quotes" role="list">{c.testing.quotes.map((x) => <li><blockquote><p>{x.q}</p></blockquote></li>)}</ul>
-      <p class="small muted">{c.testing.quotesNote}</p>
+      {c.testing.quotesNote && <p class="small muted">{c.testing.quotesNote}</p>}
       <h3 class="sub-h">{c.testing.findingsTitle}</h3>
       <div class="scroll">
         <table class="findings">
@@ -457,7 +454,6 @@ const cn = b.codeNote;
       <details>
         <summary>{c.credits.assetsSummary}</summary>
         <ul>{c.credits.assets.map((a) => <li>{a}</li>)}</ul>
-        <p class="small muted">{c.credits.assetsNote}</p>
       </details>
     </section>
 

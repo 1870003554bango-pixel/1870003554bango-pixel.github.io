@@ -26,6 +26,8 @@ const img = (key: string): ImageMetadata => {
 };
 const stageImgs = c.flow.stages.map((s) => img(s.key));
 const slides = (list: { key: string; alt: string; caption: string }[]) => list.map((m) => ({ src: img(m.key), alt: m.alt, caption: m.caption }));
+// Only confirmed contribution entries are shown; unconfirmed ones stay hidden.
+const mine = c.contribution.mine.filter((m) => m.v);
 ---
 
 <Base lang={lang} route="/work/scam-ready/" title="Scam Ready" description={c.hero.tagline} image={img('hero-landing')} theme="scam">
@@ -389,10 +391,12 @@ const slides = (list: { key: string; alt: string; caption: string }[]) => list.m
       <h2 id="tm-h">{c.contribution.title}</h2>
       <p>{c.contribution.body}</p>
       <p><strong>Team:</strong> {team.join(' · ')}</p>
-      <h3>My contribution</h3>
-      <dl class="defs contrib">
-        {c.contribution.mine.map((m) => <div><dt>{m.k}</dt><dd>{m.v ?? <span class="todo-inline">{c.contribution.pending}</span>}</dd></div>)}
-      </dl>
+      {mine.length > 0 && (
+        <>
+          <h3>My contribution</h3>
+          <dl class="defs contrib">{mine.map((m) => <div><dt>{m.k}</dt><dd>{m.v}</dd></div>)}</dl>
+        </>
+      )}
     </section>
 
     <!-- 18 Sources -->

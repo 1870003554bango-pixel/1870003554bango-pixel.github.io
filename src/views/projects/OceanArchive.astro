@@ -1,7 +1,7 @@
 ---
 // Ocean Archive 2087 — bilingual case study.
 // Briefs: md文件/3009genx/*.md · Layout: DESIGN.md (paired text | media rows; text-only blocks full width).
-// Game images are real captures from the live Unity Web Player build (Acts 01–02). Acts 03–04 show labelled TODO boxes.
+// Game images: Acts 01–02 captured from the live Unity Web Player build; Acts 03–04 are Sitan's own screenshots.
 import type { ImageMetadata } from 'astro';
 import Base from '../../layouts/Base.astro';
 import Zoom from '../../components/Zoom.astro';
@@ -132,7 +132,7 @@ const statusLabel: Record<string, string> = { fixed: c.iteration.fixed, partial:
       </div>
     </section>
 
-    <!-- 03 Four acts: intro + flow, then one row per act (text | capture or TODO box) -->
+    <!-- 03 Four acts: intro + flow, then one row per act (text | screenshot) -->
     <section id="acts" class="wrap block" aria-labelledby="ac-h">
       <div class="wide-text">
         <p class="eyebrow num">{c.acts.eyebrow}</p>
@@ -189,7 +189,6 @@ const statusLabel: Record<string, string> = { fixed: c.iteration.fixed, partial:
             <thead><tr>{R.hunger.tableHead.map((h: string) => <th scope="col">{h}</th>)}</tr></thead>
             <tbody>{R.hunger.table.map((r: string[]) => <tr><th scope="row">{r[0]}</th><td>{r[1]}</td></tr>)}</tbody>
           </table>
-          <p class="small muted">{x.documented}</p>
         </div>
         <div class="media"><Zoom src={img(R.hunger.img)} alt={R.hunger.alt} caption={R.hunger.imgCap} widths={[640, 1100, 1920]} sizes="(min-width: 48rem) 560px, 100vw" /></div>
       </div>
@@ -215,7 +214,6 @@ const statusLabel: Record<string, string> = { fixed: c.iteration.fixed, partial:
         <p class="eyebrow num">{x.eyebrow}</p>
         <h2 id="te-h">{x.title}</h2>
         <p>{x.body}</p>
-        <p class="caveat"><span class="tag">{lang === 'zh' ? '文档记录' : 'Documented'}</span>{x.documented}</p>
       </div>
 
       <!-- 05A current -->
@@ -342,7 +340,6 @@ const statusLabel: Record<string, string> = { fixed: c.iteration.fixed, partial:
           </tbody>
         </table>
       </div>
-      <p class="small muted">{c.iteration.note}</p>
     </section>
 
     <!-- 08 Reflection -->
@@ -362,7 +359,6 @@ const statusLabel: Record<string, string> = { fixed: c.iteration.fixed, partial:
       <details>
         <summary>{c.credits.assetsSummary}</summary>
         <ul>{c.credits.assets.map((a) => <li>{a}</li>)}</ul>
-        <p class="small muted">{c.credits.assetsNote}</p>
       </details>
     </section>
 

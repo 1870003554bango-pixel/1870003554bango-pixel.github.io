@@ -33,8 +33,6 @@ const en = {
   details: [
     { k: 'Type', v: 'Photography · Video' },
     { k: 'Role', v: 'Photography & filming (individual)' },
-    { k: 'Date', v: 'TBC' },
-    { k: 'Camera', v: 'TBC' },
   ],
   video: {
     eyebrow: '01 / Video',
@@ -62,8 +60,6 @@ const zh: Copy = {
   details: [
     { k: '类型', v: '摄影 · 视频' },
     { k: '角色', v: '拍摄（个人）' },
-    { k: '时间', v: '待补充' },
-    { k: '器材', v: '待补充' },
   ],
   video: {
     eyebrow: '01 / 视频',

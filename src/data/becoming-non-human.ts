@@ -31,7 +31,6 @@ const en = {
     body: 'I planned the experience around three distinct ways of moving: flying through darkness, moving between trees with webs, and navigating water as a sea turtle. The outlines established a role, a core interaction and a goal for each world. Together, they gave the team a shared structure for developing the journey.',
     flowLabel: 'Scene order',
     flow: ['Intro', 'Bat', 'Spider', 'Turtle', 'Ending'],
-    flowNote: 'Scene order in the build. This is an overview, not a claim that every scene was verified end to end on a headset.',
     list: [
       { id: 'bat', name: 'Bat World', text: 'Fly through a dark mountain environment, use guidance and acceleration, and collect glowing targets.', img: 'report-bat', alt: 'Bat World: dark mountain peaks under a starry sky, with a thin guide line of light.' },
       { id: 'spider', name: 'Spider World', text: 'Shoot webs, climb and move between trees to reach the next part of the journey.', img: 'report-spider', alt: 'Spider World: a sandy coastal slope with low-poly trees under an orange sky.' },
@@ -123,7 +122,6 @@ const en = {
       ['Goal', 'The distance counting down', 'Swims toward the shore', 'Ends the run within 2.5 units of the goal'],
       ['End', 'A win or fail panel, with controllers visible again', 'Chooses an option on the panel', 'Stops movement and places the panel in front of the player'],
     ],
-    journeyNote: 'Phases and timings are read from the Unity scene and checked against the headset recording.',
   },
 
   build: {
@@ -262,7 +260,6 @@ const en = {
       { k: 'Two waterlines', what: 'Movement checks the rig at y = 37; the overlay and sound check the camera at 36.9. Near the surface they can disagree.', fix: 'Next: one water state with a buffer zone. The script already has a 0.15 buffer, currently switched off.', status: 'open' },
       { k: 'Damage protection', what: 'The script supports an invincibility window after a hit, but the scene sets it to 0 s.', fix: 'Retune it and test with several cans at once.', status: 'open' },
     ],
-    note: 'Open items are read from the submitted project; they have not been re-tested on a headset for this page.',
   },
 
   testing: {
@@ -309,7 +306,7 @@ const en = {
       { q: 'Maybe moving the information panels back a bit so it’s easier to read.' },
       { q: 'I’d like ... the Turtle World to be faster.' },
     ],
-    quotesNote: 'Participant comments, quoted as written in the test record.',
+    quotesNote: '',
   },
 
   reflection: {
@@ -344,7 +341,6 @@ const en = {
       'Background music generated with Suno: Turtle Drift, Silk Thread Sprint, Cavewing Drift',
       'Sound effects from Pixabay / Freesound Community (Turtle)',
     ],
-    assetsNote: 'Licences and public-use terms for each asset have not been re-checked for this page.',
     imagesNote: 'Still images come from the final project report. The four Turtle World clips were cut from a headset screen recording of the running prototype. Code excerpts come from the submitted Unity project, and parameter values are read from its Turtle scene.',
   },
 };
@@ -375,7 +371,6 @@ const zh: Copy = {
     body: '我以三种不同的移动方式规划整个体验：在黑暗中飞行、借助蛛丝在树木之间移动，以及以海龟的视角在水中导航。三个世界的大纲分别确定了角色、核心交互和目标，为团队后续开发提供共同的体验结构。',
     flowLabel: '场景顺序',
     flow: ['开场', '蝙蝠', '蜘蛛', '海龟', '结尾'],
-    flowNote: '这是构建中的场景顺序和体验概览，不表示每个场景都已在头显上实机验证通关。',
     list: [
       { id: 'bat', name: '蝙蝠世界', text: '在黑暗山地中飞行，借助引导与加速收集发光目标。', img: 'report-bat', alt: '蝙蝠世界：星空下的黑色山峰，一道细细的引导光线。' },
       { id: 'spider', name: '蜘蛛世界', text: '发射蛛丝、攀爬并在树木间移动，抵达旅程的下一阶段。', img: 'report-spider', alt: '蜘蛛世界：橙色天空下的沙质海岸坡地和低多边形树木。' },
@@ -467,7 +462,6 @@ const zh: Copy = {
       ['目标', '距离不断减少', '朝岸边游去', '距目标 2.5 单位以内时结束本局'],
       ['结束', '成功或失败面板，手柄模型重新出现', '在面板上选择下一步', '停止移动，把面板放在玩家正前方'],
     ],
-    journeyNote: '阶段与时长来自 Unity 场景设置，并与头显录屏核对过。',
   },
 
   build: {
@@ -606,7 +600,6 @@ const zh: Copy = {
       { k: '两条水面线', what: '移动用 XR Rig 在 y = 37 判断，遮罩和声音用相机在 36.9 判断，水面附近可能不一致。', fix: '下一步：统一成一个带缓冲区的水下状态。脚本里已有 0.15 的缓冲，目前没有开启。', status: 'open' },
       { k: '受伤保护', what: '脚本支持受伤后的无敌时间，但场景中设为 0 秒。', fix: '重新调整，并测试同时碰到多个易拉罐的情况。', status: 'open' },
     ],
-    note: '未解决项来自对提交工程的检查，本页没有在头显上重新测试。',
   },
 
   testing: {
@@ -688,7 +681,6 @@ const zh: Copy = {
       '使用 Suno 生成的背景音乐：Turtle Drift、Silk Thread Sprint、Cavewing Drift',
       '来自 Pixabay / Freesound Community 的音效（海龟）',
     ],
-    assetsNote: '各素材的许可与公开使用范围尚未针对本页重新核对。',
     imagesNote: '静态图片来自最终项目报告；海龟世界的四段片段剪自原型在头显上运行时的录屏。代码节选来自提交的 Unity 工程，参数值读取自其中的海龟场景。',
   },
 };

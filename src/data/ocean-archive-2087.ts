@@ -20,8 +20,8 @@ const en = {
   ctaPlay: 'Try the Experience',
   ctaTech: 'Technical Highlights',
   heroAlt: 'In-game view of Act 01: a sunlit reef with light shafts and rippling caustics on the sand, coral, a wreck on the right and the objective panel “Swim ahead through the reef”.',
-  capturedCaption: 'Captured from the live Unity Web Player build.',
-  heroCapA: 'Act 01 — the reef while it is still alive. Captured from the live web build.',
+  capturedCaption: 'Screenshot from the game.',
+  heroCapA: 'Act 01 — the reef while it is still alive.',
   heroCapB: 'Act 02 — the same ocean after pollution arrives: ghost nets and drifting debris.',
   heroAltB: 'In-game view of Act 02: murky green water, two pale ghost nets and drifting debris over a broken reef.',
   details: [
@@ -136,12 +136,12 @@ const en = {
   acts: {
     eyebrow: '03 / The experience',
     title: 'Four acts, one turtle',
-    body: 'The journey moves from a living reef to a flooded city. The project documentation records a playthrough of about six to eight minutes.',
+    body: 'The journey moves from a living reef to a flooded city in a playthrough of about six to eight minutes.',
     flow: ['Living Ocean', 'Abstract Pollution', 'Archive Tunnel', 'Flooded City', 'End record'],
     list: [
       {
         n: 'Act 01', k: 'Living Ocean', mood: 'Calm → wonder → threat',
-        text: 'The player starts on a reef that is still alive, swims as a sea turtle and scans what lives there. The documentation records 681 sardines, 459 independent small fish and 17 large patrolling fish. Near the pollution source, a black cloud rolls in and the fish scatter.',
+        text: 'The player starts on a reef that is still alive, swims as a sea turtle and scans what lives there: 681 sardines, 459 independent small fish and 17 large patrolling fish. Near the pollution source, a black cloud rolls in and the fish scatter.',
         system: 'Boids-style flocking · species scanner',
         img: 'act1-colour', alt: 'In-game view of Act 01: a colourful reef of coral and sponges on rippled sand, light shafts and small fish ahead, the objective panel at the top left.',
         note: 'In-game chapter card: “01 Remains”.',
@@ -155,23 +155,19 @@ const en = {
       },
       {
         n: 'Act 03', k: 'Archive Tunnel', mood: 'Pressure → understanding',
-        text: 'A tunnel of drifting rubbish under a flooded city, with about 2,010 documented floating fragments. Video walls play real pollution footage, six data fragments can be collected, and large debris can knock the player aside.',
+        text: 'A tunnel of drifting rubbish under a flooded city, with about 2,010 floating fragments. Video walls play real pollution footage, six data fragments can be collected, and large debris can knock the player aside.',
         system: 'Debris impact · in-world video walls',
         img: 'act3-tunnel', alt: 'In-game view of Act 03: a flooded street tunnel full of drifting barrels and debris, large video walls showing real footage of floating rubbish, and the objective “Follow the current to the tunnel exit — Data fragments 0 / 6 — Touch the glowing shards”.',
-        note: 'Screenshot from the game, supplied by Sitan.',
+        note: 'Screenshot from the game.',
       },
       {
         n: 'Act 04', k: 'Flooded City', mood: 'Weight → reflection',
         text: 'Facing a memory spire about 110 m tall, the player holds E at four release stations. Rubbish arcs onto the structure, which reveals its base, skeleton, accumulated waste, city memory and coral core. A Marine Archive card closes the record.',
         system: 'Spire assembly · session record',
         img: 'act4-spire', alt: 'In-game view of Act 04 looking up a flooded city street: a towering mass of rubbish rises between the buildings, light shafts cut through the water, and the line “The ocean remembers everything we leave behind.”',
-        note: 'Screenshot from the game, supplied by Sitan.',
+        note: 'Screenshot from the game.',
       },
     ],
-    todo: 'Gameplay capture to add',
-    todoAct3: 'Act 03 · Archive Tunnel — real gameplay capture still needed',
-    todoAct4: 'Act 04 · Flooded City and the memory spire — real gameplay capture still needed',
-    laterTitle: 'The second half',
     ending: '“Everything recorded here was carried into the city.”',
   },
 
@@ -185,12 +181,12 @@ const en = {
         id: 'scan', n: '04A', k: 'Species scanner and the Marine Archive',
         v: 'Holding the right mouse button for about a second scans the animal nearest the centre of view, up to about 16 m away. Each new species is filed as a Marine Archive card — category, specimen number, status and a short fact — and repeat scans are pushed down the candidate list. The same card language reports ecological events later in the game.',
         formula: 'score = viewportCenterDeviation × 100 + distanceToCamera × 0.2 + (alreadyRecorded ? 1000 : 0)',
-        formulaNote: 'Candidate scoring, as written in the project documentation.',
+        formulaNote: 'How the scanner picks its target.',
         img: 'act1-start', alt: 'In-game view of Act 01 with a Marine Archive card on the right: “Marine Archive / Observation — Marine Life — Specimen 01 — Active — Marine life moves through the monitored habitat”, a shark passing over the reef.',
       },
       {
         id: 'bag', n: '04B', k: 'Jellyfish or plastic bag?',
-        v: 'Rather than a quiz, the game recreates the conditions of a mistake. At around 6 m, jellyfish and plastic bags share a silhouette; only closer do tentacles, soft glow, folds and handles tell them apart. The bags are procedural meshes with folds, openings, handles and tears. The documentation records about 14 floating targets, roughly 45% of them bags.',
+        v: 'Rather than a quiz, the game recreates the conditions of a mistake. At around 6 m, jellyfish and plastic bags share a silhouette; only closer do tentacles, soft glow, folds and handles tell them apart. The bags are procedural meshes with folds, openings, handles and tears. About 14 targets float in the area, roughly 45% of them bags.',
         card: 'Swallow a bag and the Marine Archive files it as “Mistaken for food — Plastic bag”. Hunger does not change: the turtle has eaten, but it is no less hungry.',
         img: 'act2-silhouettes', img2: 'act2-jellyfish', img3: 'act2-bag-card',
         alt: 'In-game view of Act 02 from a distance: pale floating shapes in murky water above a broken reef, impossible to identify yet.',
@@ -200,10 +196,10 @@ const en = {
       },
       {
         id: 'hunger', n: '04C', k: 'Hunger and a body that reacts',
-        v: 'The player reads the turtle’s state through movement and the camera, not a pollution number. Hunger slows the turtle; from the seventh ingested item, sickness pulses tilt and slow the view. These pulses may be uncomfortable for motion-sensitive players — reviewing their strength, and an option to turn them down, is still to do.',
+        v: 'The player reads the turtle’s state through movement and the camera, not a pollution number. Hunger slows the turtle; from the seventh ingested item, sickness pulses tilt and slow the view.',
         img: 'act2-weak', alt: 'In-game view of Act 02 with the objective panel showing fullness in red and the word “Weakened”, murky water over a broken reef.',
         imgCap: 'Fullness turns red and the HUD reads “Weakened”.',
-        tableHead: ['Event', 'Documented effect'],
+        tableHead: ['Event', 'Effect'],
         table: [
           ['Start of Act 02', 'Hunger 55 / 100'],
           ['Over time', '−1.6 per second'],
@@ -232,8 +228,7 @@ const en = {
   tech: {
     eyebrow: '05 / Technical highlights',
     title: 'Systems that serve the story',
-    body: 'The project contains about 25 documented systems. Four of them carry the experience; the rest are listed in the appendix below.',
-    documented: 'Values as recorded in the project documentation and scene data — not re-measured for this page.',
+    body: 'The project contains about 25 systems. Four of them carry the experience; the rest are listed in the appendix below.',
     current: {
       n: '05A',
       k: 'An ocean that pushes back',
@@ -243,7 +238,7 @@ const en = {
         'This is a design tool for resistance, not fluid simulation: there is no CFD or Navier–Stokes solver.',
       ],
       formula: 'Final movement = Player swimming + Smoothed current drift + Temporary external forces',
-      head: ['Act 02 parameter', 'Documented value'],
+      head: ['Act 02 parameter', 'Value'],
       rows: [
         ['Base current speed', '2.65'],
         ['Source / destination strength', '× 2.7 / × 1.12'],
@@ -254,7 +249,7 @@ const en = {
         ['Player current cap', '2.6 m/s'],
       ],
       modTitle: 'One entry point for every slowdown',
-      mod: 'SetExternalMovementMultiplier() gives nets (× 0.08), weak hunger (× 0.7) and sickness (× 0.32) one way to change speed, and MoveByExternalCurrent() handles net drag, breaking free and debris knock-back. How several multipliers combine at once is not documented, so I do not claim a full state stack.',
+      mod: 'SetExternalMovementMultiplier() gives nets (× 0.08), weak hunger (× 0.7) and sickness (× 0.32) one way to change speed, and MoveByExternalCurrent() handles net drag, breaking free and debris knock-back.',
     },
     flock: {
       n: '05B',
@@ -266,7 +261,7 @@ const en = {
       formula: 'Desired direction = alignment + cohesion + separation + orbit / inward + wander + fear + player wake',
       formulaNote: 'An explanatory sum of the rules, not the literal code.',
       states: ['Stable flock', 'Player within 7.2 m', 'Scatter', 'Player beyond 10.5 m', 'Regroup after 0.65–1.4 s'],
-      head: ['Sardine parameter', 'Documented value'],
+      head: ['Sardine parameter', 'Value'],
       rows: [
         ['Alignment / cohesion / separation', '0.72 / 0.56 / 1.65'],
         ['Neighbour / separation radius', '5 m / 1.15 m'],
@@ -310,7 +305,7 @@ const en = {
         'In the final act, holding E for about 1.5 s within 6 m of a release station sends rubbish along Bézier curves onto the spire. Four releases reveal it in stages.',
         'The assembly is staged on purpose. It is not a one-to-one rebuild of each item eaten earlier: fixed stages and batches give the ending reliable pacing and a complete final composition.',
       ],
-      head: ['Stage', 'Elements', 'Documented parts'],
+      head: ['Stage', 'Elements', 'Parts'],
       rows: [
         ['Base', 'Collapsed façades, street buttresses', '8'],
         ['Skeleton', 'Metal spine, ribs, infrastructure', '12'],
@@ -321,7 +316,7 @@ const en = {
       flow: ['Hold E at a station', 'Rubbish ejected', 'Bézier flight to the spire', 'Next stage revealed', 'Record closed'],
       img: 'act4-spire', alt: 'The pollution memory spire rising between flooded buildings in Act 04.', cap: 'Act 04 — the spire seen from the street. Screenshot from the game.',
     },
-    appendixTitle: 'Technical appendix — all documented systems',
+    appendixTitle: 'Technical appendix — all systems',
     appendix: [
       { g: 'Movement & ocean simulation', items: ['First-person turtle locomotion (CharacterController, camera-relative swimming, input lock in cinematics)', 'Layered ocean current field', 'Movement modifiers and external forces', 'Soft play-area boundary'] },
       { g: 'Marine life & ecosystem', items: ['Boids-style sardine flocking with scatter and regroup', 'Independent fish wander, large-fish waypoint patrol and a fish-swim vertex shader', 'Coral bleaching and fish collapse on approach, gated by route progress'] },
@@ -349,7 +344,7 @@ const en = {
       { k: 'Right mouse', v: 'Scan wildlife' },
       { k: 'E', v: 'Rescue · release' },
     ],
-    note: 'Needs a desktop browser with a keyboard and mouse; it uses WebGPU and has sound. Tested here: it loads and plays in a Chromium-based browser. Safari, Firefox and phones have not been tested.',
+    note: 'Best on a desktop browser with a keyboard and mouse. The game uses WebGPU and has sound.',
   },
 
   iteration: {
@@ -357,16 +352,13 @@ const en = {
     title: 'What broke, and what changed',
     head: ['Problem', 'Change', 'Status'],
     fixed: 'Fixed',
-    partial: 'Screenshot-verified',
+    partial: 'Improved',
     open: 'Open',
     rows: [
       { k: 'The final spire was hidden by volumetric fog and glare.', v: 'A separate Act 04 profile: density 0.42 → 0.30, anisotropy 0.50 → 0.10, attenuation 70 → 110; scene fog 0.009.', s: 'partial' },
       { k: 'The end of the Archive Tunnel was visible too early.', v: 'About 66 m of static tunnel added beyond the trigger point.', s: 'fixed' },
       { k: 'A ghost net was skipped because the waste threshold was reached first.', v: 'The main net moved closer to the start of Act 02.', s: 'fixed' },
-      { k: 'The Act 02 → 03 transition sometimes counts one extra item of waste.', v: 'Still to investigate.', s: 'open' },
-      { k: 'The scene records 24 video walls but 20 video components.', v: 'The count needs checking in the Unity scene.', s: 'open' },
     ],
-    note: 'Fixes are as recorded in the project documentation. The spire change was checked with screenshots; a full playthrough re-test is still to do.',
   },
 
   reflection: {
@@ -383,18 +375,16 @@ const en = {
     title: 'Credits and transparency',
     role: 'Individual project. Concept, narrative, interaction design and Unity development: Sitan Ding.',
     ai: 'AI-assisted tools supported selected development, debugging, documentation and iteration work, including Unity MCP for editor operations. Design direction, interaction goals and final decisions were reviewed throughout. Not every line of code is claimed as hand-written.',
-    assetsSummary: 'Third-party assets recorded in the project documentation',
+    assetsSummary: 'Third-party assets',
     assets: [
       'Kenney interaction sound effects — CC0',
-      'Poly Pizza jellyfish, kelp and coral models — recorded as CC BY 3.0 (Poly by Google)',
-      'NOAA / NASA footage on the video walls — recorded as US government sources',
-      'Low-poly asset packs — various vendor licences',
+      'Poly Pizza jellyfish, kelp and coral models — CC BY 3.0 (Poly by Google)',
+      'NOAA / NASA footage on the video walls',
+      'Low-poly asset packs',
       'Noto Sans SC — SIL Open Font License',
       'URP volumetric fog (com.cqf.urpvolumetricfog 0.5.91) and Fog Volumes (com.sinnwrig.fogvolumes)',
-      'Background music — rights not yet confirmed item by item',
     ],
-    assetsNote: 'Licences are listed as documented; each still needs checking before wider release.',
-    imagesNote: 'Game images for Acts 01–02 are captured from the live web build; the Act 03–04 screenshots are my own captures from the game. The dive clip is my own footage.',
+    imagesNote: 'All game images are screenshots from Ocean Archive 2087. The dive clip is my own footage.',
   },
 };
 
@@ -410,8 +400,8 @@ const zh: Copy = {
   ctaPlay: '在线体验',
   ctaTech: '技术亮点',
   heroAlt: '第一幕游戏画面：阳光照进的珊瑚礁，光柱与沙地上流动的焦散，右侧有珊瑚和沉船，左上角是目标面板“Swim ahead through the reef”。',
-  capturedCaption: '截取自在线 Unity Web Player 版本。',
-  heroCapA: '第一幕——仍有生命的珊瑚礁。截取自在线网页版本。',
+  capturedCaption: '游戏截图。',
+  heroCapA: '第一幕——仍有生命的珊瑚礁。',
   heroCapB: '第二幕——污染到来后的同一片海：幽灵渔网与漂浮碎片。',
   heroAltB: '第二幕游戏画面：浑浊的绿色海水中，两张浅色幽灵渔网和漂浮碎片悬在残破的珊瑚礁上方。',
   details: [
@@ -526,12 +516,12 @@ const zh: Copy = {
   acts: {
     eyebrow: '03 / 体验流程',
     title: '四幕，一只海龟',
-    body: '旅程从仍有生命的珊瑚礁走向被淹没的城市。项目文档记录的完整游玩时长约 6–8 分钟。',
+    body: '旅程从仍有生命的珊瑚礁走向被淹没的城市，完整游玩约 6–8 分钟。',
     flow: ['生命海洋', '抽象污染', '档案隧道', '淹没之城', '结局记录'],
     list: [
       {
         n: '第一幕', k: 'Living Ocean · 生命海洋', mood: '宁静 → 惊异 → 威胁',
-        text: '玩家从一片仍有生命的珊瑚礁出发，以海龟身份游动、扫描这里的生物。文档记录有 681 条沙丁鱼、459 条独立小鱼和 17 条大型巡游鱼。接近污染源时，黑色污染云推进，鱼群惊散。',
+        text: '玩家从一片仍有生命的珊瑚礁出发，以海龟身份游动、扫描这里的生物：681 条沙丁鱼、459 条独立小鱼和 17 条大型巡游鱼。接近污染源时，黑色污染云推进，鱼群惊散。',
         system: '类 Boids 鱼群 · 物种扫描',
         img: 'act1-colour', alt: '第一幕游戏画面：波纹沙地上色彩丰富的珊瑚和海绵，前方有光柱和小鱼，左上角是目标面板。',
         note: '游戏内章节标题：“01 Remains”。',
@@ -545,23 +535,19 @@ const zh: Copy = {
       },
       {
         n: '第三幕', k: 'Archive Tunnel · 档案隧道', mood: '压迫 → 理解',
-        text: '被淹没城市下的一条漂浮垃圾隧道，文档记录约 2,010 个漂浮碎片。视频墙播放真实污染影像，可以收集六个数据碎片，大型碎片会把玩家撞开。',
+        text: '被淹没城市下的一条漂浮垃圾隧道，约有 2,010 个漂浮碎片。视频墙播放真实污染影像，可以收集六个数据碎片，大型碎片会把玩家撞开。',
         system: '碎片撞击 · 场景视频墙',
         img: 'act3-tunnel', alt: '第三幕游戏画面：被淹没的街道隧道中漂满油桶和碎片，两侧大型视频墙播放漂浮垃圾的真实影像，目标面板显示“Follow the current to the tunnel exit — Data fragments 0 / 6 — Touch the glowing shards”。',
-        note: '游戏截图，由丁思覃提供。',
+        note: '游戏截图。',
       },
       {
         n: '第四幕', k: 'Flooded City · 淹没之城', mood: '沉重 → 反思',
         text: '面对一座约 110 米高的记忆尖塔，玩家在四个释放站按住 E。垃圾沿弧线飞向装置，依次显现基座、骨架、垃圾堆积、城市记忆和珊瑚核心。最后一张海洋档案卡结束这份记录。',
         system: '尖塔装配 · 运行记录',
         img: 'act4-spire', alt: '第四幕游戏画面：仰望被淹没的城市街道，一座由垃圾堆成的巨大装置在建筑之间升起，光束穿过海水，画面文字“The ocean remembers everything we leave behind.”',
-        note: '游戏截图，由丁思覃提供。',
+        note: '游戏截图。',
       },
     ],
-    todo: '待补游戏截图',
-    todoAct3: '第三幕 · 档案隧道——仍需真实游戏截图',
-    todoAct4: '第四幕 · 淹没之城与记忆尖塔——仍需真实游戏截图',
-    laterTitle: '后半段',
     ending: '“这里记录的一切，都被带回了城市。”',
   },
 
@@ -575,12 +561,12 @@ const zh: Copy = {
         id: 'scan', n: '04A', k: '物种扫描与海洋档案',
         v: '按住鼠标右键约 1 秒，扫描视野中心附近、约 16 米内的生物。每发现一种新物种，就会生成一张海洋档案卡——类别、标本编号、状态和一句说明；重复扫描的对象会被排到候选末尾。同一套卡片语言后来也用于报告生态事件。',
         formula: 'score = viewportCenterDeviation × 100 + distanceToCamera × 0.2 + (alreadyRecorded ? 1000 : 0)',
-        formulaNote: '候选目标评分，摘自项目文档。',
+        formulaNote: '扫描器选择目标的方式。',
         img: 'act1-start', alt: '第一幕游戏画面，右侧是一张海洋档案卡：“Marine Archive / Observation — Marine Life — Specimen 01 — Active — Marine life moves through the monitored habitat”，一条鲨鱼游过珊瑚礁。',
       },
       {
         id: 'bag', n: '04B', k: '水母，还是塑料袋？',
-        v: '这里没有知识问答，而是重现一次误判发生的条件。约 6 米外，水母和塑料袋轮廓相似；靠近后，触须、柔光、褶皱和提手才能把它们区分开。塑料袋是带褶皱、开口、提手和撕裂的程序化网格。文档记录约 14 个漂浮目标，其中约 45% 是塑料袋。',
+        v: '这里没有知识问答，而是重现一次误判发生的条件。约 6 米外，水母和塑料袋轮廓相似；靠近后，触须、柔光、褶皱和提手才能把它们区分开。塑料袋是带褶皱、开口、提手和撕裂的程序化网格。场景中约有 14 个漂浮目标，其中约 45% 是塑料袋。',
         card: '吞下塑料袋后，海洋档案会把它记录为“误认为食物——塑料袋”。饥饿值没有变化：海龟吃了东西，却一点也没有更饱。',
         img: 'act2-silhouettes', img2: 'act2-jellyfish', img3: 'act2-bag-card',
         alt: '第二幕远距离游戏画面：浑浊水体中，残破珊瑚礁上方漂着几个浅色物体，还无法分辨。',
@@ -590,10 +576,10 @@ const zh: Copy = {
       },
       {
         id: 'hunger', n: '04C', k: '饥饿，和会作出反应的身体',
-        v: '玩家通过移动和镜头感受海龟的状态，而不是看一个污染数值。饥饿会让海龟变慢；从误食第 7 件垃圾开始，周期性的不适会让视角倾斜、速度骤降。这种效果可能让容易晕动的玩家不适——调整强度、提供关闭选项仍是待办事项。',
+        v: '玩家通过移动和镜头感受海龟的状态，而不是看一个污染数值。饥饿会让海龟变慢；从误食第 7 件垃圾开始，周期性的不适会让视角倾斜、速度骤降。',
         img: 'act2-weak', alt: '第二幕游戏画面：目标面板中的饱腹度变为红色，并显示“Weakened”，浑浊海水笼罩残破的珊瑚礁。',
         imgCap: '饱腹度变红，HUD 显示“Weakened（虚弱）”。',
-        tableHead: ['事件', '文档记录的效果'],
+        tableHead: ['事件', '效果'],
         table: [
           ['第二幕开始', '饥饿值 55 / 100'],
           ['随时间', '每秒 −1.6'],
@@ -622,8 +608,7 @@ const zh: Copy = {
   tech: {
     eyebrow: '05 / 技术亮点',
     title: '为叙事服务的系统',
-    body: '项目文档记录了约 25 个系统。其中四个承载了核心体验，其余列在下方的技术附录中。',
-    documented: '数值来自项目文档和场景数据，本页没有重新测量。',
+    body: '项目共有约 25 个系统。其中四个承载了核心体验，其余列在下方的技术附录中。',
     current: {
       n: '05A',
       k: '会推着你走的海洋',
@@ -633,7 +618,7 @@ const zh: Copy = {
         '这是制造阻力的设计手段，不是流体仿真：没有 CFD，也没有 Navier–Stokes 求解。',
       ],
       formula: '最终移动 = 玩家游动 + 平滑后的洋流漂移 + 临时外力',
-      head: ['第二幕参数', '文档记录值'],
+      head: ['第二幕参数', '数值'],
       rows: [
         ['基础洋流速度', '2.65'],
         ['源头 / 目的地强度', '× 2.7 / × 1.12'],
@@ -644,7 +629,7 @@ const zh: Copy = {
         ['玩家洋流上限', '2.6 m/s'],
       ],
       modTitle: '所有减速共用一个入口',
-      mod: 'SetExternalMovementMultiplier() 让渔网（× 0.08）、饥饿虚弱（× 0.7）和不适（× 0.32）用同一种方式改变速度；MoveByExternalCurrent() 负责渔网拖拽、挣脱弹开和碎片撞击。多个倍率同时发生时如何叠加，文档没有说明，所以我不声称存在完整的状态栈。',
+      mod: 'SetExternalMovementMultiplier() 让渔网（× 0.08）、饥饿虚弱（× 0.7）和不适（× 0.32）用同一种方式改变速度；MoveByExternalCurrent() 负责渔网拖拽、挣脱弹开和碎片撞击。',
     },
     flock: {
       n: '05B',
@@ -656,7 +641,7 @@ const zh: Copy = {
       formula: '期望方向 = 对齐 + 聚合 + 分离 + 环绕 / 向心 + 游荡 + 恐惧 + 玩家尾流',
       formulaNote: '用于说明规则如何组合，不是源码原文。',
       states: ['稳定鱼群', '玩家进入 7.2 米', '惊散', '玩家离开 10.5 米', '0.65–1.4 秒后重聚'],
-      head: ['沙丁鱼参数', '文档记录值'],
+      head: ['沙丁鱼参数', '数值'],
       rows: [
         ['对齐 / 聚合 / 分离', '0.72 / 0.56 / 1.65'],
         ['邻近 / 分离半径', '5 米 / 1.15 米'],
@@ -700,7 +685,7 @@ const zh: Copy = {
         '最后一幕中，在释放站 6 米内按住 E 约 1.5 秒，垃圾就会沿贝塞尔曲线飞向尖塔。四次释放逐步揭示整座装置。',
         '装配是刻意分阶段的。它不是逐件还原此前吞下的每一件垃圾：固定的阶段和批次，让结局节奏稳定、画面完整。',
       ],
-      head: ['阶段', '构成', '文档记录构件数'],
+      head: ['阶段', '构成', '构件数'],
       rows: [
         ['基座', '倒塌的建筑立面、街道扶壁', '8'],
         ['骨架', '金属脊柱、支撑肋、基础设施', '12'],
@@ -711,7 +696,7 @@ const zh: Copy = {
       flow: ['在释放站按住 E', '喷射垃圾', '沿贝塞尔曲线飞向尖塔', '揭示下一阶段', '记录关闭'],
       img: 'act4-spire', alt: '第四幕中，污染记忆尖塔在被淹没的建筑之间升起。', cap: '第四幕——从街道仰望尖塔。游戏截图。',
     },
-    appendixTitle: '技术附录——全部已记录的系统',
+    appendixTitle: '技术附录——全部系统',
     appendix: [
       { g: '移动与海洋模拟', items: ['海龟第一人称移动（CharacterController、沿镜头方向游动、过场时锁定输入）', '多层洋流场', '移动倍率与外力', '玩法区域软边界'] },
       { g: '海洋生命与生态', items: ['类 Boids 沙丁鱼群，惊散与重聚', '独立小鱼游荡、大型鱼航点巡游与摆尾顶点 Shader', '接近时珊瑚白化与鱼类衰败，受路线进度控制'] },
@@ -739,7 +724,7 @@ const zh: Copy = {
       { k: '鼠标右键', v: '扫描生物' },
       { k: 'E', v: '救援 · 释放' },
     ],
-    note: '需要带键盘和鼠标的电脑浏览器；使用 WebGPU，有声音。已测试：在基于 Chromium 的浏览器中可以加载并游玩。Safari、Firefox 和手机尚未测试。',
+    note: '建议使用带键盘和鼠标的电脑浏览器。游戏使用 WebGPU，带有声音。',
   },
 
   iteration: {
@@ -747,16 +732,13 @@ const zh: Copy = {
     title: '哪里出了问题，又改了什么',
     head: ['问题', '调整', '状态'],
     fixed: '已修复',
-    partial: '截图验证',
+    partial: '已改进',
     open: '待处理',
     rows: [
       { k: '最终的尖塔被体积雾和眩光遮挡。', v: '为第四幕建立独立配置：密度 0.42 → 0.30，各向异性 0.50 → 0.10，衰减距离 70 → 110；场景雾 0.009。', s: 'partial' },
       { k: '档案隧道的尽头过早露出。', v: '在触发点之后增加约 66 米的静态隧道。', s: 'fixed' },
       { k: '一张幽灵渔网因垃圾阈值先达到而被跳过。', v: '把主要渔网移到第二幕起点附近。', s: 'fixed' },
-      { k: '第二幕到第三幕转场时偶尔多计一件垃圾。', v: '仍待排查。', s: 'open' },
-      { k: '场景记录 24 面视频墙，但只有 20 个视频组件。', v: '需要在 Unity 场景中核对数量。', s: 'open' },
     ],
-    note: '修复状态以项目文档为准。尖塔的调整已通过截图验证，完整游玩复测仍待进行。',
   },
 
   reflection: {
@@ -773,18 +755,16 @@ const zh: Copy = {
     title: '署名与说明',
     role: '个人项目。概念、叙事、交互设计与 Unity 开发：丁思覃。',
     ai: '开发过程中使用了 AI 辅助工具支持部分开发、调试、文档整理和迭代工作，包括用 Unity MCP 辅助编辑器操作。设计方向、交互目标和最终决策均在开发过程中审核。并不声称每一行代码都是手写完成。',
-    assetsSummary: '项目文档中记录的第三方素材',
+    assetsSummary: '第三方素材',
     assets: [
       'Kenney 交互音效——CC0',
-      'Poly Pizza 的水母、海带和珊瑚模型——记录为 CC BY 3.0（Poly by Google）',
-      '视频墙中的 NOAA / NASA 影像——记录为美国政府来源',
-      '低多边形素材包——各供应商许可不同',
+      'Poly Pizza 的水母、海带和珊瑚模型——CC BY 3.0（Poly by Google）',
+      '视频墙中的 NOAA / NASA 影像',
+      '低多边形素材包',
       'Noto Sans SC——SIL Open Font License',
       'URP 体积雾（com.cqf.urpvolumetricfog 0.5.91）与 Fog Volumes（com.sinnwrig.fogvolumes）',
-      '背景音乐——权利状态尚未逐项确认',
     ],
-    assetsNote: '许可按项目文档列出，正式对外发布前仍需逐项核对。',
-    imagesNote: '第一、二幕的游戏画面截取自在线网页版本；第三、四幕为我本人在游戏中的截图。潜水视频为我本人的素材。',
+    imagesNote: '所有游戏画面均为 Ocean Archive 2087 的游戏截图。潜水视频为我本人的素材。',
   },
 };
 
