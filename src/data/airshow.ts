@@ -39,7 +39,7 @@ const en = {
   video: {
     eyebrow: '01 / Video',
     title: 'From the ground',
-    body: 'A short video I filmed at an airshow, with the original sound. Press play to watch; it does not start on its own.',
+    body: 'A short video I filmed at Pacific Airshow 2026. The sound is not the original recording from the day. Press play to watch; it does not start on its own.',
     note: 'Filmed by Sitan Ding. Compressed for the web.',
   },
   gallery: {
@@ -68,7 +68,7 @@ const zh: Copy = {
   video: {
     eyebrow: '01 / 视频',
     title: '从地面看',
-    body: '我在航展上拍的一段短视频，保留了现场原声。点击播放观看，不会自动播放。',
+    body: '我在 2026 太平洋航展（Pacific Airshow）拍摄的一段短视频。视频的声音不是现场原声。点击播放观看，不会自动播放。',
     note: '丁思覃拍摄，已为网页压缩。',
   },
   gallery: {
