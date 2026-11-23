@@ -3,7 +3,7 @@
  * Source: md文件/3009/Becoming_Non_Human_Portfolio_Brief_EN_ZH.md (copy used as written) and the DECO3009 final report.
  * Confirmed by Sitan: overall world planning + outlines for all three worlds, and Turtle World.
  * Bat and Spider implementations are team work. No year, grade or retest results are stated.
- * Images are from the final report (labelled); no running-prototype captures exist yet → TODO boxes.
+ * Stills are from the final report (labelled); Turtle clips are cut from a headset recording of the prototype.
  */
 import type { Lang } from '../i18n/ui';
 
@@ -75,10 +75,14 @@ const en = {
       { id: 'goal', n: '03D', k: 'A clear destination', v: 'Distance feedback keeps the goal visible throughout the journey. Success and failure states close the loop and make the outcome understandable. The final report suggests that this clearer goal and slower pace helped participants understand Turtle World more easily than the spider scene.' },
     ],
     diagram: { tag: 'Explanatory diagram', input: 'Player input', current: 'Current (varies)', result: 'Actual drift', note: 'A design simulation, not a scientific model of ocean flow.' },
-    todoWater: 'Above / below the waterline — screenshots from the running prototype',
-    todoRubbish: 'Rubbish collision and health feedback — screenshot or clip from the running prototype',
+    clipTag: 'Prototype',
+    clipWater: 'Recorded from the running prototype on the headset: the view rises from under the water to the surface. The clip keeps the recorded sound.',
+    clipWaterLabel: 'Clip: crossing the waterline in Turtle World',
+    clipRubbish: 'Recorded from the running prototype: cans drift past the turtle and health drops from 5 / 5 to 4 / 5.',
+    clipRubbishLabel: 'Clip: rubbish and health in Turtle World',
     goalAlt: 'Turtle World seen from above: the island shore the player swims towards.',
-    todoGoal: 'Distance UI and success / failure screens — screenshots from the running prototype',
+    clipGoal: 'Recorded from the running prototype: the distance counts down from about 16 m to 4.8 m. The recording ends before a success or failure screen appears.',
+    clipGoalLabel: 'Clip: approaching the shore in Turtle World',
   },
 
   vr: {
@@ -150,7 +154,7 @@ const en = {
       'Sound effects from Pixabay / Freesound Community (Turtle)',
     ],
     assetsNote: 'Licences and public-use terms for each asset have not been re-checked for this page.',
-    imagesNote: 'Images on this page come from the final project report. No screenshots or recordings from the running prototype are included yet.',
+    imagesNote: 'Still images come from the final project report. The three Turtle World clips were cut from a headset screen recording of the running prototype.',
   },
 };
 
@@ -224,10 +228,14 @@ const zh: Copy = {
       { id: 'goal', n: '03D', k: '明确的目的地', v: '距离反馈让目标始终可见，成功与失败状态则让体验形成完整闭环。最终报告显示，这种更明确的目标与较慢的节奏，有助于参与者比在蜘蛛场景中更容易理解海龟世界。' },
     ],
     diagram: { tag: '原理示意', input: '玩家输入', current: '洋流（不断变化）', result: '实际漂移', note: '这是设计上的模拟，不是科学级的海洋流体仿真。' },
-    todoWater: '水面上方／下方——待补充原型运行截图',
-    todoRubbish: '垃圾碰撞与生命值反馈——待补充原型运行截图或片段',
+    clipTag: '原型录屏',
+    clipWater: '录自头显上运行的原型：视角从水下浮出水面。片段保留了录屏中的声音。',
+    clipWaterLabel: '片段：海龟世界中穿过水面',
+    clipRubbish: '录自运行中的原型：易拉罐从海龟身边漂过，生命值从 5 / 5 降到 4 / 5。',
+    clipRubbishLabel: '片段：海龟世界中的垃圾与生命值',
     goalAlt: '从上方看海龟世界：玩家要游向的小岛岸边。',
-    todoGoal: '距离提示与成功／失败界面——待补充原型运行截图',
+    clipGoal: '录自运行中的原型：距离从约 16 米减少到 4.8 米。录屏在出现成功或失败界面之前就结束了。',
+    clipGoalLabel: '片段：海龟世界中接近岸边',
   },
 
   vr: {
@@ -299,7 +307,7 @@ const zh: Copy = {
       '来自 Pixabay / Freesound Community 的音效（海龟）',
     ],
     assetsNote: '各素材的许可与公开使用范围尚未针对本页重新核对。',
-    imagesNote: '本页图片均来自最终项目报告，暂未包含原型运行截图或录屏。',
+    imagesNote: '静态图片来自最终项目报告；海龟世界的三段片段剪自原型在头显上运行时的录屏。',
   },
 };
 

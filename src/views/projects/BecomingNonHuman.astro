@@ -2,13 +2,16 @@
 // Becoming Non-Human — bilingual project page (team VR prototype, DECO3009).
 // Brief: md文件/3009/Becoming_Non_Human_Portfolio_Brief_EN_ZH.md · Layout: DESIGN.md (paired rows; text-only = full width).
 // Images are embedded originals extracted from the final report and labelled as such.
-// No running-prototype screenshots or recordings exist yet: those spots are clearly marked TODO boxes.
+// Turtle World clips (03B–03D) are cut from Sitan's headset screen recording of the running prototype.
 import type { ImageMetadata } from 'astro';
 import Base from '../../layouts/Base.astro';
 import Zoom from '../../components/Zoom.astro';
 import Lightbox from '../../components/Lightbox.astro';
 import { useT, type Lang } from '../../i18n/ui';
-import { page } from '../../lib/url';
+import { page, url } from '../../lib/url';
+import waterPoster from '../../assets/becoming-non-human/clip-turtle-waterline.jpg';
+import rubbishPoster from '../../assets/becoming-non-human/clip-turtle-rubbish.jpg';
+import goalPoster from '../../assets/becoming-non-human/clip-turtle-destination.jpg';
 import { nextOf } from '../../data/projects';
 import { copy } from '../../data/becoming-non-human';
 
@@ -28,7 +31,11 @@ const img = (key: string): ImageMetadata => {
 const worldImg: Record<string, string> = { bat: 'report-bat', spider: 'report-spider', turtle: 'report-turtle' };
 const worldAlt: Record<string, string> = { turtle: c.turtle.imgAlt };
 const d = Object.fromEntries(c.turtle.details.map((x) => [x.id, x]));
-const todo = lang === 'zh' ? '待补充' : 'TODO';
+const clips = {
+  water: { src: url('/video/becoming-non-human/turtle-waterline.mp4'), poster: waterPoster, label: c.turtle.clipWaterLabel, caption: c.turtle.clipWater },
+  rubbish: { src: url('/video/becoming-non-human/turtle-rubbish.mp4'), poster: rubbishPoster, label: c.turtle.clipRubbishLabel, caption: c.turtle.clipRubbish },
+  goal: { src: url('/video/becoming-non-human/turtle-destination.mp4'), poster: goalPoster, label: c.turtle.clipGoalLabel, caption: c.turtle.clipGoal },
+};
 ---
 
 <Base lang={lang} route="/work/becoming-non-human/" title="Becoming Non-Human" description={c.tagline} image={img('report-overview')}>
@@ -155,34 +162,52 @@ const todo = lang === 'zh' ? '待补充' : 'TODO';
         </figure>
       </div>
 
-      <!-- 03B waterline: placeholder | text -->
+      <!-- 03B waterline: clip | text -->
       <div class="row flip detail">
         <div class="prose">
           <p class="num">{d.water.n}</p>
           <h3>{d.water.k}</h3>
           <p>{d.water.v}</p>
         </div>
-        <div class="placeholder shot" role="img" aria-label={`${todo}: ${c.turtle.todoWater}`}><span><strong>{todo}</strong><br />{c.turtle.todoWater}</span></div>
+        <figure class="clip">
+          <video controls playsinline preload="none" poster={clips.water.poster.src} width="720" height="720" aria-label={clips.water.label}>
+            <source src={clips.water.src} type="video/mp4" />
+            <a href={clips.water.src}>{clips.water.label}</a>
+          </video>
+          <figcaption class="caveat"><span class="tag">{c.turtle.clipTag}</span>{clips.water.caption}</figcaption>
+        </figure>
       </div>
 
-      <!-- 03C rubbish: text | placeholder -->
+      <!-- 03C rubbish: text | clip -->
       <div class="row detail">
         <div class="prose">
           <p class="num">{d.rubbish.n}</p>
           <h3>{d.rubbish.k}</h3>
           <p>{d.rubbish.v}</p>
         </div>
-        <div class="placeholder shot" role="img" aria-label={`${todo}: ${c.turtle.todoRubbish}`}><span><strong>{todo}</strong><br />{c.turtle.todoRubbish}</span></div>
+        <figure class="clip">
+          <video controls playsinline preload="none" poster={clips.rubbish.poster.src} width="720" height="720" aria-label={clips.rubbish.label}>
+            <source src={clips.rubbish.src} type="video/mp4" />
+            <a href={clips.rubbish.src}>{clips.rubbish.label}</a>
+          </video>
+          <figcaption class="caveat"><span class="tag">{c.turtle.clipTag}</span>{clips.rubbish.caption}</figcaption>
+        </figure>
       </div>
 
-      <!-- 03D destination: placeholder | text -->
+      <!-- 03D destination: clip | text -->
       <div class="row flip detail">
         <div class="prose">
           <p class="num">{d.goal.n}</p>
           <h3>{d.goal.k}</h3>
           <p>{d.goal.v}</p>
         </div>
-        <div class="placeholder shot" role="img" aria-label={`${todo}: ${c.turtle.todoGoal}`}><span><strong>{todo}</strong><br />{c.turtle.todoGoal}</span></div>
+        <figure class="clip">
+          <video controls playsinline preload="none" poster={clips.goal.poster.src} width="720" height="720" aria-label={clips.goal.label}>
+            <source src={clips.goal.src} type="video/mp4" />
+            <a href={clips.goal.src}>{clips.goal.label}</a>
+          </video>
+          <figcaption class="caveat"><span class="tag">{c.turtle.clipTag}</span>{clips.goal.caption}</figcaption>
+        </figure>
       </div>
     </section>
 
@@ -313,7 +338,8 @@ const todo = lang === 'zh' ? '待补充' : 'TODO';
   .loop li:last-child { color: var(--accent); }
   .detail { margin-top: var(--space-5); }
   .detail h3 { font-size: var(--step-2); }
-  .shot { aspect-ratio: 16 / 9; }
+  .clip { display: grid; gap: 0.6rem; margin: 0; justify-self: center; width: min(100%, 480px); }
+  .clip video { display: block; width: 100%; height: auto; aspect-ratio: 1; border-radius: var(--radius); background: var(--dark); }
   .drift { display: grid; gap: 0.6rem; margin: 0; padding: var(--space-2); background: var(--surface); border: 1px solid var(--line); border-radius: 10px; }
   .drift svg { width: 100%; height: auto; }
   .drift text { font: 500 13px var(--font-sans); fill: var(--text-2); }
