@@ -21,7 +21,7 @@ export const contact = {
 export const ui = {
   en: {
     'site.name': 'Sitan Ding',
-    'site.brand': 'SITAN DING',
+    'site.brand': 'Sitan Ding',
     'site.description': 'Portfolio of Sitan Ding — digital media, interactive design and creative production.',
     'nav.label': 'Main',
     'nav.home': 'Home',
@@ -124,7 +124,7 @@ export const ui = {
   },
   zh: {
     'site.name': '丁思覃',
-    'site.brand': 'SITAN DING',
+    'site.brand': 'Sitan Ding',
     'site.description': '丁思覃的作品集：数字媒体、交互设计与内容制作。',
     'nav.label': '主导航',
     'nav.home': '首页',

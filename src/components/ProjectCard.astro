@@ -14,7 +14,6 @@ const H = headingLevel;
   <div class="media">
     <Cover image={p.cover} alt={p.cover ? p.coverAlt[lang] : ''} ratio="4 / 3" widths={[480, 800, 1200]}
       sizes="(min-width: 48rem) 560px, 100vw" todo={t('project.coverTodo')} fit={p.coverFit} />
-    <span class="view" aria-hidden="true">{t('card.view')} ↗</span>
   </div>
   <div class="text">
     <p class="meta">
@@ -34,28 +33,12 @@ const H = headingLevel;
   .media :global(.cover) { transition: transform var(--dur-page) var(--ease-out); }
   .card:hover .media :global(img) { transform: scale(1.02); }
 
-  .view {
-    position: absolute;
-    right: 0.75rem;
-    bottom: 0.75rem;
-    padding: 0.45rem 0.8rem;
-    border-radius: var(--radius);
-    background: var(--text);
-    color: var(--bg);
-    font-size: var(--step--1);
-    font-weight: 500;
-    opacity: 0;
-    transform: translateY(4px);
-    transition: opacity var(--dur-hover) var(--ease-out), transform var(--dur-hover) var(--ease-out);
-  }
-  .card:hover .view, .card:focus-visible .view { opacity: 1; transform: none; }
-  @media (hover: none) { .view { opacity: 1; transform: none; } }
 
   .text { display: grid; gap: 0.4rem; }
   .meta { display: flex; gap: 0.75rem; margin: 0; font-size: var(--step--1); color: var(--text-2); }
   .num { font-variant-numeric: tabular-nums; color: var(--text); font-weight: 500; }
-  .title { font-size: var(--step-1); font-weight: 600; }
-  .card:hover .title { color: var(--accent); }
+  .title { font-family: var(--font-display); font-size: clamp(1.5rem, 0.8vw + 1.1rem, 1.875rem); font-weight: 400; letter-spacing: -0.01em; line-height: 1.15; }
+  .card:hover .title { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.18em; }
   .desc { margin: 0; max-width: 58ch; }
   .tools { margin: 0; font-size: var(--step--1); color: var(--text-2); }
 </style>

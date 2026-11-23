@@ -78,18 +78,19 @@ const cards = featured.slice(0, 4);
   .hero { display: grid; }
   .hero-text {
     display: grid;
-    justify-items: center;
+    justify-items: start;
     align-content: center;
     gap: var(--space-2);
     padding: var(--space-5) var(--gutter, 1.25rem);
-    text-align: center;
   }
-  .hero-text .eyebrow { margin: 0; }
-  h1 { display: grid; gap: 0.35em; margin: 0; font-size: var(--step-3); }
-  .line2 { font-size: 0.5em; line-height: 1.25; color: var(--text); font-weight: 500; }
-  .intro { margin: 0; max-width: 54ch; color: var(--text-2); }
-  .cta { margin-top: var(--space-2); border-radius: 999px; padding-inline: 1.6rem; }
-  .credit { margin-top: var(--space-3) !important; font-size: 0.75rem; }
+  .hero-text .eyebrow { margin: 0 0 var(--space-1); }
+  h1 { display: grid; gap: 0.3em; margin: 0; font-size: clamp(3rem, 5.2vw + 1rem, 5.5rem); line-height: 1; letter-spacing: -0.02em; }
+  .line2 { font-size: clamp(1.5rem, 1.3vw + 1rem, 2rem); line-height: 1.2; letter-spacing: -0.01em; color: var(--text-2); font-style: italic; }
+  :global(:root:lang(zh-CN)) h1 { font-size: clamp(2.25rem, 2.6vw + 1rem, 3.25rem); letter-spacing: 0; line-height: 1.15; }
+  :global(:root:lang(zh-CN)) .line2 { letter-spacing: 0; }
+  .intro { margin: var(--space-1) 0 0; max-width: 46ch; color: var(--text-2); }
+  .cta { margin-top: var(--space-2); }
+  .credit { margin-top: var(--space-4) !important; font-size: 0.8125rem; }
   .hero-media { position: relative; margin: 0; overflow: hidden; aspect-ratio: 4 / 5; container-type: size; }
   .hero-media img {
     /* The image box is the whole 3:2 photo at the frame's height (150cqh wide), centred in the frame. */
@@ -107,14 +108,15 @@ const cards = featured.slice(0, 4);
   }
   @media (min-width: 56rem) {
     .hero { grid-template-columns: 1fr 1fr; min-height: calc(100svh - var(--header-h)); }
-    .hero-text { padding-inline: clamp(1.5rem, 4vw, 4rem); }
+    /* Text starts on the same left edge as the logo and the content below. */
+    .hero-text { padding-inline: calc(max(0px, (100vw - var(--page)) / 2) + var(--gutter)) clamp(2rem, 5vw, 5rem); }
     .hero-media { aspect-ratio: auto; height: 100%; }
   }
 
   /* B */
   .section-head { display: grid; gap: var(--space-2); max-width: 60ch; margin-bottom: var(--space-4); }
   .section-head .eyebrow { margin: 0; }
-  .section-head h2, .about h2, .contact h2 { font-size: var(--step-2); }
+  .section-head h2, .about h2, .contact h2 { font-size: clamp(2rem, 2vw + 1.2rem, 2.75rem); }
   .lede { margin: 0; color: var(--text-2); }
   .grid { display: grid; gap: var(--space-5) var(--space-4); margin: 0; padding: 0; list-style: none; }
   @media (min-width: 48rem) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }

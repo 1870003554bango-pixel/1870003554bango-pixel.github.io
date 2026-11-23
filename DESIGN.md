@@ -37,14 +37,14 @@
 | 次要文字 | `#686868`（不要更浅，保证对比度） |
 | 强调色 | 仅一个：蓝 `#276B9B`，用于链接、编号、少量强调 |
 | 分割线 | `#E6E5DF` 细线；不用阴影做层级 |
-| 字体 | Inter（拉丁）+ 系统中文字体（PingFang SC / Noto Sans SC） |
-| 字号 | 正文 ≥ 17px；标题用 `--step-2` / `--step-3`；小标签用大写 eyebrow |
+| 字体 | 标题（H1/H2、tagline、引言、下一项目标题、卡片标题）用衬线 Newsreader（`--font-display`，常规字重 400；中文回落到宋体 Songti SC，不做假斜体）；H3 及以下和正文用 Inter + 系统中文字体（PingFang SC / Noto Sans SC） |
+| 字号 | 正文 ≥ 17px；标题用 `--step-2` / `--step-3`；小标签（eyebrow）用句首大写的普通小字，**不用全大写、不加字距** |
 | 圆角 | 6px（图片、按钮）；互动作品框 10px |
 | 内容宽 | 最大 1200px，两侧留白 20–64px |
 | 段落宽 | 每行约 55–65 个英文字符（`max-width: 62ch`） |
 
 - 不用渐变、发光、毛玻璃、装饰性模糊。**例外**：作品本身的数据（例如天空色板）可以如实呈现为渐变。
-- 一屏一个主按钮（黑底），其余用描边按钮或文字链接；按钮文字写具体动作（"Explore the Interactive Artwork"，不是 "Click here"）。
+- 一屏一个主按钮（黑底，6px 圆角，不用胶囊形），其余用描边按钮或带细下划线的文字链接；按钮文字写具体动作（"Explore the Interactive Artwork"，不是 "Click here"）。
 - 所有颜色、间距只用 `src/styles/global.css` 里的变量，组件里不写裸色值。
 
 ## 4. 排版原则（重点）

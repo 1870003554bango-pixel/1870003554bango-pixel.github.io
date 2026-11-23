@@ -465,7 +465,7 @@ const ring = c.stakeholders.list.map((_, i, all) => {
   .hero { padding-top: var(--space-2); }
   .hero h1 { font-size: var(--step-3); }
   .subtitle { color: var(--text-2); font-weight: 500; }
-  .tagline { font-size: var(--step-2); font-weight: 600; letter-spacing: -0.02em; line-height: 1.2; }
+  .tagline { font-size: var(--step-2); font-family: var(--font-display); font-weight: 400; letter-spacing: -0.01em; line-height: 1.2; }
   .ctas { display: flex; gap: 0.75rem; flex-wrap: wrap; }
   .hero-media { display: grid; gap: 0.6rem; }
   .hero-media :global(figcaption) { display: none; }
@@ -476,11 +476,11 @@ const ring = c.stakeholders.list.map((_, i, all) => {
   .details dd { margin: 0; font-size: var(--step--1); font-weight: 500; }
 
   .caveat { display: flex; gap: 0.6rem; align-items: baseline; margin: 0; font-size: var(--step--1); color: var(--text-2); }
-  .tag { flex: none; padding: 0.1rem 0.45rem; border-radius: 3px; border: 1px solid var(--line-strong); color: var(--text); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; }
+  .tag { flex: none; padding: 0.1rem 0.45rem; border-radius: 3px; border: 1px solid var(--line-strong); color: var(--text); font-size: 0.72rem; font-weight: 600; letter-spacing: 0; }
 
   /* Challenge */
   .callout { display: grid; gap: 0.35rem; padding-left: var(--space-2); border-left: 2px solid var(--accent); }
-  .callout h3 { font-size: var(--step--1); font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-2); }
+  .callout h3 { font-size: var(--step--1); font-weight: 600; letter-spacing: 0; color: var(--text-2); }
 
   /* A · Journey switcher */
   .journey { display: grid; gap: var(--space-2); padding: var(--space-3); background: var(--surface); border: 1px solid var(--line); border-radius: 10px; }
@@ -511,7 +511,7 @@ const ring = c.stakeholders.list.map((_, i, all) => {
   .findings li { display: grid; gap: 0.4rem; align-content: start; padding: var(--space-3) var(--space-3) var(--space-3) 0; border-bottom: 1px solid var(--line); }
   .findings li:nth-child(even) { padding-left: var(--space-3); border-left: 1px solid var(--line); }
   .findings p { color: var(--text-2); max-width: 52ch; }
-  .insight { display: grid; gap: 0.35rem; margin-top: var(--space-2) !important; font-size: var(--step-2); font-weight: 600; letter-spacing: -0.02em; line-height: 1.25; }
+  .insight { display: grid; gap: 0.35rem; margin-top: var(--space-2) !important; font-size: var(--step-2); font-family: var(--font-display); font-weight: 400; letter-spacing: -0.01em; line-height: 1.25; }
   .insight .eyebrow { color: var(--accent); }
 
   /* C · Concept tabs */
@@ -613,14 +613,14 @@ const ring = c.stakeholders.list.map((_, i, all) => {
 
   /* Closing */
   .closing { display: grid; gap: 0.5rem; margin: var(--space-3) 0 0; padding-block: var(--space-3); border-block: 1px solid var(--line); }
-  .closing p:first-child { font-size: clamp(1.35rem, 1.4vw + 1rem, 2rem); font-weight: 600; line-height: 1.3; letter-spacing: -0.015em; }
+  .closing p:first-child { font-size: clamp(1.35rem, 1.4vw + 1rem, 2rem); font-family: var(--font-display); font-weight: 400; font-style: italic; line-height: 1.3; letter-spacing: -0.01em; }
   .credits { display: grid; gap: 0.5rem; font-size: var(--step--1); color: var(--text-2); }
   .credits h3 { font-size: var(--step-0); color: var(--text); }
 
   .bottom-nav { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: var(--space-3); margin-top: var(--space-5); padding-top: var(--space-4); border-top: 1px solid var(--line); }
   .next { display: grid; gap: 0.3rem; text-align: right; text-decoration: none; margin-left: auto; }
   .next .eyebrow { color: var(--text-2); }
-  .next-title { font-size: var(--step-2); font-weight: 600; letter-spacing: -0.02em; }
+  .next-title { font-size: var(--step-2); font-family: var(--font-display); font-weight: 400; letter-spacing: -0.01em; }
 
   @media (prefers-reduced-motion: reduce) {
     .path.play li { animation: none; }

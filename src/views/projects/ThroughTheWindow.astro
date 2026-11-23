@@ -464,7 +464,7 @@ const hx = (h: number) => 96 + (h / 24) * 384;
   .hero-photo figcaption, figcaption { font-size: var(--step--1); color: var(--text-2); }
   .hero-text { display: grid; gap: var(--space-2); justify-items: start; }
   h1 { font-size: var(--step-3); }
-  .tagline { font-size: var(--step-1); font-weight: 500; }
+  .tagline { font-size: var(--step-1); font-family: var(--font-display); font-weight: 400; }
   .intro { max-width: 62ch; }
   .ctas { display: flex; flex-wrap: wrap; gap: 0.75rem; padding-top: var(--space-1); }
   .meta { display: flex; flex-wrap: wrap; gap: var(--space-1) var(--space-4); margin: var(--space-2) 0 0; padding-top: var(--space-2); border-top: 1px solid var(--line); width: 100%; }
@@ -563,7 +563,7 @@ const hx = (h: number) => 96 + (h / 24) * 384;
   /* F2 · Technical deep dive */
   .tech .accent { color: var(--accent); }
   .tech .sub { font-size: var(--step-1); font-weight: 500; color: var(--text); }
-  .tech h3 { font-size: var(--step-2); font-weight: 600; letter-spacing: -0.015em; }
+  .tech h3 { font-size: var(--step-2); font-family: var(--font-display); font-weight: 400; letter-spacing: -0.01em; }
   .tech .num { color: var(--accent); font-weight: 600; }
   .tech code { font-family: var(--font-mono); font-size: 0.9em; }
   .tech-toc ol { display: flex; flex-wrap: wrap; gap: 0 var(--space-3); margin: var(--space-2) 0 0; padding: 0; list-style: none; border-block: 1px solid var(--line); }
@@ -652,11 +652,11 @@ const hx = (h: number) => 96 + (h / 24) * 384;
   .intro-wide { margin-bottom: var(--space-3); }
   .intro-wide > p { color: var(--text-2); }
   blockquote { margin: var(--space-2) 0 0; padding-block: var(--space-3); border-block: 1px solid var(--line); }
-  blockquote p { font-size: clamp(1.6rem, 2.4vw + 1rem, 2.6rem); font-weight: 600; letter-spacing: -0.02em; line-height: 1.15; }
+  blockquote p { font-size: clamp(1.6rem, 2.4vw + 1rem, 2.6rem); font-family: var(--font-display); font-weight: 400; font-style: italic; letter-spacing: -0.01em; line-height: 1.15; }
   .credits { margin: 0; padding: 0; list-style: none; display: grid; gap: 0.25rem; font-size: var(--step--1); color: var(--text-2); }
 
   .bottom-nav { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: var(--space-3); margin-top: var(--space-6); padding-top: var(--space-4); border-top: 1px solid var(--line); }
   .next { display: grid; gap: 0.3rem; text-align: right; text-decoration: none; margin-left: auto; }
   .next .eyebrow { margin: 0; }
-  .next-title { font-size: var(--step-2); font-weight: 600; letter-spacing: -0.02em; }
+  .next-title { font-size: var(--step-2); font-family: var(--font-display); font-weight: 400; letter-spacing: -0.01em; }
 </style>
