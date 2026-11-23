@@ -104,13 +104,13 @@ const materials = c.blender.materials.map((m) => ({ id: m.id, label: m.label, ti
           <PhotoCarousel slides={slides(c.cad.loft.map((l, i) => ({ key: l.key, alt: `${L.loftAlt} ${i + 1}: ${l.label}`, caption: `${String(i + 1).padStart(2, '0')} ${l.label}` })))} label={L.loftCarousel} ratio="16 / 9" tone="light" zoom sizes="(min-width: 48rem) 560px, 100vw" prevLabel={L.prevImage} nextLabel={L.nextImage} />
         </div>
       </div>
-      <div class="row sticky">
+      <div class="row">
         <div class="prose">
           <h3>{c.cad.specsTitle}</h3>
           <dl class="specs">{c.cad.specs.map((s) => <div><dt>{s.k}</dt><dd>{s.v}</dd></div>)}</dl>
           <p class="closing">{c.cad.closing}</p>
         </div>
-        <div class="stack media">
+        <div class="stack pair2">
           <Zoom src={img('print-ruler')} alt={L.rulerAlt} caption={L.rulerCap} sizes="(min-width: 48rem) 260px, 50vw" ratio="4 / 3" fit="cover" />
           <Zoom src={img('fusion-ribs-closeup')} alt={L.ribsAlt} caption={L.ribsCap} sizes="(min-width: 48rem) 260px, 50vw" ratio="4 / 3" fit="cover" />
         </div>
@@ -344,6 +344,8 @@ const materials = c.blender.materials.map((m) => ({ id: m.id, label: m.label, ti
 
   /* shared bits */
   .stack { display: grid; gap: var(--space-2); align-content: center; min-width: 0; }
+  .pair2 { grid-template-columns: repeat(2, minmax(0, 1fr)); align-content: start; }
+  @media (max-width: 47.99rem) { .pair2 { grid-template-columns: 1fr; } }
   .grid-2, .grid-3 { display: grid; gap: var(--space-2) 0.75rem; margin: 0; padding: 0; list-style: none; min-width: 0; }
   .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
@@ -394,7 +396,7 @@ const materials = c.blender.materials.map((m) => ({ id: m.id, label: m.label, ti
   .ticks { margin: 0; padding-left: 1.1rem; display: grid; gap: 0.35rem; }
   .learned { margin-top: var(--space-5); padding-top: var(--space-3); border-top: 1px solid var(--line); }
   .intro-wide { margin-bottom: var(--space-3); }
-  .intro-wide > p:not(.eyebrow) { max-width: none; }
+  .intro-wide > p:not(.eyebrow) { max-width: 72ch; }
 
   .outro { margin-top: var(--space-3) !important; max-width: 62ch; }
 

@@ -131,7 +131,7 @@ const mine = c.contribution.mine.filter((m) => m.v);
         <p class="eyebrow">{c.principles.eyebrow}</p>
         <h2 id="pr-h">{c.principles.title}</h2>
         {c.principles.body.map((p) => <p>{p}</p>)}
-        <ol class="plain" role="list">{c.principles.list.map((x) => <li><h4>{x.k}</h4><p>{x.v}</p></li>)}</ol>
+        <ol class="plain" role="list">{c.principles.list.map((x) => <li><h3 class="h4">{x.k}</h3><p>{x.v}</p></li>)}</ol>
       </div>
       <Zoom class="media" src={img(c.principles.image.key)} alt={c.principles.image.alt} caption={c.principles.image.caption} sizes="(min-width: 48rem) 560px, 100vw" />
     </section>
@@ -205,7 +205,7 @@ const mine = c.contribution.mine.filter((m) => m.v);
         <p class="eyebrow">{c.scenario1.eyebrow}</p>
         <h2 id="s1-h">{c.scenario1.title}</h2>
         {c.scenario1.body.map((p) => <p>{p}</p>)}
-        <ol class="plain" role="list">{c.scenario1.steps.map((x) => <li><h4>{x.k}</h4><p>{x.v}</p></li>)}</ol>
+        <ol class="plain" role="list">{c.scenario1.steps.map((x) => <li><h3 class="h4">{x.k}</h3><p>{x.v}</p></li>)}</ol>
         <p class="caveat"><span class="tag">{L.fictional}</span>{c.scenario1.fiction}</p>
       </div>
       <div class="media">
@@ -449,7 +449,7 @@ const mine = c.contribution.mine.filter((m) => m.v);
   .crumbs a { display: inline-flex; align-items: center; min-height: 44px; margin-block: -0.6rem; color: var(--text-2); }
 
   .scam h3 { font-size: var(--step-1); font-weight: 600; margin-top: var(--space-1); }
-  .scam h4 { margin: 0 0 0.25rem; font-size: var(--step-0); font-weight: 600; }
+  .scam h4, .scam h3.h4 { margin: 0 0 0.25rem; font-size: var(--step-0); font-weight: 600; }
   .eyebrow { margin: 0; color: var(--accent); }
   .stack { display: grid; gap: var(--space-2); align-content: center; min-width: 0; }
   .grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-2) 0.75rem; margin: 0; padding: 0; list-style: none; min-width: 0; align-items: start; }

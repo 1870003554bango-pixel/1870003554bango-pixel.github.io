@@ -368,8 +368,8 @@ const hx = (h: number) => 96 + (h / 24) * 384;
         <div class="media"><CodeBlock title={code.meteor.file} code={code.meteor.code} note={x.codeNote} lang="javascript" /></div>
       </div>
 
-      <div class="row flip t-row">
-        <div class="prose">
+      <div class="row flip sticky t-row">
+        <div class="prose pin">
           <h3>{x.meteors.tailTitle}</h3>
           <p>{x.meteors.tailBody}</p>
           <CodeBlock title={L.fileTail} code={code.tail.code} lang="javascript" />
@@ -639,8 +639,8 @@ const hx = (h: number) => 96 + (h / 24) * 384;
   .refl-h { margin-top: var(--space-3); }
   /* Between tablet and wide desktop, give code a little more room so excerpts fit without scrolling. */
   @media (min-width: 48rem) and (max-width: 79.99rem) {
-    .tech .t-row.sticky { grid-template-columns: minmax(0, 9fr) minmax(0, 11fr); }
-    .tech .t-row.sticky.flip { grid-template-columns: minmax(0, 11fr) minmax(0, 9fr); }
+    .tech .t-row.sticky:has(> .media) { grid-template-columns: minmax(0, 9fr) minmax(0, 11fr); }
+    .tech .t-row.sticky.flip:has(> .media) { grid-template-columns: minmax(0, 11fr) minmax(0, 9fr); }
     .tech :global(.code-block pre) { font-size: 0.6875rem; }
   }
   @media (max-width: 47.99rem) {

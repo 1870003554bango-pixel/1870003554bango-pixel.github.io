@@ -213,7 +213,7 @@ const ring = c.stakeholders.list.map((_, i, all) => {
         <h2 id="fc-h">{c.concept.title}</h2>
         <p class="lead">{c.concept.sub}</p>
         <ol class="plain" role="list">
-          {c.concept.parts.map((p, i) => <li><span class="num">{pad(i + 1)}</span><div><h4>{p.k}</h4><p>{p.v}</p></div></li>)}
+          {c.concept.parts.map((p, i) => <li><span class="num">{pad(i + 1)}</span><div><h3 class="h4">{p.k}</h3><p>{p.v}</p></div></li>)}
         </ol>
         <div class="core">
           <p class="eyebrow">{c.concept.coreLabel}</p>
@@ -458,7 +458,7 @@ const ring = c.stakeholders.list.map((_, i, all) => {
 
   .bottle .eyebrow.num { color: var(--accent); font-weight: 600; }
   .bottle h3 { font-size: var(--step-1); }
-  .bottle h4 { margin: 0; font-size: var(--step-0); font-weight: 600; }
+  .bottle h4, .bottle h3.h4 { margin: 0; font-size: var(--step-0); font-weight: 600; }
   .sub-h { margin-top: var(--space-2); }
 
   /* Hero */
