@@ -12,8 +12,10 @@ import { page, url } from '../../lib/url';
 import waterPoster from '../../assets/becoming-non-human/clip-turtle-waterline.jpg';
 import rubbishPoster from '../../assets/becoming-non-human/clip-turtle-rubbish.jpg';
 import goalPoster from '../../assets/becoming-non-human/clip-turtle-destination.jpg';
+import introPoster from '../../assets/becoming-non-human/clip-turtle-intro.jpg';
+import CodeBlock from '../../components/CodeBlock.astro';
 import { nextOf } from '../../data/projects';
-import { copy } from '../../data/becoming-non-human';
+import { copy, snippets } from '../../data/becoming-non-human';
 
 interface Props { lang: Lang }
 const { lang } = Astro.props;
@@ -35,7 +37,10 @@ const clips = {
   water: { src: url('/video/becoming-non-human/turtle-waterline.mp4'), poster: waterPoster, label: c.turtle.clipWaterLabel, caption: c.turtle.clipWater },
   rubbish: { src: url('/video/becoming-non-human/turtle-rubbish.mp4'), poster: rubbishPoster, label: c.turtle.clipRubbishLabel, caption: c.turtle.clipRubbish },
   goal: { src: url('/video/becoming-non-human/turtle-destination.mp4'), poster: goalPoster, label: c.turtle.clipGoalLabel, caption: c.turtle.clipGoal },
+  intro: { src: url('/video/becoming-non-human/turtle-intro.mp4'), poster: introPoster, label: c.turtle.clipIntroLabel, caption: c.turtle.clipIntro },
 };
+const b = c.build;
+const cn = b.codeNote;
 ---
 
 <Base lang={lang} route="/work/becoming-non-human/" title="Becoming Non-Human" description={c.tagline} image={img('report-overview')}>
@@ -62,6 +67,10 @@ const clips = {
       <Zoom src={img('report-overview')} alt={c.heroAlt} caption={c.reportCaption} loading="eager" widths={[640, 1100, 1920]} sizes="(min-width: 48rem) 600px, 100vw" />
     </header>
     <dl class="wrap details">{c.details.map((x) => <div><dt>{x.k}</dt><dd>{x.v}</dd></div>)}</dl>
+    <nav class="wrap toc" aria-label={c.toc.label}>
+      <p class="eyebrow">{c.toc.label}</p>
+      <ol role="list">{c.toc.items.map((x) => <li><a href={`#${x.id}`}>{x.k}</a></li>)}</ol>
+    </nav>
 
     <!-- 01 Three worlds: intro + scene order full width, then three world columns -->
     <section id="worlds" class="wrap block" aria-labelledby="wd-h">
@@ -211,15 +220,176 @@ const clips = {
       </div>
     </section>
 
-    <!-- 04 VR trade-offs: text only → full width -->
-    <section class="wrap block wide-text" aria-labelledby="vr-h">
-      <p class="eyebrow num">{c.vr.eyebrow}</p>
-      <h2 id="vr-h">{c.vr.title}</h2>
-      <ol class="qa" role="list">{c.vr.items.map((x) => <li><h3>{x.k}</h3><p>{x.v}</p></li>)}</ol>
+    <!-- 04 Planning: text | intent → system, then the player journey full width -->
+    <section id="planning" class="wrap block" aria-labelledby="pl-h">
+      <div class="row">
+        <div class="prose">
+          <p class="eyebrow num">{c.planning.eyebrow}</p>
+          <h2 id="pl-h">{c.planning.title}</h2>
+          <p>{c.planning.body}</p>
+        </div>
+        <div class="intents">
+          <p class="eyebrow">{c.planning.intentsTitle}</p>
+          <dl>{c.planning.intents.map((x) => <div><dt>{x.k}</dt><dd>{x.v}</dd></div>)}</dl>
+        </div>
+      </div>
+      <figure class="journey">
+        <p class="eyebrow">{c.planning.journeyTitle}</p>
+        <div class="scroll">
+          <table>
+            <thead><tr>{c.planning.journeyHead.map((h) => <th scope="col">{h}</th>)}</tr></thead>
+            <tbody>{c.planning.journey.map((r, i) => <tr><th scope="row"><span class="num">{String(i + 1).padStart(2, '0')}</span>{r[0]}</th><td>{r[1]}</td><td>{r[2]}</td><td>{r[3]}</td></tr>)}</tbody>
+          </table>
+        </div>
+        <figcaption class="small muted">{c.planning.journeyNote}</figcaption>
+      </figure>
     </section>
 
-    <!-- 05 Testing: text, figures and findings → full width -->
-    <section class="wrap block wide-text" aria-labelledby="te-h">
+    <!-- 05 How it works: intro + stack + system map full width, then one paired row per system (text | code) -->
+    <section id="build" class="wrap block" aria-labelledby="bu-h">
+      <div class="wide-text">
+        <p class="eyebrow num">{b.eyebrow}</p>
+        <h2 id="bu-h">{b.title}</h2>
+        <p>{b.body}</p>
+      </div>
+      <dl class="stack">{b.stack.map((x) => <div><dt>{x.k}</dt><dd>{x.v}</dd></div>)}</dl>
+      <figure class="sysmap">
+        <p class="eyebrow">{b.mapTitle}</p>
+        <div class="scroll">
+          <table>
+            <thead><tr><th scope="col">{b.mapHead[0]}</th><th scope="col" aria-hidden="true"></th><th scope="col">{b.mapHead[1]}</th><th scope="col" aria-hidden="true"></th><th scope="col">{b.mapHead[2]}</th></tr></thead>
+            <tbody>{b.map.map((r) => <tr><td>{r[0]}</td><td class="arr" aria-hidden="true">→</td><th scope="row"><code>{r[1]}</code></th><td class="arr" aria-hidden="true">→</td><td>{r[2]}</td></tr>)}</tbody>
+          </table>
+        </div>
+        <figcaption class="small muted">{b.mapNote}</figcaption>
+      </figure>
+
+      <!-- 05A movement -->
+      <div class="row sticky tech code-row">
+        <div class="prose">
+          <p class="num">{b.move.n}</p>
+          <h3>{b.move.k}</h3>
+          {b.move.v.map((p) => <p>{p}</p>)}
+          <div class="scroll">
+            <table class="cmp">
+              <thead><tr>{b.move.head.map((h) => <th scope="col">{h}</th>)}</tr></thead>
+              <tbody>{b.move.rows.map((r) => <tr><th scope="row">{r[0]}</th><td>{r[1]}</td><td>{r[2]}</td></tr>)}</tbody>
+            </table>
+          </div>
+        </div>
+        <div class="media"><CodeBlock title={snippets.move.file} code={snippets.move.code} note={cn} /></div>
+      </div>
+
+      <!-- 05B current -->
+      <div class="row flip sticky tech code-row">
+        <div class="prose">
+          <p class="num">{b.current.n}</p>
+          <h3>{b.current.k}</h3>
+          {b.current.v.map((p) => <p>{p}</p>)}
+          <figure class="blend">
+            <p class="eyebrow">{b.current.blendLabel}</p>
+            <div class="bar" role="img" aria-label={b.current.blend.map((x) => `${x.k} ${x.w}%`).join(', ')}>
+              {b.current.blend.map((x, i) => <span class={`seg s${i + 1}`} style={`flex-basis:${x.w}%`}><strong>{x.w}%</strong></span>)}
+            </div>
+            <ol class="bar-key" role="list">{b.current.blend.map((x, i) => <li><span class={`sw s${i + 1}`} aria-hidden="true"></span>{x.k} · {x.s}</li>)}</ol>
+            <figcaption class="small muted">{b.current.blendNote}</figcaption>
+          </figure>
+          <dl class="params">{b.current.rows.map((r) => <div><dt>{r[0]}</dt><dd>{r[1]}</dd></div>)}</dl>
+        </div>
+        <div class="media"><CodeBlock title={snippets.current.file} code={snippets.current.code} note={cn} /></div>
+      </div>
+
+      <!-- 05C debris -->
+      <div class="row sticky tech code-row">
+        <div class="prose">
+          <p class="num">{b.debris.n}</p>
+          <h3>{b.debris.k}</h3>
+          {b.debris.v.map((p) => <p>{p}</p>)}
+          <p class="eyebrow">{b.debris.pipeLabel}</p>
+          <ol class="pipe" role="list">{b.debris.pipe.map((x, i) => <li><span class="num">{i + 1}</span>{x}</li>)}</ol>
+        </div>
+        <div class="media"><CodeBlock title={snippets.debris.file} code={snippets.debris.code} note={cn} /></div>
+      </div>
+
+      <!-- 05D water -->
+      <div class="row flip sticky tech code-row">
+        <div class="prose">
+          <p class="num">{b.water.n}</p>
+          <h3>{b.water.k}</h3>
+          {b.water.v.map((p) => <p>{p}</p>)}
+          <div class="scroll">
+            <table class="cmp">
+              <thead><tr>{b.water.head.map((h) => <th scope="col">{h}</th>)}</tr></thead>
+              <tbody>{b.water.rows.map((r) => <tr><th scope="row">{r[0]}</th><td>{r[1]}</td><td>{r[2]}</td></tr>)}</tbody>
+            </table>
+          </div>
+          <p class="small muted">{b.water.note}</p>
+        </div>
+        <div class="media"><CodeBlock title={snippets.water.file} code={snippets.water.code} note={cn} /></div>
+      </div>
+
+      <!-- 05E intro hand-over: text + code | recorded clip -->
+      <div class="row sticky tech">
+        <div class="prose">
+          <p class="num">{b.intro.n}</p>
+          <h3>{b.intro.k}</h3>
+          {b.intro.v.map((p) => <p>{p}</p>)}
+          <div class="scroll">
+            <table class="cmp">
+              <thead><tr>{b.intro.head.map((h) => <th scope="col">{h}</th>)}</tr></thead>
+              <tbody>{b.intro.rows.map((r) => <tr><th scope="row">{r[0]}</th><td>{r[1]}</td><td>{r[2]}</td></tr>)}</tbody>
+            </table>
+          </div>
+          <CodeBlock title={snippets.intro.file} code={snippets.intro.code} note={cn} />
+        </div>
+        <div class="media">
+          <figure class="clip">
+            <video controls playsinline preload="none" poster={clips.intro.poster.src} width="720" height="720" aria-label={clips.intro.label}>
+              <source src={clips.intro.src} type="video/mp4" />
+              <a href={clips.intro.src}>{clips.intro.label}</a>
+            </video>
+            <figcaption class="caveat"><span class="tag">{c.turtle.clipTag}</span>{clips.intro.caption}</figcaption>
+          </figure>
+        </div>
+      </div>
+
+      <!-- 05F health, distance, end -->
+      <div class="row flip tech code-row">
+        <div class="prose">
+          <p class="num">{b.end.n}</p>
+          <h3>{b.end.k}</h3>
+          {b.end.v.map((p) => <p>{p}</p>)}
+          <dl class="params">{b.end.rows.map((r) => <div><dt>{r[0]}</dt><dd>{r[1]}</dd></div>)}</dl>
+        </div>
+        <CodeBlock title={snippets.end.file} code={snippets.end.code} note={cn} />
+      </div>
+    </section>
+
+    <!-- 06 On the headset: text + problem table → full width -->
+    <section id="headset" class="wrap block" aria-labelledby="hs-h">
+      <div class="wide-text">
+        <p class="eyebrow num">{c.headset.eyebrow}</p>
+        <h2 id="hs-h">{c.headset.title}</h2>
+        <p>{c.headset.body}</p>
+      </div>
+      <div class="scroll">
+        <table class="issues">
+          <thead><tr>{c.headset.head.map((h) => <th scope="col">{h}</th>)}</tr></thead>
+          <tbody>
+            {c.headset.rows.map((r) => (
+              <tr class:list={[r.status]}>
+                <th scope="row">{r.k}</th><td>{r.what}</td><td>{r.fix}</td>
+                <td><span class:list={['status', r.status]}><span aria-hidden="true">{r.status === 'solved' ? '✓' : '○'}</span>{r.status === 'solved' ? c.headset.solved : c.headset.open}</span></td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p class="caveat"><span class="tag">{c.headset.open}</span>{c.headset.note}</p>
+    </section>
+
+    <!-- 07 Testing: text, figures and findings → full width -->
+    <section id="testing" class="wrap block wide-text" aria-labelledby="te-h">
       <p class="eyebrow num">{c.testing.eyebrow}</p>
       <h2 id="te-h">{c.testing.title}</h2>
       <p>{c.testing.body}</p>
@@ -237,7 +407,25 @@ const clips = {
           <dl class="scores">{c.testing.discomfort.map((x) => <div><dt>{x.k}</dt><dd>{x.v}</dd></div>)}</dl>
         </div>
       </div>
+      <h3 class="sub-h">{c.testing.perTitle}</h3>
+      <div class="scroll">
+        <table class="per">
+          <thead><tr><th scope="col"><span class="sr-only">{c.testing.perTitle}</span></th>{c.testing.perHead.map((h) => <th scope="col">{h}</th>)}</tr></thead>
+          <tbody>
+            {c.testing.per.map((r) => (
+              <tr>
+                <th scope="row"><span class="per-k">{r.k}</span><span class="per-q">{r.q}</span></th>
+                {r.scores.map((v) => <td><span class="score" data-v={v}>{v}</span></td>)}
+                <td class="mean">{r.mean}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
       <p class="caveat"><span class="tag">n = 5</span>{c.testing.note}</p>
+      <h3 class="sub-h">{c.testing.quotesTitle}</h3>
+      <ul class="quotes" role="list">{c.testing.quotes.map((x) => <li><blockquote><p>{x.q}</p></blockquote></li>)}</ul>
+      <p class="small muted">{c.testing.quotesNote}</p>
       <h3 class="sub-h">{c.testing.findingsTitle}</h3>
       <div class="scroll">
         <table class="findings">
@@ -247,16 +435,18 @@ const clips = {
       </div>
     </section>
 
-    <!-- 06 Reflection: text only → full width -->
-    <section class="wrap block wide-text" aria-labelledby="re-h">
+    <!-- 08 Reflection: text only → full width -->
+    <section id="reflection" class="wrap block wide-text" aria-labelledby="re-h">
       <p class="eyebrow num">{c.reflection.eyebrow}</p>
       <h2 id="re-h">{c.reflection.title}</h2>
       <p>{c.reflection.body}</p>
+      <p>{c.reflection.body2}</p>
       <h3 class="sub-h">{c.reflection.futureTitle}</h3>
+      <p class="small muted">{c.reflection.futureNote}</p>
       <dl class="future">{c.reflection.future.map((x) => <div><dt>{x.k}</dt><dd>{x.v}</dd></div>)}</dl>
     </section>
 
-    <!-- 07 Credits -->
+    <!-- 09 Credits -->
     <section class="wrap block wide-text credits" aria-labelledby="cr-h">
       <p class="eyebrow num">{c.credits.eyebrow}</p>
       <h2 id="cr-h">{c.credits.title}</h2>
@@ -350,13 +540,68 @@ const clips = {
   .drift .dot { fill: var(--text); }
   .drift .head { fill: var(--text-2); }
   .drift .head2 { fill: var(--accent); }
-  .media { display: grid; gap: 0.5rem; }
-  .media :global(figcaption) { display: none; }
+  .media { display: grid; gap: 0.5rem; min-width: 0; }
 
-  /* 04 VR */
-  .qa { display: grid; margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--line); }
-  .qa li { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); gap: var(--space-3) var(--space-5); padding-block: var(--space-3); border-bottom: 1px solid var(--line); }
-  .qa p { color: var(--text-2); }
+  /* Table of contents */
+  .toc { display: flex; flex-wrap: wrap; align-items: center; gap: 0.25rem var(--space-3); margin-top: var(--space-2); }
+  .toc .eyebrow { margin: 0; color: var(--text-2); }
+  .toc ol { display: flex; flex-wrap: wrap; gap: 0 1.25rem; margin: 0; padding: 0; list-style: none; }
+  .toc a { display: inline-flex; align-items: center; min-height: 44px; font-size: var(--step--1); font-weight: 500; color: var(--text); text-decoration: none; }
+  .toc a:hover { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+
+  /* 04 Planning */
+  .intents { padding: var(--space-3); background: var(--surface); border: 1px solid var(--line); border-radius: 10px; }
+  .intents dl { margin: 0.5rem 0 0; }
+  .intents dl > div { display: grid; gap: 0.15rem; padding-block: 0.7rem; border-bottom: 1px solid var(--line); }
+  .intents dl > div:last-child { border-bottom: 0; padding-bottom: 0; }
+  .intents dt { font-weight: 600; }
+  .intents dt::after { content: ' →'; color: var(--accent); }
+  .intents dd { margin: 0; color: var(--text-2); font-size: var(--step--1); }
+  .journey, .sysmap { display: grid; gap: var(--space-2); margin: var(--space-5) 0 0; }
+  .journey tbody th { white-space: nowrap; }
+  .journey tbody th .num { margin-right: 0.6rem; color: var(--accent); }
+  .journey td:last-child { color: var(--text-2); }
+
+  /* 05 How it works */
+  .stack { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.6rem var(--space-3); margin: var(--space-3) 0 0; padding-block: var(--space-2); border-block: 1px solid var(--line); }
+  .stack dt { font-size: var(--step--1); color: var(--text-2); }
+  .stack dd { margin: 0; font-size: var(--step--1); font-weight: 500; }
+  .sysmap code, .issues code { font: 500 0.8125rem var(--font-mono); }
+  .sysmap tbody th { white-space: nowrap; }
+  .sysmap td.arr, .sysmap th[aria-hidden] { width: 1.5rem; color: var(--accent); padding-right: 0.5rem; }
+  .sysmap tbody td:last-child { color: var(--text-2); }
+  .tech { margin-top: var(--space-5); }
+  .tech h3 { font-size: var(--step-2); }
+  .tech .prose { min-width: 0; }
+  .cmp tbody th { white-space: nowrap; color: var(--text-2); font-weight: 500; }
+  .params { margin: 0; border-top: 1px solid var(--line); }
+  .params > div { display: grid; grid-template-columns: minmax(8rem, 2fr) 3fr; gap: var(--space-2); padding-block: 0.5rem; border-bottom: 1px solid var(--line); font-size: var(--step--1); }
+  .params dt { color: var(--text-2); }
+  .params dd { margin: 0; font-weight: 500; font-variant-numeric: tabular-nums; }
+  .blend { display: grid; gap: 0.5rem; margin: 0; }
+  .blend .eyebrow { margin: 0; }
+  .bar { display: flex; height: 2.25rem; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--line-strong); }
+  .seg { display: flex; align-items: center; padding-inline: 0.6rem; font-size: var(--step--1); font-variant-numeric: tabular-nums; }
+  .seg + .seg { border-left: 1px solid var(--bg); }
+  .s1 { background: var(--sunken); color: var(--text); }
+  .s2 { background: var(--accent); color: var(--on-accent); }
+  .s3 { background: var(--text); color: var(--bg); }
+  .bar-key { display: flex; flex-wrap: wrap; gap: 0.25rem 1.25rem; margin: 0; padding: 0; list-style: none; font-size: var(--step--1); color: var(--text-2); }
+  .bar-key li { display: inline-flex; align-items: center; gap: 0.4rem; }
+  .sw { width: 0.75rem; height: 0.75rem; border-radius: 2px; border: 1px solid var(--line-strong); }
+  .pipe { display: grid; gap: 0; margin: 0; padding: 0; list-style: none; border-left: 2px solid var(--accent); }
+  .pipe li { display: grid; grid-template-columns: 1.75rem 1fr; padding: 0.35rem 0 0.35rem 0.75rem; font-size: var(--step--1); font-weight: 500; }
+  .pipe .num { color: var(--accent); }
+
+  /* 06 Headset */
+  .issues { margin-top: var(--space-3); }
+  .issues th:first-child { width: 11rem; }
+  .issues td:nth-child(2), .issues td:nth-child(3) { width: 36%; }
+  .issues tbody td:nth-child(3) { color: var(--text-2); }
+  .status { display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.1rem 0.5rem; border-radius: 3px; border: 1px solid var(--line-strong); font-size: 0.75rem; font-weight: 600; white-space: nowrap; }
+  .status.solved { border-color: var(--accent); color: var(--accent); }
+  .status.open { color: var(--text); background: var(--sunken); }
+  .issues + .caveat, #headset .scroll + .caveat { margin-top: var(--space-2); }
 
   /* 05 Testing */
   .stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-3); margin-top: var(--space-2); }
@@ -369,6 +614,18 @@ const clips = {
   .scores > div { display: flex; justify-content: space-between; gap: var(--space-2); padding-block: 0.55rem; border-bottom: 1px solid var(--line); }
   .scores dd { margin: 0; font-weight: 600; font-variant-numeric: tabular-nums; }
   .findings td:first-child { width: 50%; }
+  .per { margin-top: 0.5rem; }
+  .per thead th:not(:first-child), .per td { text-align: center; padding-right: 0; width: 3.5rem; }
+  .per tbody th { display: grid; gap: 0.2rem; font-weight: 400; }
+  .per-k { font-weight: 600; }
+  .per-q { color: var(--text-2); font-size: var(--step--1); }
+  .score { display: inline-grid; place-items: center; width: 2rem; height: 2rem; border-radius: var(--radius); border: 1px solid var(--line-strong); font-weight: 600; font-variant-numeric: tabular-nums; }
+  .score[data-v='5'] { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+  .score[data-v='4'] { background: var(--sunken); }
+  .per td.mean { font-weight: 700; font-variant-numeric: tabular-nums; color: var(--accent); }
+  .quotes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-2) var(--space-4); margin: 0.75rem 0 0; padding: 0; list-style: none; }
+  .quotes blockquote { margin: 0; padding-left: var(--space-2); border-left: 2px solid var(--accent); }
+  .quotes p { font-size: var(--step-1); line-height: 1.4; }
 
   /* 06 Reflection */
   .future { display: grid; margin: 0; border-top: 1px solid var(--line); }
@@ -387,12 +644,23 @@ const clips = {
   .next .eyebrow { color: var(--text-2); }
   .next-title { font-size: var(--step-2); font-weight: 600; letter-spacing: -0.02em; }
 
+  /* Between tablet and wide desktop, give code a little more room so excerpts fit without scrolling. */
+  @media (min-width: 48rem) and (max-width: 79.99rem) {
+    .code-row { grid-template-columns: minmax(0, 9fr) minmax(0, 11fr); }
+    .code-row.flip { grid-template-columns: minmax(0, 11fr) minmax(0, 9fr); }
+    .tech :global(.code-block pre) { font-size: 0.6875rem; }
+  }
   @media (max-width: 63.99rem) {
     .details { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .stack { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   }
   @media (max-width: 47.99rem) {
     .details { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .worlds, .stats, .two, .qa li, .loop ol { grid-template-columns: 1fr; }
+    .worlds, .stats, .two, .loop ol, .quotes, .stack { grid-template-columns: 1fr; }
+    .sysmap thead, .sysmap td.arr { display: none; }
+    .sysmap tr { display: grid; gap: 0.15rem; padding-block: 0.6rem; border-bottom: 1px solid var(--line); }
+    .sysmap td, .sysmap th { padding: 0; border: 0; white-space: normal; }
+    .sysmap tbody th { order: -1; overflow-wrap: anywhere; }
     .loop ol { border-top: 0; border-left: 2px solid var(--accent); }
     .loop li { grid-template-columns: 2.25rem 1fr; padding: 0.4rem 0 0.4rem 0.75rem; }
     .future > div { grid-template-columns: 1fr; gap: 0.25rem; }

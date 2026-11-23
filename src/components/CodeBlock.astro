@@ -1,0 +1,34 @@
+---
+// A short, real code excerpt with its file name. Monochrome on purpose: only comments are dimmed.
+// Visible text (title, note) comes in through props from the page's data file.
+interface Props {
+  title: string;
+  code: string;
+  note?: string;
+  lang?: string;
+}
+const { title, code, note, lang = 'csharp' } = Astro.props;
+
+// Split each line into code and a trailing `// comment` (only when the // follows whitespace or starts the line).
+const lines = code.split('\n').map((line) => {
+  const m = line.match(/^(.*?)(^|\s)(\/\/.*)$/);
+  return m ? { code: m[1] + m[2], comment: m[3] } : { code: line, comment: '' };
+});
+---
+
+<figure class="code-block">
+  <figcaption><span class="file">{title}</span></figcaption>
+  <pre tabindex="0" aria-label={title}><code class={`language-${lang}`}>{lines.map((l) => <span class="line">{l.code}{l.comment && <span class="cm">{l.comment}</span>}{'\n'}</span>)}</code></pre>
+  {note && <p class="code-note">{note}</p>}
+</figure>
+
+<style>
+  .code-block { display: grid; gap: 0; margin: 0; min-width: 0; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); overflow: hidden; }
+  figcaption { padding: 0.6rem 1rem; border-bottom: 1px solid var(--line); background: var(--sunken); }
+  .file { font: 500 0.8125rem/1.4 var(--font-mono); color: var(--text); }
+  pre { margin: 0; padding: 1rem; overflow-x: auto; font: 0.75rem/1.65 var(--font-mono); color: var(--text); tab-size: 4; }
+  pre:focus-visible { outline: 2px solid var(--focus); outline-offset: -2px; }
+  .line { display: inline; }
+  .cm { color: var(--text-2); font-style: italic; }
+  .code-note { margin: 0; padding: 0.6rem 1rem; border-top: 1px solid var(--line); font-size: var(--step--1); color: var(--text-2); }
+</style>
