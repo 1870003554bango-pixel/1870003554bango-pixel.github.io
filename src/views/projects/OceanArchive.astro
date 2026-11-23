@@ -53,7 +53,10 @@ const statusLabel: Record<string, string> = { fixed: c.iteration.fixed, partial:
           <a class="text-link" href="#tech">{c.ctaTech} <span aria-hidden="true">→</span></a>
         </div>
       </div>
-      <Zoom src={img('act1-reef')} alt={c.heroAlt} caption={cap} loading="eager" widths={[640, 1100, 1920]} sizes="(min-width: 48rem) 600px, 100vw" />
+      <div class="hero-media">
+        <Zoom src={img('act1-reef')} alt={c.heroAlt} caption={c.heroCapA} loading="eager" widths={[640, 1100, 1920]} sizes="(min-width: 48rem) 600px, 100vw" />
+        <Zoom src={img('act2-nets')} alt={c.heroAltB} caption={c.heroCapB} loading="eager" widths={[640, 1100, 1920]} sizes="(min-width: 48rem) 600px, 100vw" />
+      </div>
     </header>
     <dl class="wrap details">{c.details.map((d) => <div><dt>{d.k}</dt><dd>{d.v}</dd></div>)}</dl>
     <nav class="wrap toc" aria-label={c.toc.label}>
@@ -137,7 +140,7 @@ const statusLabel: Record<string, string> = { fixed: c.iteration.fixed, partial:
         <p>{c.acts.body}</p>
       </div>
       <ol class="flow" role="list">{c.acts.flow.map((f) => <li>{f}</li>)}</ol>
-      {c.acts.list.map((a, i) => (
+      {c.acts.list.slice(0, 2).map((a, i) => (
         <div class:list={['row', 'act', { flip: i % 2 === 1 }]}>
           <div class="prose">
             <p class="num">{a.n}</p>
@@ -146,13 +149,21 @@ const statusLabel: Record<string, string> = { fixed: c.iteration.fixed, partial:
             <p>{a.text}</p>
             <p class="system"><span class="tag">{lang === 'zh' ? '代表系统' : 'Key system'}</span>{a.system}</p>
           </div>
-          {a.img ? (
-            <Zoom src={img(a.img)} alt={a.alt} caption={a.note ? `${cap} ${a.note}` : cap} widths={[640, 1100, 1920]} sizes="(min-width: 48rem) 560px, 100vw" />
-          ) : (
-            <div class="todo" role="note"><span class="tag">TODO</span><p>{i === 2 ? c.acts.todoAct3 : c.acts.todoAct4}</p></div>
-          )}
+          <Zoom src={img(a.img)} alt={a.alt} caption={a.note ? `${cap} ${a.note}` : cap} widths={[640, 1100, 1920]} sizes="(min-width: 48rem) 560px, 100vw" />
         </div>
       ))}
+      <div class="later">
+        {c.acts.list.slice(2).map((a, i) => (
+          <div class="later-act">
+            <p class="num">{a.n}</p>
+            <h3>{a.k}</h3>
+            <p class="mood">{a.mood}</p>
+            <p>{a.text}</p>
+            <p class="system"><span class="tag">{lang === 'zh' ? '代表系统' : 'Key system'}</span>{a.system}</p>
+            <div class="todo slim" role="note"><span class="tag">TODO</span><span>{i === 0 ? c.acts.todoAct3 : c.acts.todoAct4}</span></div>
+          </div>
+        ))}
+      </div>
       <p class="ending">{c.acts.ending}</p>
     </section>
 
@@ -174,28 +185,30 @@ const statusLabel: Record<string, string> = { fixed: c.iteration.fixed, partial:
         <Zoom src={img(R.scan.img)} alt={R.scan.alt} caption={cap} widths={[640, 1100, 1920]} sizes="(min-width: 48rem) 560px, 100vw" />
       </div>
 
-      <div class="row flip sticky detail">
-        <div class="prose"><p class="num">{R.bag.n}</p><h3>{R.bag.k}</h3><p>{R.bag.v}</p></div>
-        <div class="media pair">
-          <figure><Zoom src={img(R.bag.img)} alt={R.bag.alt} caption={cap} widths={[640, 1100]} sizes="(min-width: 48rem) 560px, 100vw" /><span class="pair-k">{R.bag.cap}</span></figure>
-          <figure><Zoom src={img(R.bag.img2)} alt={R.bag.alt2} caption={cap} widths={[640, 1100]} sizes="(min-width: 48rem) 560px, 100vw" /><span class="pair-k">{R.bag.cap2}</span></figure>
-        </div>
+      <div class="row flip detail">
+        <div class="prose"><p class="num">{R.bag.n}</p><h3>{R.bag.k}</h3><p>{R.bag.v}</p><p>{R.bag.card}</p></div>
+        <Zoom src={img(R.bag.img3)} alt={R.bag.alt3} caption={R.bag.cap3} widths={[640, 1100, 1920]} sizes="(min-width: 48rem) 560px, 100vw" />
+      </div>
+      <div class="pair">
+        <Zoom src={img(R.bag.img)} alt={R.bag.alt} caption={R.bag.cap} widths={[640, 1100]} sizes="(min-width: 48rem) 580px, 100vw" />
+        <Zoom src={img(R.bag.img2)} alt={R.bag.alt2} caption={R.bag.cap2} widths={[640, 1100]} sizes="(min-width: 48rem) 580px, 100vw" />
       </div>
 
-      <div class="row detail">
-        <div class="prose"><p class="num">{R.hunger.n}</p><h3>{R.hunger.k}</h3><p>{R.hunger.v}</p></div>
-        <div class="panel">
+      <div class="row sticky detail">
+        <div class="prose">
+          <p class="num">{R.hunger.n}</p><h3>{R.hunger.k}</h3><p>{R.hunger.v}</p>
           <table>
             <thead><tr>{R.hunger.tableHead.map((h: string) => <th scope="col">{h}</th>)}</tr></thead>
             <tbody>{R.hunger.table.map((r: string[]) => <tr><th scope="row">{r[0]}</th><td>{r[1]}</td></tr>)}</tbody>
           </table>
           <p class="small muted">{x.documented}</p>
         </div>
+        <div class="media"><Zoom src={img(R.hunger.img)} alt={R.hunger.alt} caption={R.hunger.imgCap} widths={[640, 1100, 1920]} sizes="(min-width: 48rem) 560px, 100vw" /></div>
       </div>
 
       <div class="row flip detail">
         <div class="prose"><p class="num">{R.net.n}</p><h3>{R.net.k}</h3><p>{R.net.v}</p></div>
-        <Zoom src={img('act2-arrival')} alt={c.acts.list[1].alt} caption={cap} widths={[640, 1100, 1920]} sizes="(min-width: 48rem) 560px, 100vw" />
+        <Zoom src={img(R.net.img)} alt={R.net.alt} caption={cap} widths={[640, 1100, 1920]} sizes="(min-width: 48rem) 560px, 100vw" />
       </div>
 
       <div class="row detail">
@@ -262,10 +275,6 @@ const statusLabel: Record<string, string> = { fixed: c.iteration.fixed, partial:
         <div class="prose">
           <p class="num">{x.light.n}</p><h3>{x.light.k}</h3>
           {x.light.v.map((p) => <p>{p}</p>)}
-          <table>
-            <thead><tr>{x.light.layersHead.map((h) => <th scope="col">{h}</th>)}</tr></thead>
-            <tbody>{x.light.layers.map((r) => <tr><th scope="row">{r[0]}</th><td class="muted">{r[1]}</td></tr>)}</tbody>
-          </table>
         </div>
         <div class="media">
           <figure class="cmp">
@@ -276,18 +285,21 @@ const statusLabel: Record<string, string> = { fixed: c.iteration.fixed, partial:
             <thead><tr>{x.light.head.map((h) => <th scope="col">{h}</th>)}</tr></thead>
             <tbody>{x.light.rows.map((r) => <tr><th scope="row">{r[0]}</th><td class="num-v">{r[1]}</td><td class="num-v">{r[2]}</td></tr>)}</tbody>
           </table>
+          <table>
+            <thead><tr>{x.light.layersHead.map((h) => <th scope="col">{h}</th>)}</tr></thead>
+            <tbody>{x.light.layers.map((r) => <tr><th scope="row">{r[0]}</th><td class="muted">{r[1]}</td></tr>)}</tbody>
+          </table>
         </div>
       </div>
 
       <!-- 05D spire -->
-      <div class="row flip detail">
+      <div class="row flip detail spire">
         <div class="prose">
           <p class="num">{x.spire.n}</p><h3>{x.spire.k}</h3>
           {x.spire.v.map((p) => <p>{p}</p>)}
           <ol class="states" role="list">{x.spire.flow.map((s) => <li>{s}</li>)}</ol>
         </div>
         <div class="media">
-          <div class="todo small-todo" role="note"><span class="tag">TODO</span><p>{c.acts.todoAct4}</p></div>
           <table>
             <thead><tr>{x.spire.head.map((h) => <th scope="col">{h}</th>)}</tr></thead>
             <tbody>{x.spire.rows.map((r) => <tr><th scope="row">{r[0]}</th><td class="muted">{r[1]}</td><td class="num-v">{r[2]}</td></tr>)}</tbody>
@@ -314,11 +326,15 @@ const statusLabel: Record<string, string> = { fixed: c.iteration.fixed, partial:
         <div class="stage">
           <img src={img('act1-start').src} alt={c.play.posterAlt} loading="lazy" decoding="async" />
           <button type="button" class="btn btn-primary run"><span aria-hidden="true">▶</span>{c.play.load}</button>
+          <p class="hint" hidden><span class="hint-dot" aria-hidden="true"></span>{c.play.hint}</p>
         </div>
       </figure>
       <div class="play-row">
         <dl class="controls">{c.play.controls.map((k) => <div><dt><kbd>{k.k}</kbd></dt><dd>{k.v}</dd></div>)}</dl>
-        <a class="btn" href={demoUrl} target="_blank" rel="noopener noreferrer">{c.play.open} <span aria-hidden="true">↗</span></a>
+        <div class="play-actions">
+          <button type="button" class="btn fs" data-fullscreen disabled>{c.play.fullscreen} <span aria-hidden="true">⤢</span></button>
+          <a class="btn" href={demoUrl} target="_blank" rel="noopener noreferrer">{c.play.open} <span aria-hidden="true">↗</span></a>
+        </div>
       </div>
       <p class="small muted">{c.play.note}</p>
     </section>
@@ -374,7 +390,12 @@ const statusLabel: Record<string, string> = { fixed: c.iteration.fixed, partial:
 
 <script>
   // Load the Unity Web Player only when asked.
+  // The game can only take over the mouse (pointer lock) after a click inside its own frame, so a hint
+  // stays over the game until that first click moves focus into the iframe.
   document.querySelectorAll<HTMLElement>('[data-unity]').forEach((fig) => {
+    const stage = fig.querySelector<HTMLElement>('.stage')!;
+    const hint = stage.querySelector<HTMLElement>('.hint')!;
+    const fs = document.querySelector<HTMLButtonElement>('[data-fullscreen]');
     fig.querySelector('.run')?.addEventListener('click', () => {
       const frame = document.createElement('iframe');
       frame.src = fig.dataset.src!;
@@ -382,8 +403,15 @@ const statusLabel: Record<string, string> = { fixed: c.iteration.fixed, partial:
       frame.allow = 'autoplay; fullscreen; gamepad; xr-spatial-tracking; pointer-lock';
       frame.allowFullscreen = true;
       frame.referrerPolicy = 'strict-origin-when-cross-origin';
-      fig.querySelector('.stage')!.replaceChildren(frame);
-      frame.focus();
+      stage.replaceChildren(frame, hint);
+      hint.hidden = false;
+      if (fs) fs.disabled = false;
+      // When the visitor clicks into the game, focus moves to the iframe and this window blurs.
+      const onBlur = () => {
+        if (document.activeElement === frame) { hint.hidden = true; window.removeEventListener('blur', onBlur); }
+      };
+      window.addEventListener('blur', () => setTimeout(onBlur, 0));
+      fs?.addEventListener('click', () => frame.requestFullscreen?.());
     });
   });
 </script>
@@ -400,6 +428,7 @@ const statusLabel: Record<string, string> = { fixed: c.iteration.fixed, partial:
   .sub-h { margin-top: 0; }
   .hero { padding-top: var(--space-2); }
   .hero h1 { font-size: var(--step-3); }
+  .hero-media { display: grid; gap: var(--space-2); }
   .tagline { font-size: var(--step-2); font-weight: 600; letter-spacing: -0.02em; line-height: 1.2; }
   .ctas { display: flex; gap: 0.75rem 1rem; flex-wrap: wrap; align-items: center; }
   .ctas .text-link { display: inline-flex; align-items: center; min-height: 44px; }
@@ -460,17 +489,17 @@ const statusLabel: Record<string, string> = { fixed: c.iteration.fixed, partial:
   .act { margin-top: var(--space-5); }
   .mood { font-size: var(--step--1); font-weight: 600; color: var(--accent); }
   .system { display: flex; gap: 0.6rem; align-items: baseline; font-size: var(--step--1); color: var(--text-2); }
-  .todo { display: grid; place-content: center; justify-items: center; gap: 0.6rem; aspect-ratio: 16 / 10; padding: var(--space-3); text-align: center; border: 1px dashed var(--line-strong); border-radius: var(--radius); background: var(--sunken); color: var(--text-2); font-size: var(--step--1); }
-  .small-todo { aspect-ratio: 16 / 7; }
+  .later { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-5); margin-top: var(--space-5); padding-top: var(--space-4); border-top: 1px solid var(--line); }
+  .later-act { display: grid; gap: 0.6rem; align-content: start; }
+  .later-act h3 { font-size: var(--step-2); }
+  .todo { display: flex; align-items: center; gap: 0.75rem; padding: 0.9rem 1rem; border: 1px dashed var(--line-strong); border-radius: var(--radius); background: var(--sunken); color: var(--text-2); font-size: var(--step--1); }
   .ending { margin-top: var(--space-5); text-align: center; font-size: var(--step-2); font-weight: 600; letter-spacing: -0.02em; }
 
   /* 04 Interaction */
   .loop { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin: var(--space-3) 0 0; padding: 0; list-style: none; border-top: 2px solid var(--accent); }
   .loop li { display: grid; gap: 0.25rem; padding: 0.75rem 0.75rem 0 0; font-weight: 600; }
-  .pair { gap: var(--space-2); }
-  .pair figure { margin: 0; position: relative; }
-  .pair-k { position: absolute; top: 0.6rem; left: 0.6rem; padding: 0.15rem 0.5rem; border-radius: 3px; background: var(--text); color: var(--bg); font-size: 0.75rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; pointer-events: none; }
-  .pair :global(figcaption) { display: none; }
+  .pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-3); margin-top: var(--space-3); }
+  .pair :global(figcaption) { font-weight: 500; color: var(--text); }
 
   /* 05 Tech */
   .states { display: flex; flex-wrap: wrap; gap: 0.4rem 0; margin: 0; padding: 0; list-style: none; font-size: var(--step--1); font-weight: 500; }
@@ -489,6 +518,10 @@ const statusLabel: Record<string, string> = { fixed: c.iteration.fixed, partial:
   .stage img { display: block; width: 100%; height: 100%; object-fit: cover; opacity: 0.75; }
   .stage :global(iframe) { display: block; width: 100%; height: 100%; border: 0; }
   .run { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); gap: 0.5rem; }
+  .hint { position: absolute; left: 50%; bottom: 1rem; transform: translateX(-50%); display: flex; align-items: center; gap: 0.6rem; width: max-content; max-width: calc(100% - 2rem); margin: 0; padding: 0.6rem 0.9rem; border-radius: var(--radius); background: var(--text); color: var(--bg); font-size: var(--step--1); pointer-events: none; }
+  .hint-dot { flex: none; width: 0.5rem; height: 0.5rem; border-radius: 50%; background: var(--on-accent); box-shadow: 0 0 0 3px var(--accent); }
+  .play-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+  .fs:disabled { opacity: 0.45; cursor: not-allowed; }
   .play-row { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: var(--space-2); margin-top: var(--space-2); }
   .controls { display: flex; flex-wrap: wrap; gap: 0.5rem var(--space-3); margin: 0; }
   .controls > div { display: flex; align-items: center; gap: 0.5rem; font-size: var(--step--1); }
@@ -519,7 +552,7 @@ const statusLabel: Record<string, string> = { fixed: c.iteration.fixed, partial:
   }
   @media (max-width: 47.99rem) {
     .details { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .timeline, .loop, .app-grid, .cmp { grid-template-columns: 1fr; }
+    .timeline, .loop, .app-grid, .cmp, .later, .pair { grid-template-columns: 1fr; }
     .loop { border-top: 0; border-left: 2px solid var(--accent); }
     .loop li { padding: 0.4rem 0 0.4rem 0.75rem; }
   }

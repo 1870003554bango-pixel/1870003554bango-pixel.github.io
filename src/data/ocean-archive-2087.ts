@@ -21,6 +21,9 @@ const en = {
   ctaTech: 'Technical Highlights',
   heroAlt: 'In-game view of Act 01: a sunlit reef with light shafts and rippling caustics on the sand, coral, a wreck on the right and the objective panel “Swim ahead through the reef”.',
   capturedCaption: 'Captured from the live Unity Web Player build.',
+  heroCapA: 'Act 01 — the reef while it is still alive. Captured from the live web build.',
+  heroCapB: 'Act 02 — the same ocean after pollution arrives: ghost nets and drifting debris.',
+  heroAltB: 'In-game view of Act 02: murky green water, two pale ghost nets and drifting debris over a broken reef.',
   details: [
     { k: 'Type', v: 'First-person interactive environmental narrative · Individual project' },
     { k: 'Theme', v: 'UN SDG 14 — Life Below Water' },
@@ -140,7 +143,7 @@ const en = {
         n: 'Act 01', k: 'Living Ocean', mood: 'Calm → wonder → threat',
         text: 'The player starts on a reef that is still alive, swims as a sea turtle and scans what lives there. The documentation records 681 sardines, 459 independent small fish and 17 large patrolling fish. Near the pollution source, a black cloud rolls in and the fish scatter.',
         system: 'Boids-style flocking · species scanner',
-        img: 'act1-school', alt: 'In-game view of Act 01: a school of small fish breaking apart in the upper left above the reef, light shafts and a glowing marker ahead.',
+        img: 'act1-colour', alt: 'In-game view of Act 01: a colourful reef of coral and sponges on rippled sand, light shafts and small fish ahead, the objective panel at the top left.',
         note: 'In-game chapter card: “01 Remains”.',
       },
       {
@@ -163,9 +166,10 @@ const en = {
         img: '', alt: '', note: '',
       },
     ],
-    todo: 'Screenshot to add',
+    todo: 'Gameplay capture to add',
     todoAct3: 'Act 03 · Archive Tunnel — real gameplay capture still needed',
     todoAct4: 'Act 04 · Flooded City and the memory spire — real gameplay capture still needed',
+    laterTitle: 'The second half',
     ending: '“Everything recorded here was carried into the city.”',
   },
 
@@ -185,14 +189,18 @@ const en = {
       {
         id: 'bag', n: '04B', k: 'Jellyfish or plastic bag?',
         v: 'Rather than a quiz, the game recreates the conditions of a mistake. At around 6 m, jellyfish and plastic bags share a silhouette; only closer do tentacles, soft glow, folds and handles tell them apart. The bags are procedural meshes with folds, openings, handles and tears. The documentation records about 14 floating targets, roughly 45% of them bags.',
-        img: 'act2-silhouettes', img2: 'act2-jellyfish',
+        card: 'Swallow a bag and the Marine Archive files it as “Mistaken for food — Plastic bag”. Hunger does not change: the turtle has eaten, but it is no less hungry.',
+        img: 'act2-silhouettes', img2: 'act2-jellyfish', img3: 'act2-bag-card',
         alt: 'In-game view of Act 02 from a distance: pale floating shapes in murky water above a broken reef, impossible to identify yet.',
         alt2: 'In-game view of Act 02 closer up: several jellyfish with trailing tentacles drifting in dark green water.',
-        cap: 'Far', cap2: 'Closer',
+        alt3: 'In-game Marine Archive card after swallowing a bag: “Marine Archive / Mistaken for food — Plastic bag — Ingested / not food — Hunger: no change — In the water a drifting bag looks just like a jellyfish. Sea turtles cannot tell them apart.”',
+        cap: 'From a distance — what is food?', cap2: 'Closer — tentacles give jellyfish away', cap3: 'The consequence, filed in the archive',
       },
       {
         id: 'hunger', n: '04C', k: 'Hunger and a body that reacts',
         v: 'The player reads the turtle’s state through movement and the camera, not a pollution number. Hunger slows the turtle; from the seventh ingested item, sickness pulses tilt and slow the view. These pulses may be uncomfortable for motion-sensitive players — reviewing their strength, and an option to turn them down, is still to do.',
+        img: 'act2-weak', alt: 'In-game view of Act 02 with the objective panel showing fullness in red and the word “Weakened”, murky water over a broken reef.',
+        imgCap: 'Fullness turns red and the HUD reads “Weakened”.',
         tableHead: ['Event', 'Documented effect'],
         table: [
           ['Start of Act 02', 'Hunger 55 / 100'],
@@ -205,7 +213,7 @@ const en = {
       {
         id: 'net', n: '04D', k: 'Ghost nets',
         v: 'A net is not scenery. It is a 12 × 8 procedural line mesh that catches the turtle within about 2.4 m, cuts movement to about 8% and drags at about 0.8 m/s. Pressing Space seven times breaks free, and the same net then ignores the player for about 6 s. Trapped fish can be rescued by holding E for about 1.6 s within 4 m.',
-        img: 'act2-arrival', alt: '',
+        img: 'act2-nets', alt: 'In-game view of Act 02: two pale ghost nets hanging in murky water, with dark debris drifting between them over the reef.',
       },
       {
         id: 'guide', n: '04E', k: 'Guidance that steps back',
@@ -328,6 +336,8 @@ const en = {
     body: 'The game runs in the Unity Web Player. It is a full 3D build, so it only loads when you ask for it.',
     load: 'Load the interactive experience',
     open: 'Open in a new tab',
+    fullscreen: 'Play fullscreen',
+    hint: 'Click once inside the game to steer with the mouse — the browser only hands over the pointer after a click. Press Esc to get the cursor back.',
     posterAlt: 'Ocean Archive 2087 in game: the reef in Act 01 with a Marine Archive card.',
     controls: [
       { k: 'W A S D', v: 'Swim' },
@@ -398,6 +408,9 @@ const zh: Copy = {
   ctaTech: '技术亮点',
   heroAlt: '第一幕游戏画面：阳光照进的珊瑚礁，光柱与沙地上流动的焦散，右侧有珊瑚和沉船，左上角是目标面板“Swim ahead through the reef”。',
   capturedCaption: '截取自在线 Unity Web Player 版本。',
+  heroCapA: '第一幕——仍有生命的珊瑚礁。截取自在线网页版本。',
+  heroCapB: '第二幕——污染到来后的同一片海：幽灵渔网与漂浮碎片。',
+  heroAltB: '第二幕游戏画面：浑浊的绿色海水中，两张浅色幽灵渔网和漂浮碎片悬在残破的珊瑚礁上方。',
   details: [
     { k: '类型', v: '第一人称互动环境叙事 · 个人项目' },
     { k: '主题', v: '联合国 SDG 14：水下生物' },
@@ -517,7 +530,7 @@ const zh: Copy = {
         n: '第一幕', k: 'Living Ocean · 生命海洋', mood: '宁静 → 惊异 → 威胁',
         text: '玩家从一片仍有生命的珊瑚礁出发，以海龟身份游动、扫描这里的生物。文档记录有 681 条沙丁鱼、459 条独立小鱼和 17 条大型巡游鱼。接近污染源时，黑色污染云推进，鱼群惊散。',
         system: '类 Boids 鱼群 · 物种扫描',
-        img: 'act1-school', alt: '第一幕游戏画面：一群小鱼在珊瑚礁上方左上角散开，前方有光柱和发光标记。',
+        img: 'act1-colour', alt: '第一幕游戏画面：波纹沙地上色彩丰富的珊瑚和海绵，前方有光柱和小鱼，左上角是目标面板。',
         note: '游戏内章节标题：“01 Remains”。',
       },
       {
@@ -540,9 +553,10 @@ const zh: Copy = {
         img: '', alt: '', note: '',
       },
     ],
-    todo: '待补截图',
+    todo: '待补游戏截图',
     todoAct3: '第三幕 · 档案隧道——仍需真实游戏截图',
     todoAct4: '第四幕 · 淹没之城与记忆尖塔——仍需真实游戏截图',
+    laterTitle: '后半段',
     ending: '“这里记录的一切，都被带回了城市。”',
   },
 
@@ -562,14 +576,18 @@ const zh: Copy = {
       {
         id: 'bag', n: '04B', k: '水母，还是塑料袋？',
         v: '这里没有知识问答，而是重现一次误判发生的条件。约 6 米外，水母和塑料袋轮廓相似；靠近后，触须、柔光、褶皱和提手才能把它们区分开。塑料袋是带褶皱、开口、提手和撕裂的程序化网格。文档记录约 14 个漂浮目标，其中约 45% 是塑料袋。',
-        img: 'act2-silhouettes', img2: 'act2-jellyfish',
+        card: '吞下塑料袋后，海洋档案会把它记录为“误认为食物——塑料袋”。饥饿值没有变化：海龟吃了东西，却一点也没有更饱。',
+        img: 'act2-silhouettes', img2: 'act2-jellyfish', img3: 'act2-bag-card',
         alt: '第二幕远距离游戏画面：浑浊水体中，残破珊瑚礁上方漂着几个浅色物体，还无法分辨。',
         alt2: '第二幕近距离游戏画面：几只拖着触须的水母漂浮在墨绿色水中。',
-        cap: '远处', cap2: '靠近',
+        alt3: '吞下塑料袋后的游戏内海洋档案卡：“Marine Archive / Mistaken for food — Plastic bag — Ingested / not food — Hunger: no change — In the water a drifting bag looks just like a jellyfish. Sea turtles cannot tell them apart.”',
+        cap: '远处——哪个才是食物？', cap2: '靠近——触须暴露了水母', cap3: '后果被记入档案',
       },
       {
         id: 'hunger', n: '04C', k: '饥饿，和会作出反应的身体',
         v: '玩家通过移动和镜头感受海龟的状态，而不是看一个污染数值。饥饿会让海龟变慢；从误食第 7 件垃圾开始，周期性的不适会让视角倾斜、速度骤降。这种效果可能让容易晕动的玩家不适——调整强度、提供关闭选项仍是待办事项。',
+        img: 'act2-weak', alt: '第二幕游戏画面：目标面板中的饱腹度变为红色，并显示“Weakened”，浑浊海水笼罩残破的珊瑚礁。',
+        imgCap: '饱腹度变红，HUD 显示“Weakened（虚弱）”。',
         tableHead: ['事件', '文档记录的效果'],
         table: [
           ['第二幕开始', '饥饿值 55 / 100'],
@@ -582,7 +600,7 @@ const zh: Copy = {
       {
         id: 'net', n: '04D', k: '幽灵渔网',
         v: '渔网不是布景。它是 12 × 8 的程序化线网，约 2.4 米内会缠住海龟，移动速度降到约 8%，并以约 0.8 m/s 拖拽。连按 7 次空格挣脱后，同一张网约 6 秒内不再捕获。被困的鱼可以在 4 米内按住 E 约 1.6 秒救出。',
-        img: 'act2-arrival', alt: '',
+        img: 'act2-nets', alt: '第二幕游戏画面：两张浅色幽灵渔网悬在浑浊海水中，深色碎片在它们之间漂过珊瑚礁。',
       },
       {
         id: 'guide', n: '04E', k: '会退后一步的引导',
@@ -705,6 +723,8 @@ const zh: Copy = {
     body: '游戏运行在 Unity Web Player 中。这是完整的 3D 版本，所以只在你点击后才加载。',
     load: '加载互动体验',
     open: '在新窗口中打开',
+    fullscreen: '全屏游玩',
+    hint: '在游戏画面内点击一次，即可用鼠标控制视角——浏览器只有在点击后才会把鼠标交给游戏。按 Esc 可取回鼠标。',
     posterAlt: 'Ocean Archive 2087 游戏画面：第一幕的珊瑚礁和一张海洋档案卡。',
     controls: [
       { k: 'W A S D', v: '游动' },
