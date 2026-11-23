@@ -18,7 +18,9 @@ interface Props {
   /** Click a slide to open it in the page's <Lightbox />. */
   zoom?: boolean;
 }
-const { slides, label, ratio = '3 / 4', sizes = '(min-width: 56rem) 540px, 100vw', prevLabel = 'Previous photo', nextLabel = 'Next photo', tone = 'dark', zoom = false } = Astro.props;
+const zh = Astro.url.pathname.includes('/zh/');
+const { slides, label, ratio = '3 / 4', sizes = '(min-width: 56rem) 540px, 100vw', prevLabel = zh ? '上一张' : 'Previous photo', nextLabel = zh ? '下一张' : 'Next photo', tone = 'dark', zoom = false } = Astro.props;
+const of = (i: number) => (zh ? `第 ${i + 1} 张，共 ${total} 张` : `${i + 1} of ${total}`);
 const total = slides.length;
 const large = zoom ? await Promise.all(slides.map((s) => getImage({ src: s.src, width: Math.min(s.src.width, 2000), format: 'webp' }))) : [];
 ---
@@ -26,9 +28,9 @@ const large = zoom ? await Promise.all(slides.map((s) => getImage({ src: s.src, 
 <section class="carousel" aria-roledescription="carousel" aria-label={label} data-carousel>
   <div class:list={['track', tone]} tabindex="0" aria-label={label} style={`--ratio: ${ratio}`}>
     {slides.map((s, i) => (
-      <figure class="slide" role="group" aria-roledescription="slide" aria-label={`${i + 1} of ${total}`} data-caption={s.caption}>
+      <figure class="slide" role="group" aria-roledescription="slide" aria-label={of(i)} data-caption={s.caption}>
         {zoom ? (
-          <button type="button" class="zoom-slide" data-zoom={large[i].src} data-zoom-alt={s.alt} data-zoom-caption={s.caption} aria-label={`Enlarge: ${s.caption}`}>
+          <button type="button" class="zoom-slide" data-zoom={large[i].src} data-zoom-alt={s.alt} data-zoom-caption={s.caption} aria-label={`${zh ? '放大：' : 'Enlarge: '}${s.caption}`}>
             <Image src={s.src} alt={s.alt} widths={[480, 800, 1200, 1500]} sizes={sizes} loading={i === 0 ? 'eager' : 'lazy'} />
           </button>
         ) : (
@@ -50,7 +52,7 @@ const large = zoom ? await Promise.all(slides.map((s) => getImage({ src: s.src, 
   </div>
   <div class="dots" role="group" aria-label={label}>
     {slides.map((s, i) => (
-      <button type="button" aria-label={`${i + 1} of ${total}: ${s.caption}`} aria-current={i === 0 ? 'true' : undefined}></button>
+      <button type="button" aria-label={`${of(i)}: ${s.caption}`} aria-current={i === 0 ? 'true' : undefined}></button>
     ))}
   </div>
 </section>

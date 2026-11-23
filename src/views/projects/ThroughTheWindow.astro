@@ -8,7 +8,7 @@ import PhotoCarousel from '../../components/PhotoCarousel.astro';
 import { useT, type Lang } from '../../i18n/ui';
 import { page, url } from '../../lib/url';
 import { nextOf, projects } from '../../data/projects';
-import { copy as c, liveUrl, skyColors, skyColorsEnd, techSnippets as code, grassColors } from '../../data/through-the-window';
+import { copy, labels, liveUrl, skyColors, skyColorsEnd, techSnippets as code, grassColors } from '../../data/through-the-window';
 import CodeBlock from '../../components/CodeBlock.astro';
 import trail100 from '../../assets/through-the-window/trail-100x.jpg';
 import trail10k from '../../assets/through-the-window/trail-10000x.jpg';
@@ -32,6 +32,8 @@ import wNight from '../../assets/through-the-window/window-night-stars.jpg';
 interface Props { lang: Lang }
 const { lang } = Astro.props;
 const t = useT(lang);
+const c = copy[lang];
+const L = labels[lang];
 const project = projects.find((p) => p.slug === 'through-the-window')!;
 const next = nextOf(project.slug);
 const frames = { dawn, daylight, sunset, night } as const;
@@ -57,13 +59,12 @@ const hx = (h: number) => 96 + (h / 24) * 384;
 ---
 
 <Base lang={lang} route="/work/through-the-window/" title={c.title} description={c.tagline} image={sunset}>
-  <article lang="en" class="project ttw">
-    <nav class="wrap crumbs" aria-label="Breadcrumb">
+  <article class="project ttw">
+    <nav class="wrap crumbs" aria-label={L.breadcrumb}>
       <ol role="list">
         <li><a href={page(lang, '/work/')}>{t('nav.work')}</a></li>
         <li aria-current="page">{c.title}</li>
       </ol>
-      {lang === 'zh' && <p class="en-only" lang="zh-CN">{t('project.enOnly')}</p>}
     </nav>
 
     <!-- A · Hero -->
@@ -219,7 +220,7 @@ const hx = (h: number) => 96 + (h / 24) * 384;
         <p class="sub">{x.sub}</p>
         {x.body.map((p) => <p>{p}</p>)}
       </div>
-      <nav class="tech-toc" aria-label={`${x.title}: sections`}>
+      <nav class="tech-toc" aria-label={`${x.title}: ${L.sections}`}>
         <ol role="list">{x.toc.map((t, i) => <li><a href={`#${t.id}`}><span class="num">{String(i + 1).padStart(2, '0')}</span>{t.k}</a></li>)}</ol>
       </nav>
       <figure class="tech-hero">
@@ -325,7 +326,7 @@ const hx = (h: number) => 96 + (h / 24) * 384;
             <tbody>{x.stars.params.map((r) => <tr><th scope="row"><code>{r[0]}</code></th><td>{r[1]}</td><td class="muted">{r[2]}</td></tr>)}</tbody>
           </table>
         </div>
-        <div class="media"><CodeBlock title={code.stars.file} code={code.stars.code} note={x.codeNote} lang="javascript" /></div>
+        <div class="media"><CodeBlock title={L.fileStars} code={code.stars.code} note={x.codeNote} lang="javascript" /></div>
       </div>
 
       <div class="row flip sticky t-row">
@@ -334,7 +335,7 @@ const hx = (h: number) => 96 + (h / 24) * 384;
           {x.trails.body.map((p) => <p>{p}</p>)}
           <ol class="pipe" role="list">{x.trails.pipe.map((p) => <li>{p}</li>)}</ol>
         </div>
-        <div class="media"><CodeBlock title={code.trails.file} code={code.trails.code} note={x.codeNote} lang="javascript" /></div>
+        <div class="media"><CodeBlock title={L.fileTrails} code={code.trails.code} note={x.codeNote} lang="javascript" /></div>
       </div>
 
       <div class="row wide-media t-row">
@@ -347,7 +348,7 @@ const hx = (h: number) => 96 + (h / 24) * 384;
           </table>
         </div>
         <div class="trail-shots">
-          <PhotoCarousel slides={trailSlides} label={x.trails.slidesLabel} ratio="7 / 3" sizes="(min-width: 48rem) 680px, 100vw" zoom prevLabel="Previous speed" nextLabel="Next speed" />
+          <PhotoCarousel slides={trailSlides} label={x.trails.slidesLabel} ratio="7 / 3" sizes="(min-width: 48rem) 680px, 100vw" zoom prevLabel={L.prevSpeed} nextLabel={L.nextSpeed} />
           <p class="small muted">{x.trails.slidesNote}</p>
         </div>
       </div>
@@ -371,7 +372,7 @@ const hx = (h: number) => 96 + (h / 24) * 384;
         <div class="prose">
           <h3>{x.meteors.tailTitle}</h3>
           <p>{x.meteors.tailBody}</p>
-          <CodeBlock title={code.tail.file} code={code.tail.code} lang="javascript" />
+          <CodeBlock title={L.fileTail} code={code.tail.code} lang="javascript" />
         </div>
         <figure class="meteor-seq">
           <figcaption class="eyebrow">{x.meteors.seqTitle}</figcaption>
@@ -435,10 +436,10 @@ const hx = (h: number) => 96 + (h / 24) * 384;
       </ul>
     </section>
 
-    <nav class="wrap bottom-nav" aria-label="Project navigation">
-      <a class="text-link" href={page(lang, '/work/')}>← All Work</a>
+    <nav class="wrap bottom-nav" aria-label={L.projectNav}>
+      <a class="text-link" href={page(lang, '/work/')}>← {t('project.back')}</a>
       <a class="next" href={page(lang, `/work/${next.slug}/`)}>
-        <span class="eyebrow">Next Project</span>
+        <span class="eyebrow">{t('project.next')}</span>
         <span class="next-title">{next.title} <span class="arrow" aria-hidden="true">→</span></span>
       </a>
     </nav>
@@ -452,7 +453,6 @@ const hx = (h: number) => 96 + (h / 24) * 384;
   .crumbs li + li::before { content: '/'; margin-right: 0.5rem; }
   .crumbs a { display: inline-flex; align-items: center; min-height: 44px; margin-block: -0.6rem; color: var(--text-2); }
   .crumbs a:hover { color: var(--text); }
-  .en-only { margin-top: 0.5rem; font-size: var(--step--1); color: var(--text-2); }
 
   /* A */
   .hero { display: grid; gap: var(--space-4); align-items: center; padding-block: var(--space-4) var(--space-5); }

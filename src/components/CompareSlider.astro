@@ -14,6 +14,7 @@ interface Props {
   sizes?: string;
 }
 const { before, after, beforeAlt, afterAlt, label, caption, sizes = '(min-width: 48rem) 360px, 100vw' } = Astro.props;
+const zh = Astro.url.pathname.includes('/zh/');
 ---
 
 <figure class="compare" data-compare>
@@ -22,10 +23,10 @@ const { before, after, beforeAlt, afterAlt, label, caption, sizes = '(min-width:
     <div class="before-wrap" aria-hidden="false">
       <Image class="img before" src={before} alt={beforeAlt} widths={[480, 960]} sizes={sizes} />
     </div>
-    <span class="tag tag-before" aria-hidden="true">Before</span>
-    <span class="tag tag-after" aria-hidden="true">After</span>
+    <span class="tag tag-before" aria-hidden="true">{zh ? '之前' : 'Before'}</span>
+    <span class="tag tag-after" aria-hidden="true">{zh ? '之后' : 'After'}</span>
     <span class="handle" aria-hidden="true"></span>
-    <input type="range" min="0" max="100" value="50" step="1" aria-label={`${label}: drag to compare before and after`} />
+    <input type="range" min="0" max="100" value="50" step="1" aria-label={`${label}${zh ? '：拖动对比前后' : ': drag to compare before and after'}`} data-before-word={zh ? '之前' : 'before'} />
   </div>
   {caption && <figcaption>{caption}</figcaption>}
 </figure>
@@ -36,7 +37,7 @@ const { before, after, beforeAlt, afterAlt, label, caption, sizes = '(min-width:
     const input = fig.querySelector<HTMLInputElement>('input')!;
     const set = () => {
       stage.style.setProperty('--pos', `${input.value}%`);
-      input.setAttribute('aria-valuetext', `${input.value}% before`);
+      input.setAttribute('aria-valuetext', `${input.value}% ${input.dataset.beforeWord ?? 'before'}`);
     };
     input.addEventListener('input', set);
     set();

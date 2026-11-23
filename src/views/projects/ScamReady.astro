@@ -11,11 +11,13 @@ import Lightbox from '../../components/Lightbox.astro';
 import { useT, type Lang } from '../../i18n/ui';
 import { page } from '../../lib/url';
 import { nextOf } from '../../data/projects';
-import { copy as c, figma, team } from '../../data/scam-ready';
+import { copy, labels, figma, team } from '../../data/scam-ready';
 
 interface Props { lang: Lang }
 const { lang } = Astro.props;
 const t = useT(lang);
+const c = copy[lang];
+const L = labels[lang];
 const next = nextOf('scam-ready');
 
 const files = import.meta.glob<{ default: ImageMetadata }>('../../assets/scam-ready/*.jpg', { eager: true });
@@ -31,13 +33,12 @@ const mine = c.contribution.mine.filter((m) => m.v);
 ---
 
 <Base lang={lang} route="/work/scam-ready/" title="Scam Ready" description={c.hero.tagline} image={img('hero-landing')} theme="scam">
-  <article lang="en" class="project scam">
-    <nav class="wrap crumbs" aria-label="Breadcrumb">
+  <article class="project scam">
+    <nav class="wrap crumbs" aria-label={L.breadcrumb}>
       <ol role="list">
         <li><a href={page(lang, '/work/')}>{t('nav.work')}</a></li>
         <li aria-current="page">Scam Ready</li>
       </ol>
-      {lang === 'zh' && <p class="en-only" lang="zh-CN">{t('project.enOnly')}</p>}
     </nav>
 
     <!-- Hero: text | final landing screen -->
@@ -75,7 +76,7 @@ const mine = c.contribution.mine.filter((m) => m.v);
             <li><span class="num">{String(i + 1).padStart(2, '0')}</span><strong>{q.k}</strong><span>{q.v}</span></li>
           ))}
         </ol>
-        <p class="question"><span class="num">The design question</span>{c.challenge.question}</p>
+        <p class="question"><span class="num">{L.designQuestion}</span>{c.challenge.question}</p>
       </div>
     </section>
 
@@ -87,7 +88,7 @@ const mine = c.contribution.mine.filter((m) => m.v);
       <ol class="timeline" role="list">
         {c.personal.timeline.map((e) => <li><p class="num">{e.label}</p><h3>{e.title}</h3><p>{e.text}</p></li>)}
       </ol>
-      <p class="caveat"><span class="tag">Note</span>{c.personal.note}</p>
+      <p class="caveat"><span class="tag">{L.note}</span>{c.personal.note}</p>
     </section>
 
     <!-- 03 Research: findings | charts, then insights full width -->
@@ -111,7 +112,7 @@ const mine = c.contribution.mine.filter((m) => m.v);
         </div>
         <div class="stack media">
           {c.research.charts.map((ch) => <Zoom src={img(ch.key)} alt={ch.alt} caption={ch.caption} sizes="(min-width: 48rem) 540px, 100vw" />)}
-          <p class="caveat"><span class="tag">Evidence</span>{c.research.evidenceNote}</p>
+          <p class="caveat"><span class="tag">{L.evidence}</span>{c.research.evidenceNote}</p>
         </div>
       </div>
       <div class="wide-text insights">
@@ -205,11 +206,11 @@ const mine = c.contribution.mine.filter((m) => m.v);
         <h2 id="s1-h">{c.scenario1.title}</h2>
         {c.scenario1.body.map((p) => <p>{p}</p>)}
         <ol class="plain" role="list">{c.scenario1.steps.map((x) => <li><h4>{x.k}</h4><p>{x.v}</p></li>)}</ol>
-        <p class="caveat"><span class="tag">Fictional</span>{c.scenario1.fiction}</p>
+        <p class="caveat"><span class="tag">{L.fictional}</span>{c.scenario1.fiction}</p>
       </div>
       <div class="media">
-        <PhotoCarousel slides={slides(c.scenario1.images)} label="Scenario 1 screens" ratio="3 / 2" tone="light" zoom
-          sizes="(min-width: 48rem) 560px, 100vw" prevLabel="Previous screen" nextLabel="Next screen" />
+        <PhotoCarousel slides={slides(c.scenario1.images)} label={L.s1Screens} ratio="3 / 2" tone="light" zoom
+          sizes="(min-width: 48rem) 560px, 100vw" prevLabel={L.prevScreen} nextLabel={L.nextScreen} />
       </div>
     </section>
 
@@ -242,11 +243,11 @@ const mine = c.contribution.mine.filter((m) => m.v);
             <h3>{r.label}</h3>
             {r.text.map((p) => <p>{p}</p>)}
             <PhotoCarousel slides={slides(r.images)} label={`${r.label} screens`} ratio="3 / 2" tone="light" zoom
-              sizes="(min-width: 48rem) 540px, 100vw" prevLabel="Previous screen" nextLabel="Next screen" />
+              sizes="(min-width: 48rem) 540px, 100vw" prevLabel={L.prevScreen} nextLabel={L.nextScreen} />
           </div>
         ))}
       </div>
-      <p class="routine-inline">Pause → Step Out → Verify → Decide</p>
+      <p class="routine-inline">{L.routine}</p>
       <p class="muted center">{c.routes.shared}</p>
     </section>
 
@@ -292,8 +293,8 @@ const mine = c.contribution.mine.filter((m) => m.v);
         <ul class="ticks">{c.scenario2.practise.map((x) => <li>{x}</li>)}</ul>
       </div>
       <div class="media">
-        <PhotoCarousel slides={slides(c.scenario2.images)} label="Scenario 2 screens" ratio="3 / 2" tone="light" zoom
-          sizes="(min-width: 48rem) 560px, 100vw" prevLabel="Previous screen" nextLabel="Next screen" />
+        <PhotoCarousel slides={slides(c.scenario2.images)} label={L.s2Screens} ratio="3 / 2" tone="light" zoom
+          sizes="(min-width: 48rem) 560px, 100vw" prevLabel={L.prevScreen} nextLabel={L.nextScreen} />
       </div>
     </section>
 
@@ -304,7 +305,7 @@ const mine = c.contribution.mine.filter((m) => m.v);
         <h2 id="fu-h">{c.future.title}</h2>
         {c.future.body.map((p) => <p>{p}</p>)}
         <ol class="loop" role="list">{c.future.loop.map((x) => <li>{x}</li>)}</ol>
-        <p class="caveat"><span class="tag">Proposed</span>{c.future.caveat}</p>
+        <p class="caveat"><span class="tag">{L.proposed}</span>{c.future.caveat}</p>
       </div>
       <Zoom class="media" src={img(c.future.image.key)} alt={c.future.image.alt} caption={c.future.image.caption} sizes="(min-width: 48rem) 560px, 100vw" />
     </section>
@@ -325,8 +326,8 @@ const mine = c.contribution.mine.filter((m) => m.v);
           {c.development.changes.map((ch) => (
             <li>
               <h4>{ch.topic}</h4>
-              <p class="vlabel">Earlier prototype</p><p>{ch.before}</p>
-              <p class="vlabel final">Final revised design</p><p>{ch.after}</p>
+              <p class="vlabel">{L.earlier}</p><p>{ch.before}</p>
+              <p class="vlabel final">{L.final}</p><p>{ch.after}</p>
             </li>
           ))}
         </ol>
@@ -336,7 +337,7 @@ const mine = c.contribution.mine.filter((m) => m.v);
         <span class="ba-arrow" aria-hidden="true">→</span>
         <Zoom src={img(c.development.compare.after.key)} alt={c.development.compare.after.alt} caption={c.development.compare.after.caption} sizes="(min-width: 48rem) 540px, 100vw" />
       </div>
-      <p class="caveat"><span class="tag">Not yet tested</span>{c.development.untested}</p>
+      <p class="caveat"><span class="tag">{L.notTested}</span>{c.development.untested}</p>
     </section>
 
     <!-- 14 Testing: text + stats | tested screen, then findings full width -->
@@ -364,13 +365,13 @@ const mine = c.contribution.mine.filter((m) => m.v);
       <h2 id="re-h">{c.response.title}</h2>
       <div class="table-wrap">
         <table>
-          <thead><tr><th scope="col">What testing revealed</th><th scope="col">Design response</th></tr></thead>
+          <thead><tr><th scope="col">{L.revealed}</th><th scope="col">{L.designResponse}</th></tr></thead>
           <tbody>{c.response.rows.map((r) => <tr><td>{r.found}</td><td>{r.response}</td></tr>)}</tbody>
         </table>
       </div>
       <h3>{c.response.stillTitle}</h3>
       <ul class="ticks cols-list">{c.response.still.map((x) => <li>{x}</li>)}</ul>
-      <p class="caveat"><span class="tag">Evidence</span>{c.response.note}</p>
+      <p class="caveat"><span class="tag">{L.evidence}</span>{c.response.note}</p>
     </section>
 
     <!-- 16 Impact: full width, three columns -->
@@ -379,9 +380,9 @@ const mine = c.contribution.mine.filter((m) => m.v);
       <h2 id="im-h">{c.impact.title}</h2>
       <p>{c.impact.body}</p>
       <div class="impact">
-        <div><h3>Built</h3><ul class="ticks">{c.impact.built.map((x) => <li>{x}</li>)}</ul></div>
-        <div><h3>Not yet established</h3><ul class="ticks">{c.impact.notYet.map((x) => <li>{x}</li>)}</ul></div>
-        <div><h3>Next evaluation</h3><ol class="plain" role="list">{c.impact.next.map((x) => <li><h4>{x.k}</h4><p>{x.v}</p></li>)}</ol></div>
+        <div><h3>{L.built}</h3><ul class="ticks">{c.impact.built.map((x) => <li>{x}</li>)}</ul></div>
+        <div><h3>{L.notYet}</h3><ul class="ticks">{c.impact.notYet.map((x) => <li>{x}</li>)}</ul></div>
+        <div><h3>{L.nextEval}</h3><ol class="plain" role="list">{c.impact.next.map((x) => <li><h4>{x.k}</h4><p>{x.v}</p></li>)}</ol></div>
       </div>
     </section>
 
@@ -390,10 +391,10 @@ const mine = c.contribution.mine.filter((m) => m.v);
       <p class="eyebrow">{c.contribution.eyebrow}</p>
       <h2 id="tm-h">{c.contribution.title}</h2>
       <p>{c.contribution.body}</p>
-      <p><strong>Team:</strong> {team.join(' · ')}</p>
+      <p><strong>{L.team}</strong> {team.join(' · ')}</p>
       {mine.length > 0 && (
         <>
-          <h3>My contribution</h3>
+          <h3>{L.mine}</h3>
           <dl class="defs contrib">{mine.map((m) => <div><dt>{m.k}</dt><dd>{m.v}</dd></div>)}</dl>
         </>
       )}
@@ -401,17 +402,17 @@ const mine = c.contribution.mine.filter((m) => m.v);
 
     <!-- 18 Sources -->
     <section class="wrap block wide-text sources" aria-labelledby="src-h">
-      <h2 id="src-h" class="small-h2">References</h2>
+      <h2 id="src-h" class="small-h2">{L.references}</h2>
       <ul>{c.references.map((r) => <li>{r.text} <a href={r.url} target="_blank" rel="noopener">{r.url.replace('https://', '')}</a></li>)}</ul>
       <p>{c.researchData}</p>
-      <h3>AI acknowledgement</h3>
+      <h3>{L.ai}</h3>
       <p>{c.ai}</p>
     </section>
 
-    <nav class="wrap bottom-nav" aria-label="Project navigation">
-      <a class="text-link" href={page(lang, '/work/')}>← All Work</a>
+    <nav class="wrap bottom-nav" aria-label={L.projectNav}>
+      <a class="text-link" href={page(lang, '/work/')}>← {t('project.back')}</a>
       <a class="next" href={page(lang, `/work/${next.slug}/`)}>
-        <span class="eyebrow">Next Project</span>
+        <span class="eyebrow">{t('project.next')}</span>
         <span class="next-title">{next.title} <span class="arrow" aria-hidden="true">→</span></span>
       </a>
     </nav>
@@ -446,7 +447,6 @@ const mine = c.contribution.mine.filter((m) => m.v);
   .crumbs ol { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0; padding: 0; list-style: none; font-size: var(--step--1); color: var(--text-2); }
   .crumbs li + li::before { content: '/'; margin-right: 0.5rem; }
   .crumbs a { display: inline-flex; align-items: center; min-height: 44px; margin-block: -0.6rem; color: var(--text-2); }
-  .en-only { margin-top: 0.5rem !important; font-size: var(--step--1); color: var(--text-2); }
 
   .scam h3 { font-size: var(--step-1); font-weight: 600; margin-top: var(--space-1); }
   .scam h4 { margin: 0 0 0.25rem; font-size: var(--step-0); font-weight: 600; }

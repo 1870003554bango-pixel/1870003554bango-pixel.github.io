@@ -13,12 +13,14 @@ interface Props {
   prevLabel?: string;
   nextLabel?: string;
 }
-const { steps, label, shortcuts = [], prevLabel = 'Previous', nextLabel = 'Next' } = Astro.props;
+const zh = Astro.url.pathname.includes('/zh/');
+const { steps, label, shortcuts = [], prevLabel = zh ? '上一步' : 'Previous', nextLabel = zh ? '下一步' : 'Next' } = Astro.props;
+const stepWord = zh ? '步骤' : 'Step';
 const total = steps.length;
 const pad = (n: number) => String(n).padStart(2, '0');
 ---
 
-<section class="stepper" aria-roledescription="step sequence" aria-label={label} data-stepper tabindex="-1">
+<section class="stepper" aria-roledescription={zh ? '分步演示' : 'step sequence'} aria-label={label} data-stepper data-step-word={stepWord} tabindex="-1">
   <div class="frame">
     {steps.map((s, i) => (
       <figure class="shot" data-step={i} hidden={i !== 0}>
@@ -28,7 +30,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
   </div>
 
   <div class="panel">
-    <p class="count" aria-live="polite"><span class="cur">Step 01</span> / {pad(total)}</p>
+    <p class="count" aria-live="polite"><span class="cur">{stepWord} 01</span> / {pad(total)}</p>
     {steps.map((s, i) => (
       <div class="copy" data-step={i} hidden={i !== 0}>
         <h3>{s.title}</h3>
@@ -73,7 +75,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
       shots.forEach((s, j) => (s.hidden = j !== i));
       copies.forEach((c, j) => (c.hidden = j !== i));
       dots.forEach((d, j) => (j === i ? d.setAttribute('aria-current', 'step') : d.removeAttribute('aria-current')));
-      cur.textContent = `Step ${String(i + 1).padStart(2, '0')}`;
+      cur.textContent = `${root.dataset.stepWord ?? 'Step'} ${String(i + 1).padStart(2, '0')}`;
       prev.disabled = i === 0;
       next.disabled = i === total - 1;
     };

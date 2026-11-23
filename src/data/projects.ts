@@ -12,8 +12,6 @@ import type { Lang } from '../i18n/ui';
 import aerospaceCover from '../assets/home/rocket-hero.jpg';
 import airshowCover from '../assets/airshow/photo-01.jpg';
 import throughTheWindowCover from '../assets/through-the-window/cover.jpg';
-import ufoCover from '../assets/ufo-skyfeed/cover.jpg';
-import identityCover from '../assets/identity-press/cover.jpg';
 import cocoaCover from '../assets/cocoa-reserve/blender-draft-closed.jpg';
 import scamCover from '../assets/scam-ready/hero-landing.jpg';
 import bnhCover from '../assets/becoming-non-human/report-overview.jpg';
@@ -62,7 +60,6 @@ export interface Project {
   videos?: Video[];
 }
 
-const TODO = null;
 
 export const projects: Project[] = [
   {
@@ -129,9 +126,9 @@ export const projects: Project[] = [
     tools: [],
     cover: aerospaceCover,
     coverAlt: { en: 'Rocket launch photographed by Sitan Ding', zh: '丁思覃拍摄的火箭发射' },
-    overview: TODO,
+    overview: null,
     process: [],
-    reflection: TODO,
+    reflection: null,
     videos: [
       {
         title: { en: 'Tianzhou-8 — Your "space delivery" is on its way!', zh: '天舟八号｜您的“太空快递”正在配送！' },
@@ -333,74 +330,7 @@ export const projects: Project[] = [
     process: [],
     reflection: null,
   },
-  {
-    slug: 'urban-pulse',
-    order: 7,
-    status: 'hidden', // no images or text yet — publish again once it has content
-    featured: false,
-    categories: ['visual'],
-    title: 'Urban Pulse',
-    type: { en: 'Generative Art / p5.js', zh: '生成艺术 / p5.js' },
-    subtitle: {
-      en: 'Moving particles that play with the rhythm of a city.',
-      zh: '用动态粒子表现城市节奏的生成视觉。',
-    },
-    year: null,
-    collaboration: TODO,
-    role: TODO,
-    tools: ['p5.js'],
-    cover: null,
-    coverAlt: { en: 'Particle visuals from Urban Pulse', zh: 'Urban Pulse 的粒子画面' },
-    overview: TODO,
-    process: [],
-    reflection: TODO,
-  },
 
-  // Earlier projects, not part of the current spec. Kept so nothing is lost; not built.
-  {
-    slug: 'ufo-skyfeed',
-    order: 90,
-    status: 'hidden',
-    featured: false,
-    categories: ['film', 'interactive'],
-    title: 'UFO / SkyFeed',
-    type: { en: 'AI Video / Web', zh: 'AI 影像 / 网页' },
-    subtitle: {
-      en: 'How a blurry UFO clip becomes "evidence" through filters, news, reposts and AI.',
-      zh: '一段模糊的 UFO 画面，怎样被滤镜、新闻、转发和 AI 一步步加工成“证据”。',
-    },
-    year: 2026,
-    collaboration: TODO,
-    role: TODO,
-    tools: ['Premiere Pro', 'HTML/CSS/JS'],
-    cover: ufoCover,
-    coverAlt: { en: 'Repost Wall page from the project', zh: '项目中的 Repost Wall 页面' },
-    overview: TODO,
-    process: [],
-    reflection: TODO,
-  },
-  {
-    slug: 'identity-press',
-    order: 91,
-    status: 'hidden',
-    featured: false,
-    categories: ['visual'],
-    title: 'Identity Press',
-    type: { en: '3D Animation', zh: '3D 动画' },
-    subtitle: {
-      en: 'A slot-machine "identity press" that acts out how a phone scam persuades someone.',
-      zh: '把电话诈骗的话术做成一台老虎机式的“身份印刷机”。',
-    },
-    year: 2026,
-    collaboration: TODO,
-    role: TODO,
-    tools: ['Blender', 'Python'],
-    cover: identityCover,
-    coverAlt: { en: 'Blender render of the Identity Press machine', zh: 'Identity Press 机器的 Blender 渲染图' },
-    overview: TODO,
-    process: [],
-    reflection: TODO,
-  },
 ];
 
 export const published = projects

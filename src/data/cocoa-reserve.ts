@@ -1,11 +1,13 @@
 /**
- * Cocoa Reserve — project page copy (English).
+ * Cocoa Reserve — project page copy (en + zh).
  * Source: md文件/2018/Cocoa_Reserve_Claude_Portfolio_Brief_EN.md, checked against the four DECO2018 PDFs.
  * Accuracy rules (brief § 6): never claim a perfect fit, user testing, sales or production.
  * Never publish the PDFs, the student ID or private document links.
  */
 
-export const copy = {
+import type { Lang } from '../i18n/ui';
+
+const en = {
   hero: {
     eyebrow: 'Speculative product design · Physical prototyping',
     title: 'Cocoa Reserve',
@@ -325,5 +327,371 @@ export const copy = {
     tools: 'Autodesk Fusion · Rhino · Blender · 3D printing · Vacuum forming · Plaster casting · Laser cutting',
     aiTitle: 'AI and tool acknowledgement',
     ai: 'I used ChatGPT to help explore early concepts, generate preliminary visual concept images from my own ideas, and understand some technical modelling and material workflows. I also used AI assistance to explore Blender shader nodes and check scene parameters. I used Claude and other coding assistance during parts of the parametric modelling and technical workflow. I tested and reviewed the results in the relevant software and through physical prototypes. The final design decisions, modelling direction, fabrication choices, material selection, photography, evaluation and reflections are my own.',
+  },
+};
+
+type Copy = typeof en;
+
+const zh: Copy = {
+  hero: {
+    eyebrow: '思辨产品设计 · 实体原型',
+    title: 'Cocoa Reserve',
+    tagline: '两种形态，同一个起源。',
+    sub: '一件可收藏的巧克力器物，探讨 2060 年的稀缺、保存与价值。',
+    question: '如果巧克力变成需要保存、而不是拿来吃掉的东西，会怎样？',
+    intro:
+      '在一个想象中的未来，真正的可可不再是日常资源。Cocoa Reserve 把两块巧克力变成一对值得保护的器物。',
+    ctaPrimary: '了解项目',
+    ctaSecondary: '查看制作过程',
+    details: [
+      { k: '项目类型', v: '个人设计项目' },
+      { k: '重点', v: '概念发展、产品设计、实体原型与可视化' },
+      { k: '工具', v: 'Autodesk Fusion、Rhino、Blender' },
+      { k: '工艺', v: '3D 打印、真空成型、石膏翻模与激光切割' },
+    ],
+    imageAlt: 'Blender 最终渲染：烟熏青铜色的盒子，弧形盖子半开，里面露出两块巧克力，放在浅色石灰华底座上。',
+  },
+
+  idea: {
+    eyebrow: '01 / 概念',
+    title: '当熟悉的东西变得稀有，会发生什么？',
+    body: [
+      '我设想了 2060 年的未来。气候变化影响了适合种植可可的地区，真正的可可变成需要保护和配给的稀缺资源。',
+      '在这个世界里，巧克力不再是普通的日常零食，而是人们会保存、收藏，并且在吃之前会犹豫的东西。',
+      '我想通过一件实体物品来探索这种变化。我没有再设计一个传统的巧克力盒，而是设想了一组小小的收藏，让巧克力更像博物馆里的文物。',
+    ],
+    lead: '项目从一个问题开始：',
+    question: '如果真正的可可只剩下很少一点，我们还会用同样的方式对待巧克力吗？',
+    note: '这是一个参考了气候与可可相关研究的思辨设计情境，并不是对 2060 年的预测。',
+    images: [
+      { key: 'ai-world-2060', caption: 'AI 生成的世界观图像——早期视觉探索，不是照片。', alt: 'AI 生成的概念图：未来城市中，一家画廊在宣传真正的可可。' },
+      { key: 'ai-split-pod-concept', caption: 'AI 生成的巧克力概念——早期视觉探索，不是最终产品。', alt: 'AI 生成的概念板：雕塑感的可可荚形巧克力。' },
+    ],
+  },
+
+  development: {
+    eyebrow: '02 / 设计发展',
+    title: '当我开始审视巧克力本身，想法改变了。',
+    body: [
+      '我最初的方向是 3 × 4 的“记忆格”（Memory Grid）。十二个格子里只有两个放了巧克力，其余十个是空的，希望用空格让稀缺变得可见。',
+      '但反馈让我意识到，巧克力本身看起来还是太像普通产品。这个想法体现在包装上，却没有足够地体现在物品本身。',
+      '于是我改变了做法。我不再把可可荚当作传统巧克力上的装饰，而是让可可荚成为造型本身的起点。',
+      '最终设计 Split Pod Relics 01 / 02 由两块不对称但互补的部分组成。每一块都像同一个可可荚的碎片，放在一起时，能看出一个完整可可荚的轮廓。',
+      '我喜欢这种关系：两块彼此相连，但任何一块都无法单独讲完整个故事。稀缺的概念因此成为造型的一部分，而不只是需要在包装上解释的东西。',
+    ],
+    keyIdea: '两种分开的形态，同一个起源。',
+    steps: [
+      { key: 'ai-memory-grid-box', label: '记忆格', caption: 'AI 生成的盒子图像（早期探索）', alt: 'AI 生成的图像：3 × 4 的巧克力盒，里面只有两块巧克力。' },
+      { key: 'fusion-initial-blocks', label: '最初的巧克力造型', caption: 'Fusion——方块巧克力', alt: 'Fusion 截图：带可可荚浮雕的方块巧克力。' },
+      { key: 'ai-split-pod-concept', label: '概念探索', caption: 'AI 生成的概念（早期探索）', alt: 'AI 生成的概念板：分开的可可荚形巧克力。' },
+      { key: 'fusion-pair-render', label: '最终 Fusion 模型', caption: 'Split Pod Relics 01 / 02', alt: 'Fusion 渲染：两块最终的巧克力碎片并排放置。' },
+    ],
+  },
+
+  cad: {
+    eyebrow: '03 / CAD 与造型发展',
+    title: '从一个想法到两个实体造型。',
+    body: [
+      '我在 Autodesk Fusion 中建立了这两块巧克力碎片。我希望它们有机、能让人一眼联想到可可荚，同时也要能作为实体物品制作出来。',
+      '我分别建立底部、中部和顶部的截面轮廓，用 Loft（放样）生成两个形体。这样每一块都能保持自己的比例，同时又像是同一件物品的一部分。',
+      '之后我细化了外缘，加上浅浅凸起的可可荚纹理，并加入 01 / 02 标记。我让细节保持较浅、边缘保持圆润，方便打印和脱模。',
+      '模型由命名参数控制，因此我可以调整整体尺寸、比例、拔模角、纹理等细节，而不需要重建整个模型。',
+    ],
+    closing: '对我来说最重要的，是思考这件物品要怎样被做出来，而不只是它在屏幕上看起来如何。',
+    loft: [
+      { key: 'loft-1', label: '可可荚参考' },
+      { key: 'loft-2', label: '逐步构建形体' },
+      { key: 'loft-3', label: '边缘细化' },
+      { key: 'loft-4', label: '纹理、通气孔与 01 / 02' },
+    ],
+    specsTitle: '部分设计参数',
+    specs: [
+      { k: '缩放系数', v: '1.2' },
+      { k: '单位长度', v: '67.2 mm' },
+      { k: '可可荚宽度', v: '38.4 mm' },
+      { k: '最大高度', v: '16.8 mm' },
+      { k: '两块之间的间距', v: '7.2 mm' },
+      { k: '拔模角', v: '5°' },
+      { k: '整理后的 Fusion 模型', v: '38 个命名参数，46 个时间轴步骤' },
+    ],
+  },
+
+  prototyping: {
+    eyebrow: '04 / 实体原型',
+    title: '第一次测试，让我看到了数字模型看不到的东西。',
+    body: [
+      '我先 3D 打印了两块巧克力造型。第一版尺寸较小，两块放在同一块底板上。我以为这样能让真空成型更容易，但第一次成型测试暴露了问题：塑料片无法完全陷进两块之间狭窄的空隙，两个模腔连在了一起。',
+      '我修改了模型：把比例放大到 1.2，并去掉固定底板。下一次成型时，我把两块打印件分开摆放，用临时的纸板支撑拉开间距。这样两个模腔清晰多了。',
+      '真空成型之后，我用模具翻出了石膏版本。可可荚的主要轮廓和较大的凸起纹理都保留了下来，也能顺利脱模。但一些较小的 01 / 02 细节变得模糊，石膏局部还出现了气泡和多余的连接。',
+      '这个过程提醒我：在 CAD 里看起来清晰的细节，不一定能经受住打印、成型和翻模。',
+    ],
+    sequence: [
+      { key: 'print-first-version', caption: '第一次打印——两块放在同一块底板上', alt: '白色 3D 打印的巧克力造型：一组固定在底板上，另一组单独打印。' },
+      { key: 'vacuum-first-bridged', caption: '第一次真空成型测试——塑料片把两个模腔连在了一起', alt: '透明的真空成型塑料，两个模腔中间被一道塑料桥连接。', failed: true },
+      { key: 'vacuum-revised', caption: '修改后的模具——两个独立的模腔', alt: '修改后的真空成型模具，两个独立模腔里装着石膏。' },
+      { key: 'plaster-cast', caption: '脱模后的石膏件', alt: '两块白色石膏可可荚造型放在深色垫子上。' },
+    ],
+    changedTitle: '测试之后改了什么？',
+    first: { label: '第一版', items: ['巧克力造型较小', '共用一块底板', '两块之间间隙狭窄', '真空成型时塑料片把两个模腔连在一起'] },
+    revised: { label: '修改版', items: ['模型放大到 1.2 倍', '去掉固定底板', '两块独立摆放', '模腔之间分得更清楚'] },
+    printTime: { before: '33 分 5 秒', after: '25 分 24 秒', note: '去掉底板、修改模型后记录的 3D 打印时间。' },
+    detail: { key: 'plaster-detail-loss', caption: '石膏件——较大的纹理保留了下来，小的 01 / 02 细节变模糊', alt: '手拿石膏件的特写，可以看到模糊的小细节和多余的连接。' },
+    improveTitle: '下一步我会怎样改进',
+    improve:
+      '我会把 01 / 02 数字做大，重新检查通气孔周围的间距，并在制作最终模具前再次测试细节。石膏翻模时，我会更慢地搅拌、一次连续倒入，并轻敲模具帮助排出气泡。',
+  },
+
+  case: {
+    eyebrow: '05 / 包装与结构',
+    title: '一个慢慢展示收藏的盒子。',
+    body: [
+      '确定巧克力造型之后，我设计了一个能容纳并展示这两块巧克力的保护盒。',
+      '我不希望它像普通的巧克力托盘。它需要更像一个小型档案盒或展示柜，同时又能让使用者打开、取出里面的物品。',
+      '最终结构由十一块激光切割的胶合板组成。四根互相咬合的支撑梁构成内部框架，抬高的展示台把两块巧克力托在下层结构之上。',
+      '固定的 U 形内壳包住支撑框架。弧形外盖保护收藏，并通过激光切割的活动铰链（Living Hinge）打开。',
+      '我还加入了可可荚形状的观察窗和雕刻细节，让包装与启发巧克力造型的自然形态联系起来。',
+    ],
+    image: { key: 'box-closed', caption: '激光切割的盒子，合上状态', alt: '合上的胶合板盒子，表面刻有等高线，盖上有两个可可荚形状的窗口。' },
+    specsTitle: '部分规格',
+    specs: [
+      { k: '整体尺寸', v: '172 × 120 × 45 mm' },
+      { k: '材料', v: '3 mm 胶合板' },
+      { k: '主要部件', v: '11 块激光切割板' },
+      { k: '内部结构', v: '四根互相咬合的支撑梁' },
+      { k: '开合方式', v: '激光切割活动铰链' },
+    ],
+    structureTitle: '盒子背后的结构',
+    structure: [
+      '四根支撑梁用半搭接（half-lap）方式互相咬合。内部框架支撑外壳，并为抬高的展示台留出空间。',
+      '固定的内壳让结构保持整洁，弧形外盖则带来开合的动作。打开之前，观察窗只露出收藏的一部分。',
+    ],
+    structureImages: [
+      { key: 'box-components', caption: '十一块部件平铺展示', alt: 'Fusion 中盒子十一块平面部件的排版。' },
+      { key: 'box-frame-render', caption: '内部支撑框架（Fusion）', alt: 'Fusion 渲染：由四根咬合支撑梁和抬高展示台组成的内部框架。' },
+      { key: 'box-halflap', caption: '支撑梁之间的半搭接', alt: 'Fusion 渲染：四根支撑梁通过半搭接卡在一起。' },
+      { key: 'box-windows', caption: '观察窗与雕刻表面', alt: '胶合板盖上雕刻的等高线和两个可可荚形窗口的特写。' },
+    ],
+  },
+
+  hinge: {
+    eyebrow: '06 / 测试与重新设计',
+    title: '第一版活动铰链断了，所以我重新设计了它。',
+    body: [
+      '第一次激光切割的盒子在指接处顺利拼装，但当我试着弯折外盖时，它断了。一些狭窄的胶合板条裂开，外盖无法形成我设计的平滑弧线。',
+      '回头检查设计，我发现可弯折的区域太小，弯折区与刚性区之间的过渡太突然，部分铰链切口也没有延伸到足够靠近板边的位置。',
+      '我选择修改几何结构，而不是硬把第一版掰弯。',
+    ],
+    failure: { key: 'hinge-failure', caption: '第一版活动铰链——弯折时板条裂开', alt: '手拿第一版胶合板盒子，铰链外盖裂开翘起。' },
+    redesignTitle: '重新设计',
+    redesign: [
+      '盒子宽度从 110 mm 增加到 120 mm。',
+      '内壳弯折半径从 R10 增加到 R15。',
+      '外壳内侧弯折半径从 R13.5 增加到 R18.5。',
+      '扩大了可弯折区域。',
+      '四个铰链区域共分布 177 条交错切缝。',
+      '修改后的图案使用 1.5 mm 间距、4 mm 连接桥，封闭切缝两端留 6 mm 余量。',
+    ],
+    result: [
+      '修改后的铰链可以弯折，形成预期的弧线。但最终组装的盒子在部分部件之间仍有明显缝隙。实际的胶合板并不会完全像理想化的 Fusion 模型那样表现。',
+      '还有一些区域没有完全切透。后来我发现胶合板表面并不完全平整，这可能改变了板材与激光焦点之间的距离。',
+    ],
+    redesignImages: [
+      { key: 'hinge-radii-fusion', caption: 'Fusion——修改后的转角半径', alt: 'Fusion 中外壳的侧面轮廓，转角更圆。' },
+      { key: 'hinge-bend', caption: '修改后的铰链——成功弯折', alt: '修改后的胶合板铰链绕着盒子转角平滑弯折的特写。' },
+      { key: 'hinge-gap', caption: '最终组装——仍有可见缝隙', alt: '手拿组装好的盒子，铰链外盖与侧板之间有一道缝隙。' },
+    ],
+    learnedTitle: '我的收获',
+    learned: [
+      '柔性结构不能只靠数字几何来判断。材料厚度、表面平整度、切缝宽度（kerf）、激光焦点，以及柔性区与刚性区之间的过渡，都会影响最终结果。',
+      '如果再做一轮，我会先用小样测试不同的切缝长度、间距、连接桥宽度和弯折半径；也会测量胶合板的实际厚度和切缝宽度，检查板材平整度，并在切割整套部件前确认激光焦点。',
+    ],
+  },
+
+  unboxing: {
+    eyebrow: '07 / 使用体验',
+    title: '从保护到发现。',
+    intro:
+      '我把开盒的过程也当作体验的一部分来设计。打开之前，两个可可荚形的窗口只能让人看到收藏的一部分；使用者需要掀起弧形外盖，才能完整看到这两块巧克力。',
+    outro: '这个过程刻意保持简单。我希望打开这个盒子的感觉，和打开普通食品包装不一样。',
+    steps: [
+      { key: 'unboxing-01', title: '完全合上', text: '盒子保护着收藏。小小的可可荚形窗口只能让人瞥见里面的一部分。', alt: '桌上合着的胶合板盒子，盖上有两个可可荚形的小窗口。' },
+      { key: 'unboxing-02', title: '掀开盖子', text: '使用者拿着盒子，轻轻掀起弧形外盖，活动铰链随之弯折。', alt: '一只手把盒子的弧形盖子掀开一点。' },
+      { key: 'unboxing-03', title: '展示收藏', text: '两块巧克力出现在抬高的展示台上，由内部框架托住。', alt: '盖子被掀开，露出抬高展示台上的两块可可荚巧克力。' },
+      { key: 'unboxing-04', title: '取出一块', text: '使用者从展示台上拿起其中一块巧克力。', alt: '一只手从打开的盒子里拿起其中一块。' },
+      { key: 'unboxing-05', title: '收藏被取走', text: '两块都被取走后，空的展示台显露出来。这份空缺提醒使用者：这组收藏已经不再完整。', alt: '两块巧克力被取出后放在盒子前的桌面上。' },
+    ],
+    shortcuts: [
+      { label: '查看合上的盒子', step: 0 },
+      { label: '展示收藏', step: 2 },
+    ],
+  },
+
+  blender: {
+    eyebrow: '08 / 数字可视化',
+    title: '把这组收藏呈现为值得保存的东西。',
+    body: [
+      '我用 Blender 探索 Cocoa Reserve 在设想的 2060 年情境中可以如何呈现。',
+      '我先用基础几何体搭了一个简化场景，测试间距、材质、灯光和镜头构图，在导入更精细的模型之前先确定展示环境。',
+      '之后我把 Fusion 模型和包装整合进最终场景。两块巧克力放在保护盒里，盒子摆在浅色的石灰华底座上。',
+      '我选择了克制的材质搭配，让这组收藏看起来像被保存的东西，而不是像普通糖果那样陈列。',
+    ],
+    scene: { key: 'blender-scene', caption: '整合了 Fusion 模型的最终场景', alt: 'Blender 渲染：盖子掀起的盒子放在石灰华底座上，里面是两块巧克力。' },
+    blockout: { key: 'blender-blockout', caption: '早期白模——用简单几何体代替巧克力', alt: 'Blender 视口中的早期灰色白模场景，托盘上有两个拉长的球体。' },
+    materialsTitle: '四种材质',
+    materials: [
+      { id: 'cacao', label: '保存的可可', text: '深棕色调和细微的表面变化，让两块巧克力有一种自然、陈旧的质感。', alt: '深棕色球体渲染，表面细腻、略带光泽。' },
+      { id: 'bronze', label: '烟熏青铜', text: '温暖深沉的金属质感，在保护盒上形成受控的高光。', alt: '深色金属球体渲染，带有温暖的斑点高光。' },
+      { id: 'travertine', label: '多孔石灰华', text: '浅色的矿物表面形成安静的展示底座，也把收藏与深色的盒子区分开。', alt: '浅色石材球体渲染，表面有不规则小孔。' },
+      { id: 'charcoal', label: '炭黑内衬', text: '低反光的深色内衬减少干扰，让两块可可造型更突出。', alt: '哑光近黑色球体渲染。' },
+    ],
+    materialsNote: '材质球在早期白模场景中渲染。',
+    experimentsTitle: '材质实验',
+    experiments: [
+      '第一版可可着色器看起来太像水珠，所以我改变了纹理做法，让表面更连贯。早期的石灰华材质有被拉伸的方向性纹路，我调整了纹理坐标，并组合 Noise、Voronoi 和 Bump 节点，做出更不规则、更像矿物的孔洞。',
+      '第一版青铜材质显得太平，于是我加入了细微的暖色变化和更受控的反射。',
+      '石灰华上的孔洞是用着色器的凹凸模拟的，并不是真实的几何孔；在一些强光下，可可表面仍然有一点像皮革。这些是渲染的局限，不是实物的表面细节。',
+    ],
+    compares: [
+      { id: 'cacao', label: '可可表面', alt: '可可表面特写' },
+      { id: 'travertine', label: '石灰华底座', alt: '石灰华表面特写' },
+      { id: 'bronze', label: '青铜外壳', alt: '青铜外壳特写' },
+    ],
+    comparesNote: '每组对比使用相同的镜头和灯光，只改变材质。在早期白模场景中渲染。',
+    lightingTitle: '灯光与镜头',
+    lightingIntro: '在确定最终视角前，我测试了不同的灯光位置和镜头构图。',
+    settings: [
+      { k: '暖色主光', v: '3200 W' },
+      { k: '偏冷补光', v: '1800 W' },
+      { k: '环境 / HDRI 强度', v: '0.65' },
+      { k: '主视角镜头', v: '78 mm，四分之三视角' },
+      { k: '顶视镜头', v: '70 mm' },
+      { k: '渲染引擎', v: 'Cycles CPU' },
+      { k: '最大采样', v: '192' },
+      { k: '噪点阈值', v: '0.01' },
+      { k: '降噪', v: 'OpenImageDenoise' },
+      { k: '色彩管理', v: 'AgX' },
+      { k: '最终渲染尺寸（Blender 模块）', v: '1800 × 1350 px' },
+    ],
+    lights: [
+      { key: 'light-a', label: 'A——低补光', alt: '阴影很深的白模渲染。' },
+      { key: 'light-b', label: 'B——打开阴影', alt: '补光更亮、阴影被打开的白模渲染。' },
+      { key: 'light-c', label: 'C——掠射主光', alt: '用低角度、重新摆放的主光照亮的白模渲染。' },
+      { key: 'light-d', label: 'D——最终灯光', alt: '采用最终平衡灯光的白模渲染。' },
+    ],
+    cameras: [
+      { key: 'cam-1', label: '28 mm', alt: '用 28 mm 镜头看到的白模场景。' },
+      { key: 'cam-2', label: '50 mm', alt: '用 50 mm 镜头看到的白模场景。' },
+      { key: 'cam-3', label: '78 mm——最终选择', alt: '用选定的 78 mm 镜头看到的白模场景。' },
+    ],
+    cameraNote: '78 mm 的主视角减少了明显的透视夸张，同时能把两块巧克力、保护盒和展示底座放进同一个构图。',
+    testsNote: '灯光测试 A–D 和镜头测试均在早期白模场景中渲染。',
+  },
+
+  poster: {
+    eyebrow: '09 / 传达与设计回应',
+    title: '让想法更容易被理解。',
+    intro:
+      '第一版 A4 海报放了好几张产品图，以及一段较长的 2060 年情境说明。在 A4 展览（A4 Expo）中，我收到的反馈让我看到了表达不够清楚的地方。',
+    feedbackTitle: '大家告诉我的',
+    feedback: [
+      '可可荚造型很有趣，但可以更立体、细节更多。',
+      '两块巧克力背后的含义不够清楚。',
+      '两块巧克力与可可稀缺之间的联系需要解释得更清楚。',
+      '很难分辨这个项目是博物馆展品，还是人们可以购买的产品。',
+    ],
+    changedTitle: '我改了什么',
+    changed:
+      '我重新设计了海报：用更深的背景、更大的主产品图、更醒目的字体，并减少文字。我希望物品本身成为人们注意到的第一样东西。',
+    contextsLead: '我也更仔细地思考了这个想法可以在哪里呈现：',
+    contexts: [
+      { k: '公交站海报', v: '可以吸引公众，邀请人们去博物馆看剩下的可可“遗物”展览。' },
+      { k: '头等舱杂志', v: '可以向私人收藏家介绍稀有的巧克力收藏。' },
+    ],
+    contextsOutro: '这两个场景帮助我区分了公共观看与私人拥有。',
+    stillTitle: '仍需改进的地方',
+    still: [
+      '修改后的海报视觉焦点更强，让 Cocoa Reserve 更像一件收藏品。但减少文字也让 2060 年的情境变得不够清楚，两块巧克力的细节也仍然不容易看清。',
+      '如果再做一版，我会保留更强的视觉层次，同时更清楚地解释“两块”的概念，并加入更大的细节图。',
+    ],
+    before: { key: 'poster-original', caption: '之前——A4 展览海报', alt: '原版浅色 A4 海报，有三张产品图和一段文字。' },
+    after: { key: 'poster-revised', caption: '之后——修改后的海报', alt: '修改后的深色海报，一张大的盒子渲染图和醒目的大标题。' },
+    notes: { key: 'expo-feedback', caption: 'A4 展览中收到的四张手写反馈便签', alt: '四张黄色便利贴，上面手写着对海报和两块巧克力的反馈。' },
+  },
+
+  reflection: {
+    eyebrow: '10 / 我从项目中带走的',
+    title: '好的想法，必须经得起制作过程。',
+    body: [
+      '这个项目让我理解到，从一个想法到一件完成的物品，中间有多少决定要做。',
+      '一开始，我主要在想怎样让巧克力看起来与众不同。随着项目推进，我需要思考造型、模具、包装、开合结构、材质，以及最终物品如何呈现。',
+      '最有用的往往是失败的时刻。第一次真空成型告诉我两块巧克力需要更多空间；第一版活动铰链告诉我弯折区及其与刚性结构的过渡需要更多考虑；最终的激光切割盒子能够弯折，却仍有在数字模型里看不出的缝隙。',
+      'Blender 给了我另一种体会：同一种材质在一种灯光下很逼真，换一种灯光可能完全不同。我必须比较结果，而不是假设更复杂的着色器就一定更好看。',
+      '如果继续这个项目，我会在制作整套部件之前花更多时间测试材料表现和制造公差，也会让小细节更清楚，并在最终呈现中把两块巧克力之间的关系表达得更明白。',
+    ],
+    closing:
+      '对我来说，Cocoa Reserve 不只是做一件产品。它是把想法变成实物、测试它、找出哪里行不通，再由此做出更好决定的过程。',
+  },
+
+  credits: {
+    referencesTitle: '研究参考',
+    references: en.credits.references,
+    toolsTitle: '工具与工艺',
+    tools: 'Autodesk Fusion · Rhino · Blender · 3D 打印 · 真空成型 · 石膏翻模 · 激光切割',
+    aiTitle: 'AI 与工具说明',
+    ai: '我使用 ChatGPT 帮助探索早期概念、根据我自己的想法生成初步的概念视觉图，并理解一些建模和材质方面的技术流程。我也借助 AI 探索 Blender 着色器节点、检查场景参数，并在参数化建模和部分技术流程中使用了 Claude 等编程辅助。所有结果都在相应软件中以及通过实体原型进行了测试和审核。最终的设计决定、建模方向、制作选择、材质选择、摄影、评估和反思均由我本人完成。',
+  },
+};
+
+export const copy: Record<Lang, Copy> = { en, zh };
+
+/** Short interface labels used by the view (carousel names, flags, small captions). */
+export const labels: Record<Lang, Record<string, string>> = {
+  en: {
+    keyIdea: 'Key idea',
+    devCarousel: 'From Memory Grid to Split Pod Relics',
+    loftCarousel: 'Fusion construction stages',
+    loftAlt: 'Fusion screenshot, stage',
+    rulerAlt: 'A 3D-printed chocolate form next to a ruler, showing its real size.',
+    rulerCap: 'Printed form next to a ruler',
+    ribsAlt: 'Fusion close-up of the shallow raised ribs and the 01 / 02 marking.',
+    ribsCap: 'Shallow ribs and the 01 / 02 marking',
+    failedTest: 'Failed test — ',
+    printCarousel: '3D print to plaster cast',
+    caseCarousel: 'Case structure',
+    failedHinge: 'Failed — first hinge',
+    hingeCarousel: 'Hinge redesign',
+    unboxing: 'Five-step unboxing sequence',
+    materials: 'Blender materials',
+    earlyAlt: 'Before: early',
+    revisedAlt: 'After: revised',
+    lightCarousel: 'Lighting and camera tests',
+    prevImage: 'Previous image',
+    nextImage: 'Next image',
+    creditsH: 'Credits and references',
+    projectNav: 'Project navigation',
+  },
+  zh: {
+    keyIdea: '核心想法',
+    devCarousel: '从记忆格到 Split Pod Relics',
+    loftCarousel: 'Fusion 建模步骤',
+    loftAlt: 'Fusion 截图，步骤',
+    rulerAlt: '3D 打印的巧克力造型放在尺子旁边，显示实际尺寸。',
+    rulerCap: '打印件与尺子对比',
+    ribsAlt: 'Fusion 特写：浅浅凸起的纹理和 01 / 02 标记。',
+    ribsCap: '浅凸纹理与 01 / 02 标记',
+    failedTest: '失败的测试——',
+    printCarousel: '从 3D 打印到石膏翻模',
+    caseCarousel: '盒子结构',
+    failedHinge: '失败——第一版铰链',
+    hingeCarousel: '铰链重新设计',
+    unboxing: '五步开盒过程',
+    materials: 'Blender 材质',
+    earlyAlt: '之前：早期的',
+    revisedAlt: '之后：修改后的',
+    lightCarousel: '灯光与镜头测试',
+    prevImage: '上一张',
+    nextImage: '下一张',
+    creditsH: '署名与参考',
+    projectNav: '项目导航',
   },
 };

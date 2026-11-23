@@ -1,12 +1,14 @@
 ---
 // One per page. Opens any [data-zoom] button's image in a native <dialog>.
 // Esc, the close button or clicking outside the image closes it; focus returns to the trigger.
+// Language from the page URL, so every page gets the right labels without passing a prop.
+const zh = Astro.url.pathname.includes('/zh/');
 ---
 
-<dialog class="lightbox" aria-label="Enlarged image">
+<dialog class="lightbox" aria-label={zh ? '放大的图片' : 'Enlarged image'}>
   <form method="dialog" class="bar">
     <p class="caption"></p>
-    <button type="submit" class="close" aria-label="Close enlarged image">Close ✕</button>
+    <button type="submit" class="close" aria-label={zh ? '关闭放大的图片' : 'Close enlarged image'}>{zh ? '关闭 ✕' : 'Close ✕'}</button>
   </form>
   <img alt="" />
 </dialog>

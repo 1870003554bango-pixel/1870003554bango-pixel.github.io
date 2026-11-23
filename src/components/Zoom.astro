@@ -20,7 +20,7 @@ const style = [ratio && `aspect-ratio: ${ratio}`, fit && `object-fit: ${fit}`].f
 ---
 
 <figure class:list={['zoom', cls]}>
-  <button type="button" class="zoom-btn" data-zoom={large.src} data-zoom-alt={alt} data-zoom-caption={caption ?? ''} aria-label={`Enlarge image: ${alt}`}>
+  <button type="button" class="zoom-btn" data-zoom={large.src} data-zoom-alt={alt} data-zoom-caption={caption ?? ''} aria-label={`${Astro.url.pathname.includes('/zh/') ? '放大图片：' : 'Enlarge image: '}${alt}`}>
     <Image src={src} alt={alt} widths={widths} sizes={sizes} loading={loading} style={style || undefined} />
   </button>
   {caption && <figcaption>{caption}</figcaption>}
