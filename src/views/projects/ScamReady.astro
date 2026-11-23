@@ -254,9 +254,12 @@ const slides = (list: { key: string; alt: string; caption: string }[]) => list.m
         <p class="eyebrow">{c.xray.eyebrow}</p>
         <h2 id="xr-h">{c.xray.title}</h2>
         <div class="cols">{c.xray.body.map((p) => <p>{p}</p>)}</div>
-        <dl class="defs two">{c.xray.defs.map((d) => <div><dt>{d.k}</dt><dd>{d.v}</dd></div>)}</dl>
       </div>
-      <Zoom class="xray-img" src={img(c.xray.image.key)} alt={c.xray.image.alt} caption={c.xray.image.caption} sizes="(min-width: 60rem) 905px, 100vw" widths={[600, 905, 1400]} />
+      <!-- Definitions sit directly above the matching Path A / Path B columns of the screenshot -->
+      <div class="xray-pair">
+        <dl class="defs two">{c.xray.defs.map((d) => <div><dt>{d.k}</dt><dd>{d.v}</dd></div>)}</dl>
+        <Zoom src={img(c.xray.image.key)} alt={c.xray.image.alt} caption={c.xray.image.caption} sizes="(min-width: 60rem) 905px, 100vw" widths={[600, 905, 1400]} />
+      </div>
       <div class="wide-text xray-after">
         <p>{c.xray.after}</p>
         <blockquote>{c.xray.question}</blockquote>
@@ -507,7 +510,7 @@ const slides = (list: { key: string; alt: string; caption: string }[]) => list.m
   .flow { margin-top: var(--space-5); padding: var(--space-3); background: var(--surface); border: 1px solid var(--line); border-radius: 10px; display: grid; gap: var(--space-2); }
   .flow-head { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: var(--space-1); }
   .flow-head h3 { margin: 0 !important; }
-  .flow-map { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
+  .flow-map { display: flex; align-items: center; justify-content: center; gap: 0.5rem; flex-wrap: wrap; }
   .flow-col { display: flex; align-items: center; gap: 0.5rem; }
   .flow-col.branch { flex-direction: column; align-items: stretch; gap: 0.4rem; }
   .flow-col.branch + .flow-col { margin-left: 0.5rem; }
@@ -541,7 +544,9 @@ const slides = (list: { key: string; alt: string; caption: string }[]) => list.m
 
   .defs { display: grid; gap: 0.5rem; margin: 0; }
   .defs.two { grid-template-columns: 1fr 1fr; gap: var(--space-2); }
-  :global(.xray-img) { max-width: 905px; margin: var(--space-3) auto 0; }
+  /* 905px = the screenshot's natural width (never upscaled). Its panels split 439 | 29 gap | 437, so the gap is 3.2%. */
+  .xray-pair { display: grid; gap: 0.75rem; max-width: 905px; margin: var(--space-3) auto 0; }
+  .xray-pair .defs.two { gap: 3.2%; }
   .xray-after { margin-top: var(--space-3); }
   .defs > div { padding: 0.75rem var(--space-2); background: var(--sunken); border-radius: var(--radius); }
   .defs dt { font-weight: 600; }
