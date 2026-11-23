@@ -10,6 +10,7 @@ import type { ImageMetadata } from 'astro';
 import type { Lang } from '../i18n/ui';
 
 import aerospaceCover from '../assets/home/rocket-hero.jpg';
+import airshowCover from '../assets/airshow/photo-01.jpg';
 import throughTheWindowCover from '../assets/through-the-window/cover.jpg';
 import ufoCover from '../assets/ufo-skyfeed/cover.jpg';
 import identityCover from '../assets/identity-press/cover.jpg';
@@ -149,6 +150,36 @@ export const projects: Project[] = [
         url: 'https://www.bilibili.com/video/BV1VGcszLEgY/',
       },
     ],
+  },
+  {
+    slug: 'airshow',
+    order: 2.5,
+    status: 'published',
+    featured: false,
+    customPage: true,
+    categories: ['visual', 'film'],
+    title: 'Airshow',
+    type: { en: 'Photography · Video', zh: '摄影 · 视频' },
+    subtitle: {
+      en: 'Fast jets, caught in a fraction of a second.',
+      zh: '高速飞行的战机，定格在一瞬间。',
+    },
+    summary: {
+      en: 'Photographs and a short video I took at an airshow on my own camera.',
+      zh: '我用自己的相机在航展现场拍下的照片和一段短视频。',
+    },
+    year: null,
+    collaboration: 'solo',
+    role: { en: 'Photography & filming', zh: '拍摄' },
+    tools: [],
+    cover: airshowCover,
+    coverAlt: {
+      en: 'A twin-engine fighter jet banks away with both afterburners glowing against a pale pink sky.',
+      zh: '一架双发战斗机转弯离去，两个加力燃烧室在淡粉色天空下发着光。',
+    },
+    overview: null,
+    process: [],
+    reflection: null,
   },
   {
     slug: 'becoming-non-human',
