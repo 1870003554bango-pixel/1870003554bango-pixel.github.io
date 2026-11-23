@@ -31,7 +31,7 @@ const filters = [
 
     <ul class="grid" role="list">
       {published.map((p) => (
-        <li data-cats={p.categories.join(' ')}><ProjectCard project={p} lang={lang} headingLevel="h2" /></li>
+        <li class="swap" data-cats={p.categories.join(' ')}><ProjectCard project={p} lang={lang} headingLevel="h2" /></li>
       ))}
     </ul>
   </div>

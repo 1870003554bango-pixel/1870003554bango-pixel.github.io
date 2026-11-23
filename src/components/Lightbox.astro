@@ -28,7 +28,11 @@ const zh = Astro.url.pathname.includes('/zh/');
     }),
   );
   dlg.addEventListener('click', (e) => { if (e.target === dlg) dlg.close(); });
-  dlg.addEventListener('close', () => { img.removeAttribute('src'); trigger?.focus(); });
+  // Clear the image only after the closing fade (global overlay motion) has finished.
+  dlg.addEventListener('close', () => {
+    trigger?.focus();
+    setTimeout(() => { if (!dlg.open) img.removeAttribute('src'); }, 260);
+  });
 </script>
 
 <style>

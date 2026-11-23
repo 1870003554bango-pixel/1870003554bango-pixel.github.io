@@ -19,7 +19,7 @@ const uid = `tabs-${tabs.map((t) => t.id).join('').slice(0, 12)}`;
     ))}
   </div>
   {tabs.map((t, i) => (
-    <div class="panel" role="tabpanel" id={`${uid}-panel-${t.id}`} aria-labelledby={`${uid}-tab-${t.id}`} hidden={i !== 0} tabindex="0">
+    <div class="panel swap" role="tabpanel" id={`${uid}-panel-${t.id}`} aria-labelledby={`${uid}-tab-${t.id}`} hidden={i !== 0} tabindex="0">
       <Image src={t.src} alt={t.alt} widths={[270, 540]} sizes="200px" />
       <div>
         <h4>{t.title}</h4>

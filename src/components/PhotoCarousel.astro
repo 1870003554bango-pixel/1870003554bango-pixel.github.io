@@ -142,7 +142,7 @@ const large = zoom ? await Promise.all(slides.map((s) => getImage({ src: s.src, 
     color: var(--text);
     font: inherit;
     cursor: pointer;
-    transition: border-color 200ms ease-out, background 200ms ease-out;
+    transition: border-color var(--dur-hover) var(--ease-out), background var(--dur-hover) var(--ease-out);
   }
   .controls button:hover:not(:disabled) { border-color: var(--text); }
   .controls button:disabled { color: var(--line-strong); cursor: default; }
@@ -164,7 +164,7 @@ const large = zoom ? await Promise.all(slides.map((s) => getImage({ src: s.src, 
     height: 8px;
     border-radius: 50%;
     background: var(--line-strong);
-    transition: background 200ms ease-out, transform 200ms ease-out;
+    transition: background var(--dur-hover) var(--ease-out), transform var(--dur-hover) var(--ease-out);
   }
   .dots button[aria-current='true']::before { background: var(--text); transform: scale(1.25); }
 </style>

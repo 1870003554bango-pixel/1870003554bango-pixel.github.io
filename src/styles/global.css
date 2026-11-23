@@ -10,6 +10,13 @@
   --accent: #276b9b;
   --on-accent: #ffffff;
   --line: #e6e5df;
+  /* Motion tokens — one curve, four durations. See the "Motion system" section below. */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);   /* entering, responding */
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1); /* moving across the screen */
+  --dur-press: 160ms;  /* button / card press */
+  --dur-hover: 200ms;  /* colour and border changes */
+  --dur-swap: 240ms;   /* image and content switching */
+  --dur-page: 280ms;   /* page change, overlays */
   --line-strong: #cfcdc5;
   --focus: #276b9b;
   --dark: #161616; /* media stage behind videos and players */
@@ -125,12 +132,12 @@ p { text-wrap: pretty; }
   border: 1px solid var(--line-strong);
   color: var(--text);
   background: transparent;
-  transition: border-color 200ms ease-out, background 200ms ease-out;
+  transition: border-color var(--dur-hover) ease, background var(--dur-hover) ease, color var(--dur-hover) ease, transform var(--dur-press) var(--ease-out);
 }
 .btn:hover { border-color: var(--text); color: var(--text); }
 .btn-primary { background: var(--text); border-color: var(--text); color: var(--bg); }
 .btn-primary:hover { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
-.arrow { display: inline-block; transition: transform 200ms ease-out; }
+.arrow { display: inline-block; transition: transform var(--dur-hover) var(--ease-out); }
 a:hover > .arrow, .btn:hover .arrow { transform: translate(2px, -2px); }
 
 .text-link {
@@ -204,6 +211,72 @@ a:hover > .arrow, .btn:hover .arrow { transform: translate(2px, -2px); }
   .project .row.wide-media.flip { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); }
 }
 
+/* ==========================================================================
+   Motion system
+   Four families, used everywhere so the whole site moves the same way:
+   1. Page change   — cross-document View Transitions: old page fades out, new one fades and rises in.
+   2. Press         — every button, card and toggle dips to 97% while pressed.
+   3. Swap          — anything that switches content (tabs, steppers, flows, filters, demos) fades and rises in.
+   4. Overlay       — lightbox, mobile menu and expandable details open with a short fade/scale.
+   Keyboard focus is never animated. Everything is switched off under prefers-reduced-motion.
+   ========================================================================== */
+
+/* 1 · Page change. Browsers without support simply navigate as before. */
+@view-transition { navigation: auto; }
+.site-header { view-transition-name: site-header; }
+::view-transition-old(root) { animation: page-out var(--dur-hover) var(--ease-out) both; }
+::view-transition-new(root) { animation: page-in var(--dur-page) var(--ease-out) both; }
+@keyframes page-out { to { opacity: 0; } }
+@keyframes page-in { from { opacity: 0; transform: translateY(10px); } }
+
+/* 2 · Press. Feedback on :active only — instant, small, and interruptible. */
+:where(button, .btn, [role='tab'], summary, .card, .text-link, [data-zoom]) {
+  transition-property: transform, background-color, border-color, color, opacity, box-shadow;
+  transition-duration: var(--dur-press), var(--dur-hover), var(--dur-hover), var(--dur-hover), var(--dur-hover), var(--dur-hover);
+  transition-timing-function: var(--ease-out), ease, ease, ease, ease, ease;
+}
+:where(button, .btn, [role='tab'], summary, .text-link):not(:disabled):active { transform: scale(0.97); }
+:where(.card, [data-zoom]):active { transform: scale(0.985); }
+
+/* 3 · Swap. Elements toggled with the `hidden` attribute (or newly inserted) fade and rise in.
+   Opt in with class="swap"; @starting-style gives the "before" state when an element appears. */
+.swap {
+  transition: opacity var(--dur-swap) var(--ease-out), transform var(--dur-swap) var(--ease-out);
+}
+@starting-style { .swap { opacity: 0; transform: translateY(6px); } }
+/* Loaded iframes (demos, prototypes, the Unity build) fade in the same way. */
+iframe { transition: opacity var(--dur-swap) var(--ease-out); }
+@starting-style { iframe { opacity: 0; } }
+
+/* 4 · Overlay. Native <dialog> and <details> get the same short open, with a quicker close. */
+dialog {
+  transition: opacity var(--dur-swap) var(--ease-out), transform var(--dur-swap) var(--ease-out),
+    overlay var(--dur-swap) allow-discrete, display var(--dur-swap) allow-discrete;
+  opacity: 0;
+  transform: scale(0.97);
+}
+dialog[open] { opacity: 1; transform: none; }
+@starting-style { dialog[open] { opacity: 0; transform: scale(0.97); } }
+dialog::backdrop {
+  transition: opacity var(--dur-swap) var(--ease-out), overlay var(--dur-swap) allow-discrete, display var(--dur-swap) allow-discrete;
+  opacity: 0;
+}
+dialog[open]::backdrop { opacity: 1; }
+@starting-style { dialog[open]::backdrop { opacity: 0; } }
+
+/* <details>: the content fades in as it opens (and the height eases where the browser can). */
+:root { interpolate-size: allow-keywords; }
+details::details-content {
+  block-size: 0;
+  overflow: clip;
+  opacity: 0;
+  transition: block-size var(--dur-swap) var(--ease-out), opacity var(--dur-swap) var(--ease-out),
+    content-visibility var(--dur-swap) allow-discrete;
+}
+details[open]::details-content { block-size: auto; opacity: 1; }
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition: none !important; animation: none !important; }
+  ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; }
+  :where(button, .btn, [role='tab'], summary, .card, .text-link, [data-zoom]):active { transform: none; }
 }

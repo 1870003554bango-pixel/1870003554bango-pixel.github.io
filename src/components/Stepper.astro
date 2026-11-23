@@ -23,7 +23,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
 <section class="stepper" aria-roledescription={zh ? '分步演示' : 'step sequence'} aria-label={label} data-stepper data-step-word={stepWord} tabindex="-1">
   <div class="frame">
     {steps.map((s, i) => (
-      <figure class="shot" data-step={i} hidden={i !== 0}>
+      <figure class="shot swap" data-step={i} hidden={i !== 0}>
         <Image src={s.src} alt={s.alt} widths={[480, 860]} sizes="(min-width: 48rem) 440px, 100vw" loading={i === 0 ? 'lazy' : 'lazy'} />
       </figure>
     ))}
@@ -32,7 +32,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
   <div class="panel">
     <p class="count" aria-live="polite"><span class="cur">{stepWord} 01</span> / {pad(total)}</p>
     {steps.map((s, i) => (
-      <div class="copy" data-step={i} hidden={i !== 0}>
+      <div class="copy swap" data-step={i} hidden={i !== 0}>
         <h3>{s.title}</h3>
         <p>{s.text}</p>
       </div>

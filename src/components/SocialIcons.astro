@@ -24,7 +24,7 @@ const t = useT(lang);
 
 <style>
   .social { display: flex; gap: 0.5rem; margin: var(--space-2) 0 0; padding: 0; list-style: none; }
-  .social a { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; color: var(--text); transition: background 0.2s ease-out; }
+  .social a { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; color: var(--text); transition: background var(--dur-hover) var(--ease-out); }
   .social a:hover { background: var(--sunken); }
   .social svg { width: 22px; height: 22px; fill: currentColor; }
   @media (prefers-reduced-motion: reduce) { .social a { transition: none; } }

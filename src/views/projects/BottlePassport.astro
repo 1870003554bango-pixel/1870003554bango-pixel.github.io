@@ -100,7 +100,7 @@ const ring = c.stakeholders.list.map((_, i, all) => {
           <button type="button" data-path="littered" aria-pressed="false">{c.journey.littered}</button>
         </div>
         {(['returned', 'littered'] as const).map((p) => (
-          <div class:list={['path', p]} data-panel={p} hidden={p !== 'returned'}>
+          <div class:list={['path', 'swap', p]} data-panel={p} hidden={p !== 'returned'}>
             <ol class="nodes" role="list">
               {(p === 'returned' ? c.journey.returnedSteps : c.journey.litteredSteps).map((s, i) => (
                 <li style={`--i: ${i}`}><span class="dot" aria-hidden="true">{i + 1}</span><span>{s}</span></li>
@@ -160,7 +160,7 @@ const ring = c.stakeholders.list.map((_, i, all) => {
         </div>
 
         {c.ideas.concepts.map((k, i) => (
-          <div class="row tabpanel" role="tabpanel" id={`cp-${k.id}`} aria-labelledby={`ct-${k.id}`} hidden={i !== 0} tabindex="0">
+          <div class="row tabpanel swap" role="tabpanel" id={`cp-${k.id}`} aria-labelledby={`ct-${k.id}`} hidden={i !== 0} tabindex="0">
             <div class="prose">
               <p class="num">{pad(i + 1)} / {c.ideas.scoreLabel} {k.score}</p>
               <h3>{k.name}</h3>
@@ -177,7 +177,7 @@ const ring = c.stakeholders.list.map((_, i, all) => {
           </div>
         ))}
 
-        <div class="tabpanel combine" role="tabpanel" id="cp-all" aria-labelledby="ct-all" hidden tabindex="0">
+        <div class="tabpanel combine swap" role="tabpanel" id="cp-all" aria-labelledby="ct-all" hidden tabindex="0">
           <ol class="merge" role="list">
             {c.ideas.concepts.map((k) => (
               <li><span class="from">{k.name}</span><span class="arrow-r" aria-hidden="true">→</span><strong>{k.kept}</strong></li>
@@ -245,7 +245,7 @@ const ring = c.stakeholders.list.map((_, i, all) => {
         <div class="row step-body">
           <div class="prose">
             {c.how.steps.map((s, i) => (
-              <div class="step-copy" data-copy={i} hidden={i !== 0}>
+              <div class="step-copy swap" data-copy={i} hidden={i !== 0}>
                 <p class="num">{c.how.stepLabel} {pad(i + 1)} / {pad(c.how.steps.length)}</p>
                 <h3>{s.k}</h3>
                 <p>{s.v}</p>
@@ -309,7 +309,7 @@ const ring = c.stakeholders.list.map((_, i, all) => {
         <p>{c.stakeholders.intro}</p>
         <div class="stake-detail" aria-live="polite">
           {c.stakeholders.list.map((s, i) => (
-            <div data-detail={i} hidden={i !== 0}>
+            <div class="swap" data-detail={i} hidden={i !== 0}>
               <p class="eyebrow">{c.stakeholders.roleLabel}</p>
               <h3>{s.k}</h3>
               <p>{s.v}</p>
@@ -486,7 +486,7 @@ const ring = c.stakeholders.list.map((_, i, all) => {
   .journey { display: grid; gap: var(--space-2); padding: var(--space-3); background: var(--surface); border: 1px solid var(--line); border-radius: 10px; }
   .journey-cap { font-size: var(--step-1); font-weight: 600; letter-spacing: -0.01em; }
   .seg { display: grid; grid-template-columns: 1fr 1fr; padding: 4px; background: var(--sunken); border-radius: 8px; }
-  .seg button { min-height: 44px; border: 0; border-radius: 6px; background: transparent; color: var(--text-2); font: inherit; font-weight: 500; cursor: pointer; transition: background 200ms ease-out, color 200ms ease-out; }
+  .seg button { min-height: 44px; border: 0; border-radius: 6px; background: transparent; color: var(--text-2); font: inherit; font-weight: 500; cursor: pointer; transition: background var(--dur-hover) var(--ease-out), color var(--dur-hover) var(--ease-out); }
   .seg button[aria-pressed='true'] { background: var(--surface); color: var(--text); box-shadow: 0 0 0 1px var(--line-strong); }
   .nodes { position: relative; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.5rem; margin: var(--space-2) 0 0; padding: 0; list-style: none; }
   .nodes::before { content: ''; position: absolute; top: 22px; left: 12.5%; right: 12.5%; height: 2px; background: var(--line-strong); }
@@ -497,7 +497,7 @@ const ring = c.stakeholders.list.map((_, i, all) => {
   .littered .dot { border-color: var(--text-2); color: var(--text-2); border-style: dashed; }
   .littered li:last-child .dot { background: var(--text); border: 2px solid var(--text); color: var(--bg); }
   .returned li:last-child .dot { background: var(--accent); color: var(--on-accent); }
-  .path.play li { animation: rise 260ms ease-out both; animation-delay: calc(var(--i) * 90ms); }
+  .path.play li { animation: rise var(--dur-swap) var(--ease-out) both; animation-delay: calc(var(--i) * 90ms); }
   @keyframes rise { from { opacity: 0; transform: translateY(6px); } }
   .path-note { margin-top: var(--space-1) !important; color: var(--text); }
 
@@ -517,7 +517,7 @@ const ring = c.stakeholders.list.map((_, i, all) => {
   /* C · Concept tabs */
   .concepts { margin-top: var(--space-4); }
   .tablist { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-bottom: 1px solid var(--line); }
-  [role='tab'] { display: grid; gap: 0.15rem; min-height: 64px; padding: 0.75rem 1rem 0.75rem 0; border: 0; border-bottom: 2px solid transparent; margin-bottom: -1px; background: none; color: var(--text-2); font: inherit; text-align: left; cursor: pointer; transition: color 200ms ease-out, border-color 200ms ease-out; }
+  [role='tab'] { display: grid; gap: 0.15rem; min-height: 64px; padding: 0.75rem 1rem 0.75rem 0; border: 0; border-bottom: 2px solid transparent; margin-bottom: -1px; background: none; color: var(--text-2); font: inherit; text-align: left; cursor: pointer; transition: color var(--dur-hover) var(--ease-out), border-color var(--dur-hover) var(--ease-out); }
   [role='tab']:hover { color: var(--text); }
   [role='tab'][aria-selected='true'] { color: var(--text); border-bottom-color: var(--accent); }
   .tab-name { font-weight: 600; }
@@ -553,7 +553,7 @@ const ring = c.stakeholders.list.map((_, i, all) => {
   /* B · Steps */
   .steps { display: grid; gap: var(--space-4); margin-top: var(--space-3); }
   .step-list { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); margin: 0; padding: 0; list-style: none; border-top: 2px solid var(--line); }
-  .step-list button { display: grid; gap: 0.25rem; width: 100%; min-height: 64px; padding: 0.75rem 0.75rem 0.5rem 0; margin-top: -2px; border: 0; border-top: 2px solid transparent; background: none; color: var(--text-2); font: inherit; font-weight: 500; text-align: left; cursor: pointer; transition: color 200ms ease-out, border-color 200ms ease-out; }
+  .step-list button { display: grid; gap: 0.25rem; width: 100%; min-height: 64px; padding: 0.75rem 0.75rem 0.5rem 0; margin-top: -2px; border: 0; border-top: 2px solid transparent; background: none; color: var(--text-2); font: inherit; font-weight: 500; text-align: left; cursor: pointer; transition: color var(--dur-hover) var(--ease-out), border-color var(--dur-hover) var(--ease-out); }
   .step-list button:hover { color: var(--text); }
   .step-list button[aria-current='step'] { color: var(--text); border-top-color: var(--accent); }
   .step-body { align-items: center; }
@@ -563,12 +563,12 @@ const ring = c.stakeholders.list.map((_, i, all) => {
   .step-ctrl .btn { justify-self: start; }
   .step-ctrl .btn:disabled { opacity: 0.4; cursor: default; }
   .system { display: flex; align-items: center; justify-content: space-between; gap: 0.25rem; padding: var(--space-4) var(--space-3); background: var(--surface); border: 1px solid var(--line); border-radius: 10px; }
-  .node { display: grid; justify-items: center; gap: 0.5rem; flex: none; width: 5.5rem; color: var(--text-2); font-size: var(--step--1); font-weight: 500; text-align: center; transition: color 200ms ease-out; }
-  .node svg { width: 64px; height: 64px; padding: 10px; border: 1px solid var(--line-strong); border-radius: 50%; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; background: var(--bg); transition: border-color 200ms ease-out, background 200ms ease-out, color 200ms ease-out, transform 200ms ease-out; }
+  .node { display: grid; justify-items: center; gap: 0.5rem; flex: none; width: 5.5rem; color: var(--text-2); font-size: var(--step--1); font-weight: 500; text-align: center; transition: color var(--dur-hover) var(--ease-out); }
+  .node svg { width: 64px; height: 64px; padding: 10px; border: 1px solid var(--line-strong); border-radius: 50%; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; background: var(--bg); transition: border-color var(--dur-hover) var(--ease-out), background var(--dur-hover) var(--ease-out), color var(--dur-hover) var(--ease-out), transform var(--dur-hover) var(--ease-out); }
   .node.done { color: var(--text); }
   .node.on { color: var(--accent); }
   .node.on svg { border: 2px solid var(--accent); transform: scale(1.08); }
-  .link { flex: 1; height: 2px; margin-bottom: 1.75rem; background: var(--line-strong); transition: background 200ms ease-out; }
+  .link { flex: 1; height: 2px; margin-bottom: 1.75rem; background: var(--line-strong); transition: background var(--dur-hover) var(--ease-out); }
   .link.done { background: var(--accent); }
 
   /* Rationale */
@@ -592,12 +592,12 @@ const ring = c.stakeholders.list.map((_, i, all) => {
   .net { position: relative; aspect-ratio: 1; width: 100%; max-width: 560px; justify-self: center; }
   .stage { position: absolute; inset: 1.75rem 0; }
   .lines { position: absolute; inset: 0; width: 100%; height: 100%; }
-  .lines line { stroke: var(--line-strong); stroke-width: 1; vector-effect: non-scaling-stroke; transition: stroke 200ms ease-out; }
+  .lines line { stroke: var(--line-strong); stroke-width: 1; vector-effect: non-scaling-stroke; transition: stroke var(--dur-hover) var(--ease-out); }
   .lines line.on { stroke: var(--accent); stroke-width: 2; }
   .hub { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); display: grid; place-items: center; width: 7rem; height: 7rem; margin: 0; border-radius: 50%; background: var(--text); color: var(--bg); font-weight: 600; text-align: center; padding: 1rem; }
   .net ul { margin: 0; padding: 0; list-style: none; }
   .net li { position: absolute; left: var(--x); top: var(--y); width: 7.5rem; transform: translate(-50%, -50%); }
-  .net button { min-height: 44px; width: 100%; padding: 0.35rem 0.6rem; border: 1px solid var(--line-strong); border-radius: var(--radius); background: var(--bg); color: var(--text); font: inherit; font-size: 0.8125rem; font-weight: 500; line-height: 1.25; cursor: pointer; transition: border-color 200ms ease-out, background 200ms ease-out, color 200ms ease-out; }
+  .net button { min-height: 44px; width: 100%; padding: 0.35rem 0.6rem; border: 1px solid var(--line-strong); border-radius: var(--radius); background: var(--bg); color: var(--text); font: inherit; font-size: 0.8125rem; font-weight: 500; line-height: 1.25; cursor: pointer; transition: border-color var(--dur-hover) var(--ease-out), background var(--dur-hover) var(--ease-out), color var(--dur-hover) var(--ease-out); }
   .net button:hover { border-color: var(--text); }
   .net button[aria-pressed='true'] { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
 

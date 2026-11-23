@@ -172,7 +172,7 @@ const mine = c.contribution.mine.filter((m) => m.v);
         </div>
         <div id="flow-panel" class="flow-panel" aria-live="polite">
           {c.flow.stages.map((s, i) => (
-            <div class="row flow-item" data-panel={i} hidden={i !== 0}>
+            <div class="row flow-item swap" data-panel={i} hidden={i !== 0}>
               <div class="prose"><p class="num">{String(i + 1).padStart(2, '0')}</p><h4>{s.label}</h4><p>{s.text}</p></div>
               <Image src={stageImgs[i]} alt={s.alt} widths={[480, 900]} sizes="(min-width: 48rem) 540px, 100vw" />
             </div>
