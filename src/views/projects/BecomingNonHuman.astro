@@ -154,20 +154,20 @@ const cn = b.codeNote;
           <p>{d.current.v}</p>
         </div>
         <figure class="drift">
-          <!-- Tip-to-tail vector sum: input O→A, current A→B, actual drift O→B. Every line starts or ends on a shared point. -->
-          <svg viewBox="0 0 400 230" role="img" aria-label={`${c.turtle.diagram.input} + ${c.turtle.diagram.current} = ${c.turtle.diagram.result}`}>
+          <!-- Parallelogram sum from one origin O(110,200): input O→(110,80), current O→(330,190), actual drift O→(330,70). -->
+          <svg viewBox="0 0 400 240" role="img" aria-label={`${c.turtle.diagram.input} + ${c.turtle.diagram.current} = ${c.turtle.diagram.result}`}>
             <defs>
               <marker id="ah" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="6" markerHeight="6" markerUnits="strokeWidth" orient="auto"><path d="M0 0L10 5L0 10z" class="head" /></marker>
               <marker id="ah2" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="5" markerHeight="5" markerUnits="strokeWidth" orient="auto"><path d="M0 0L10 5L0 10z" class="head2" /></marker>
             </defs>
-            <line x1="110" y1="195" x2="110" y2="75" class="in" marker-end="url(#ah)" />
-            <path d="M110 75 C 160 50, 200 100, 255 80 S 330 55, 360 85" class="cur" marker-end="url(#ah)" />
-            <line x1="110" y1="195" x2="360" y2="85" class="res" marker-end="url(#ah2)" />
-            <circle cx="110" cy="195" r="6" class="dot" />
-            <circle cx="110" cy="75" r="3" class="joint" />
-            <text x="98" y="140" text-anchor="end">{c.turtle.diagram.input}</text>
-            <text x="235" y="45" text-anchor="middle">{c.turtle.diagram.current}</text>
-            <text x="250" y="172" class="strong">{c.turtle.diagram.result}</text>
+            <path d="M110 80 L330 70 L330 190" class="guide" />
+            <line x1="110" y1="200" x2="110" y2="80" class="in" marker-end="url(#ah)" />
+            <path d="M110 200 C 160 180, 200 220, 250 200 S 310 185, 330 190" class="cur" marker-end="url(#ah)" />
+            <line x1="110" y1="200" x2="330" y2="70" class="res" marker-end="url(#ah2)" />
+            <circle cx="110" cy="200" r="6" class="dot" />
+            <text x="98" y="145" text-anchor="end">{c.turtle.diagram.input}</text>
+            <text x="230" y="232" text-anchor="middle">{c.turtle.diagram.current}</text>
+            <text x="200" y="118" text-anchor="middle" class="strong">{c.turtle.diagram.result}</text>
           </svg>
           <figcaption class="caveat"><span class="tag">{c.turtle.diagram.tag}</span>{c.turtle.diagram.note}</figcaption>
         </figure>
@@ -540,7 +540,7 @@ const cn = b.codeNote;
   .drift .cur { fill: none; stroke: var(--line-strong); stroke-width: 2; stroke-dasharray: 5 5; }
   .drift .res { stroke: var(--accent); stroke-width: 3; }
   .drift .dot { fill: var(--text); }
-  .drift .joint { fill: var(--text-2); }
+  .drift .guide { fill: none; stroke: var(--line); stroke-width: 1.5; stroke-dasharray: 3 4; }
   .drift .head { fill: var(--text-2); }
   .drift .head2 { fill: var(--accent); }
   .media { display: grid; gap: 0.5rem; min-width: 0; }
