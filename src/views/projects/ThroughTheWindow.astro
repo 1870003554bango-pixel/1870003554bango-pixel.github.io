@@ -2,12 +2,17 @@
 // Bespoke project page — brief: md文件/through the window/Through_the_Window_Claude_Brief_EN.md
 // Public copy is English on both language routes; the Chinese route keeps Chinese navigation.
 import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
 import Base from '../../layouts/Base.astro';
 import PhotoCarousel from '../../components/PhotoCarousel.astro';
 import { useT, type Lang } from '../../i18n/ui';
 import { page, url } from '../../lib/url';
 import { nextOf, projects } from '../../data/projects';
-import { copy as c, liveUrl, skyColors } from '../../data/through-the-window';
+import { copy as c, liveUrl, skyColors, skyColorsEnd, techSnippets as code, grassColors } from '../../data/through-the-window';
+import CodeBlock from '../../components/CodeBlock.astro';
+import trail100 from '../../assets/through-the-window/trail-100x.jpg';
+import trail10k from '../../assets/through-the-window/trail-10000x.jpg';
+import trail100k from '../../assets/through-the-window/trail-100000x.jpg';
 
 import photo from '../../assets/through-the-window/airplane-window-inspiration.jpg';
 import dawn from '../../assets/through-the-window/dawn.jpg';
@@ -37,6 +42,18 @@ const windowPhotos = {
   'window-sunset-storm': wStorm, 'window-twilight-lights': wTwilight, 'window-night-stars': wNight,
 } as const;
 const gallery = c.inspiration.gallery.map((g) => ({ src: windowPhotos[g.key as keyof typeof windowPhotos], alt: g.alt, caption: g.caption }));
+
+// Technical deep dive
+const x = c.tech;
+const trailImgs = { 'trail-100x': trail100, 'trail-10000x': trail10k, 'trail-100000x': trail100k } as const;
+const trailSlides = x.trails.slides.map((s) => ({ src: trailImgs[s.key as keyof typeof trailImgs], alt: s.alt, caption: s.caption }));
+const meteorFiles = import.meta.glob<{ default: ImageMetadata }>('../../assets/through-the-window/meteor-*.jpg', { eager: true });
+const meteorImg = (k: string) => meteorFiles[`../../assets/through-the-window/${k}.jpg`].default;
+const keyframes = [...skyColors, skyColorsEnd];
+// Sun and moon share one straight path (window top-left → right end of horizon), drawn at five evenly spaced times.
+const pathPts = [0, 0.25, 0.5, 0.75, 1].map((f, i) => ({ x: 40 + 320 * f, y: 30 + 150 * f, sun: ['06', '09', '12', '15', '18'][i], moon: ['18', '21', '00', '03', '06'][i] }));
+// 24-hour bar: hour → x in a 0–480 strip
+const hx = (h: number) => 96 + (h / 24) * 384;
 ---
 
 <Base lang={lang} route="/work/through-the-window/" title={c.title} description={c.tagline} image={sunset}>
@@ -194,6 +211,220 @@ const gallery = c.inspiration.gallery.map((g) => ({ src: windowPhotos[g.key as k
       </div>
     </section>
 
+    <!-- F2 · Technical deep dive: A Sky Built Through Time (brief: md文件/through the window/DECO1012_Through_the_Window_Technical_Portfolio_Brief.md) -->
+    <section id="tech" class="wrap block tech" aria-labelledby="tech-heading">
+      <div class="wide-text">
+        <p class="eyebrow accent">{x.eyebrow}</p>
+        <h2 id="tech-heading">{x.title}</h2>
+        <p class="sub">{x.sub}</p>
+        {x.body.map((p) => <p>{p}</p>)}
+      </div>
+      <nav class="tech-toc" aria-label={`${x.title}: sections`}>
+        <ol role="list">{x.toc.map((t, i) => <li><a href={`#${t.id}`}><span class="num">{String(i + 1).padStart(2, '0')}</span>{t.k}</a></li>)}</ol>
+      </nav>
+      <figure class="tech-hero">
+        <Image src={trail10k} alt={x.heroAlt} widths={[800, 1200, 1680]} sizes="(min-width: 75rem) 1200px, 100vw" />
+        <figcaption>{x.heroCaption}</figcaption>
+      </figure>
+
+      <!-- 01 Time -->
+      <div id="tech-time" class="row sticky t-row">
+        <div class="prose">
+          <p class="num">{x.time.n}</p>
+          <h3>{x.time.title}</h3>
+          {x.time.body.map((p) => <p>{p}</p>)}
+          <p class="formula"><code>{x.time.formula}</code></p>
+          <p class="small muted">{x.time.formulaKey}</p>
+          <table class="t-table">
+            <thead><tr>{x.time.speedHead.map((h) => <th scope="col">{h}</th>)}</tr></thead>
+            <tbody>{x.time.speeds.map((r) => <tr><th scope="row">{r[0]}</th><td>{r[1]}</td></tr>)}</tbody>
+          </table>
+        </div>
+        <div class="media"><CodeBlock title={code.time.file} code={code.time.code} note={x.codeNote} lang="javascript" /></div>
+      </div>
+
+      <figure class="keyframes">
+        <figcaption><span class="eyebrow">{x.palette.title}</span><span class="small muted">{x.palette.note}</span></figcaption>
+        <div class="scroll">
+          <ol role="list">
+            {keyframes.map((k, i) => (
+              <li>
+                <span class="kf-swatch" style={`background: linear-gradient(${k.top}, ${k.bot})`} aria-hidden="true"></span>
+                <span class="kf-h">{String(k.h).padStart(2, '0')}:00</span>
+                <span class="kf-s">{x.palette.stages[i]}</span>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </figure>
+
+      <div class="row flip sticky t-row">
+        <div class="prose">
+          <h3>{x.blend.title}</h3>
+          {x.blend.body.map((p) => <p>{p}</p>)}
+          <ol class="pipe" role="list">{x.blend.pipe.map((p) => <li>{p}</li>)}</ol>
+        </div>
+        <div class="media"><CodeBlock title={code.sky.file} code={code.sky.code} note={x.codeNote} lang="javascript" /></div>
+      </div>
+
+      <div class="row t-row">
+        <div class="prose">
+          <h3>{x.path.title}</h3>
+          <p>{x.path.body}</p>
+          <CodeBlock title={code.path.file} code={code.path.code} lang="javascript" />
+        </div>
+        <figure class="diagram">
+          <svg viewBox="0 0 400 230" role="img" aria-label={`${x.path.sun} 06–18, ${x.path.moon} 18–06, along one path from the top-left of the window to the right end of the horizon.`}>
+            <rect x="20" y="10" width="360" height="200" class="win" />
+            <line x1="20" y1="180" x2="380" y2="180" class="horizon" />
+            <text x="26" y="196" class="lbl">{x.path.horizon}</text>
+            <line x1="40" y1="30" x2="360" y2="180" class="track" />
+            {pathPts.map((p) => (
+              <g>
+                <circle cx={p.x} cy={p.y} r="6" class="sun" />
+                <text x={p.x + 4} y={p.y - 11} class="t-sun">{p.sun}</text>
+                <text x={p.x + 10} y={p.y + 16} class="t-moon">{p.moon}</text>
+              </g>
+            ))}
+            <g transform="translate(36 214)"><circle r="5" class="sun" /><text x="10" y="4" class="lbl">{x.path.sun} 06–18</text><circle cx="110" r="5" class="moon" /><text x="120" y="4" class="lbl">{x.path.moon} 18–06</text></g>
+          </svg>
+          <figcaption class="small muted">{x.path.caption}</figcaption>
+        </figure>
+      </div>
+
+      <div class="threshold">
+        <h3>{x.threshold.title}</h3>
+        <p>{x.threshold.body}</p>
+        <svg viewBox="0 0 500 96" role="img" aria-label={x.threshold.aria}>
+          <defs>
+            <linearGradient id="dawnRamp"><stop offset="0" stop-color={grassColors.night} /><stop offset="1" stop-color={grassColors.day} /></linearGradient>
+            <linearGradient id="duskRamp"><stop offset="0" stop-color={grassColors.day} /><stop offset="1" stop-color={grassColors.night} /></linearGradient>
+          </defs>
+          <text x="0" y="24" class="lbl">{x.threshold.rowStars}</text>
+          <rect x={hx(0)} y="12" width={hx(6.3) - hx(0)} height="16" class="on" />
+          <rect x={hx(18.2)} y="12" width={hx(24) - hx(18.2)} height="16" class="on" />
+          <text x="0" y="58" class="lbl">{x.threshold.rowLand}</text>
+          <rect x={hx(0)} y="46" width={hx(5.5) - hx(0)} height="16" fill={grassColors.night} />
+          <rect x={hx(5.5)} y="46" width={hx(6.3) - hx(5.5)} height="16" fill="url(#dawnRamp)" />
+          <rect x={hx(6.3)} y="46" width={hx(17.3) - hx(6.3)} height="16" fill={grassColors.day} />
+          <rect x={hx(17.3)} y="46" width={hx(18.2) - hx(17.3)} height="16" fill="url(#duskRamp)" />
+          <rect x={hx(18.2)} y="46" width={hx(24) - hx(18.2)} height="16" fill={grassColors.night} />
+          {[0, 6, 12, 18, 24].map((h) => <text x={hx(h)} y="84" text-anchor="middle" class="tick">{String(h).padStart(2, '0')}:00</text>)}
+        </svg>
+        <p class="small muted">{x.threshold.caption}</p>
+      </div>
+
+      <!-- 02 Stars -->
+      <div id="tech-stars" class="row sticky t-row">
+        <div class="prose">
+          <p class="num">{x.stars.n}</p>
+          <h3>{x.stars.title}</h3>
+          {x.stars.body.map((p) => <p>{p}</p>)}
+          <table class="t-table">
+            <thead><tr>{x.stars.paramHead.map((h) => <th scope="col">{h}</th>)}</tr></thead>
+            <tbody>{x.stars.params.map((r) => <tr><th scope="row"><code>{r[0]}</code></th><td>{r[1]}</td><td class="muted">{r[2]}</td></tr>)}</tbody>
+          </table>
+        </div>
+        <div class="media"><CodeBlock title={code.stars.file} code={code.stars.code} note={x.codeNote} lang="javascript" /></div>
+      </div>
+
+      <div class="row flip sticky t-row">
+        <div class="prose">
+          <h3>{x.trails.title}</h3>
+          {x.trails.body.map((p) => <p>{p}</p>)}
+          <ol class="pipe" role="list">{x.trails.pipe.map((p) => <li>{p}</li>)}</ol>
+        </div>
+        <div class="media"><CodeBlock title={code.trails.file} code={code.trails.code} note={x.codeNote} lang="javascript" /></div>
+      </div>
+
+      <div class="row wide-media t-row">
+        <div class="prose">
+          <h3>{x.trails.alphaTitle}</h3>
+          <p>{x.trails.alphaBody}</p>
+          <table class="t-table">
+            <thead><tr>{x.trails.alphaHead.map((h) => <th scope="col">{h}</th>)}</tr></thead>
+            <tbody>{x.trails.alpha.map((r) => <tr><th scope="row">{r[0]}</th><td>{r[1]}</td><td class="muted">{r[2]}</td></tr>)}</tbody>
+          </table>
+        </div>
+        <div class="trail-shots">
+          <PhotoCarousel slides={trailSlides} label={x.trails.slidesLabel} ratio="7 / 3" sizes="(min-width: 48rem) 680px, 100vw" zoom prevLabel="Previous speed" nextLabel="Next speed" />
+          <p class="small muted">{x.trails.slidesNote}</p>
+        </div>
+      </div>
+
+      <!-- 03 Meteors -->
+      <div id="tech-meteors" class="row sticky t-row">
+        <div class="prose">
+          <p class="num">{x.meteors.n}</p>
+          <h3>{x.meteors.title}</h3>
+          {x.meteors.body.map((p) => <p>{p}</p>)}
+          <table class="t-table">
+            <thead><tr>{x.meteors.paramHead.map((h) => <th scope="col">{h}</th>)}</tr></thead>
+            <tbody>{x.meteors.params.map((r) => <tr><th scope="row"><code>{r[0]}</code></th><td>{r[1]}</td><td class="muted">{r[2]}</td></tr>)}</tbody>
+          </table>
+          <p class="small muted">{x.meteors.rateNote}</p>
+        </div>
+        <div class="media"><CodeBlock title={code.meteor.file} code={code.meteor.code} note={x.codeNote} lang="javascript" /></div>
+      </div>
+
+      <div class="row flip t-row">
+        <div class="prose">
+          <h3>{x.meteors.tailTitle}</h3>
+          <p>{x.meteors.tailBody}</p>
+          <CodeBlock title={code.tail.file} code={code.tail.code} lang="javascript" />
+        </div>
+        <figure class="meteor-seq">
+          <figcaption class="eyebrow">{x.meteors.seqTitle}</figcaption>
+          <ol role="list">
+            {x.meteors.seq.map((m) => (
+              <li>
+                <Image src={meteorImg(m.key)} alt={`${x.meteors.seqAlt}, ${m.label.toLowerCase()} (${m.f}).`} widths={[468]} sizes="468px" />
+                <span class="seq-k"><strong>{m.label}</strong><span class="muted">{m.f}</span></span>
+              </li>
+            ))}
+          </ol>
+          <p class="small muted">{x.meteors.seqNote}</p>
+        </figure>
+      </div>
+
+      <!-- System: one clock, three systems -->
+      <div id="tech-system" class="system">
+        <h3>{x.system.title}</h3>
+        <p>{x.system.body}</p>
+        <div class="sysdiag" role="img" aria-label={`${x.system.control} → ${x.system.clock} → ${x.system.cols.map((col) => col.k).join(', ')} → ${x.system.result}`}>
+          <div class="node ctl">{x.system.control}</div>
+          <span class="down" aria-hidden="true">↓</span>
+          <div class="node clock"><code>{x.system.clock}</code><span>{x.system.clockNote}</span><span class="speed">{x.system.speed}</span></div>
+          <span class="down" aria-hidden="true">↓</span>
+          <div class="cols3">
+            {x.system.cols.map((col) => (
+              <div class="col">
+                <p class="col-k">{col.k}</p>
+                <ul role="list">{col.items.map((it) => <li>{it}</li>)}</ul>
+                <p class="col-out">↓ {col.out}</p>
+              </div>
+            ))}
+          </div>
+          <span class="down" aria-hidden="true">↓</span>
+          <div class="node result">{x.system.result}</div>
+        </div>
+      </div>
+
+      <!-- Notes: honest limits of the original code -->
+      <div id="tech-notes" class="notes">
+        <h3>{x.notes.title}</h3>
+        <p>{x.notes.body}</p>
+        <div class="scroll">
+          <table class="t-table notes-table">
+            <thead><tr>{x.notes.head.map((h) => <th scope="col">{h}</th>)}</tr></thead>
+            <tbody>{x.notes.rows.map((r) => <tr><th scope="row">{r[0]}</th><td>{r[1]}</td><td>{r[2]}</td><td class="muted">{r[3]}</td></tr>)}</tbody>
+          </table>
+        </div>
+        <h3 class="refl-h">{x.reflection.title}</h3>
+        <p>{x.reflection.body}</p>
+      </div>
+    </section>
+
     <!-- G · Reflection: text | quote + credits -->
     <section class="wrap block wide-text reflection" aria-labelledby="reflection-heading">
       <h2 id="reflection-heading">{c.reflection.title}</h2>
@@ -328,6 +559,94 @@ const gallery = c.inspiration.gallery.map((g) => ({ src: windowPhotos[g.key as k
   .how { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
   .how summary { display: flex; align-items: center; min-height: 48px; cursor: pointer; font-weight: 600; }
   .how ul { margin: 0 0 var(--space-2); padding-left: 1.25rem; display: grid; gap: 0.4rem; color: var(--text-2); font-size: var(--step--1); }
+
+  /* F2 · Technical deep dive */
+  .tech .accent { color: var(--accent); }
+  .tech .sub { font-size: var(--step-1); font-weight: 500; color: var(--text); }
+  .tech h3 { font-size: var(--step-2); font-weight: 600; letter-spacing: -0.015em; }
+  .tech .num { color: var(--accent); font-weight: 600; }
+  .tech code { font-family: var(--font-mono); font-size: 0.9em; }
+  .tech-toc ol { display: flex; flex-wrap: wrap; gap: 0 var(--space-3); margin: var(--space-2) 0 0; padding: 0; list-style: none; border-block: 1px solid var(--line); }
+  .tech-toc a { display: inline-flex; align-items: center; gap: 0.5rem; min-height: 44px; font-size: var(--step--1); font-weight: 500; color: var(--text); text-decoration: none; }
+  .tech-toc a:hover { color: var(--accent); }
+  .tech-toc .num { font-size: 0.75rem; }
+  .tech-hero { margin: var(--space-3) 0 0; display: grid; gap: 0.5rem; }
+  .tech-hero img { width: 100%; height: auto; border-radius: var(--radius); }
+  .t-row { margin-top: var(--space-5); }
+  .t-row .prose { min-width: 0; }
+  .media { display: grid; min-width: 0; }
+  .formula { padding: 0.75rem 1rem; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); }
+  .formula code { font-size: 1rem; font-weight: 600; }
+  .t-table { width: 100%; border-collapse: collapse; font-size: var(--step--1); }
+  .t-table th, .t-table td { text-align: left; vertical-align: top; padding: 0.5rem 0.75rem 0.5rem 0; border-bottom: 1px solid var(--line); }
+  .t-table thead th { font-weight: 500; color: var(--text-2); border-bottom-color: var(--line-strong); }
+  .t-table tbody th { font-weight: 600; white-space: nowrap; }
+  .t-table td { font-variant-numeric: tabular-nums; }
+  .scroll { overflow-x: auto; }
+  .keyframes { margin: var(--space-5) 0 0; display: grid; gap: var(--space-2); }
+  .keyframes figcaption { display: grid; gap: 0.25rem; max-width: 70ch; }
+  .keyframes figcaption .eyebrow { margin: 0; color: var(--text); }
+  .keyframes ol { display: grid; grid-template-columns: repeat(12, minmax(4.5rem, 1fr)); gap: 4px; margin: 0; padding: 0; list-style: none; }
+  .keyframes li { display: grid; gap: 0.2rem; align-content: start; }
+  .kf-swatch { display: block; height: 5rem; border-radius: 3px; }
+  .kf-h { font-size: var(--step--1); font-weight: 600; font-variant-numeric: tabular-nums; }
+  .kf-s { font-size: 0.75rem; color: var(--text-2); line-height: 1.3; }
+  .pipe { display: flex; flex-wrap: wrap; gap: 0.4rem 0; margin: 0; padding: 0; list-style: none; font-size: var(--step--1); font-weight: 500; }
+  .pipe li { display: inline-flex; align-items: center; padding: 0.35rem 0.65rem; border: 1px solid var(--line-strong); border-radius: var(--radius); background: var(--surface); }
+  .pipe li + li::before { content: '→'; margin: 0 0.5rem 0 -0.25rem; color: var(--accent); }
+  .pipe li + li { margin-left: 0.6rem; }
+  .diagram { margin: 0; display: grid; gap: 0.5rem; padding: var(--space-2); background: var(--surface); border: 1px solid var(--line); border-radius: 10px; }
+  .diagram svg { width: 100%; height: auto; }
+  .diagram .win { fill: var(--sunken); stroke: var(--line-strong); }
+  .diagram .horizon { stroke: var(--text-2); stroke-width: 1.5; }
+  .diagram .track { stroke: var(--line-strong); stroke-width: 2; stroke-dasharray: 4 4; }
+  .diagram .sun { fill: var(--accent); }
+  .diagram .moon { fill: var(--surface); stroke: var(--text); stroke-width: 1.5; }
+  .diagram text { font: 500 11px var(--font-sans); fill: var(--text-2); }
+  .diagram .t-sun { fill: var(--accent); font-weight: 600; }
+  .diagram .t-moon { fill: var(--text); }
+  .threshold { margin-top: var(--space-5); display: grid; gap: var(--space-2); padding: var(--space-3); background: var(--surface); border: 1px solid var(--line); border-radius: 10px; }
+  .threshold p { max-width: 75ch; }
+  .threshold svg { width: 100%; max-width: 900px; height: auto; }
+  .threshold text { font: 500 10px var(--font-sans); fill: var(--text-2); }
+  .threshold .on { fill: var(--text); }
+  .trail-shots { display: grid; gap: 0.5rem; min-width: 0; }
+  .meteor-seq { margin: 0; display: grid; gap: 0.6rem; justify-items: start; }
+  .meteor-seq .eyebrow { margin: 0; }
+  .meteor-seq ol { display: grid; gap: 0.5rem; margin: 0; padding: 0; list-style: none; width: min(100%, 468px); }
+  .meteor-seq li { display: grid; gap: 0.25rem; }
+  .meteor-seq img { width: 100%; height: auto; border-radius: 4px; }
+  .seq-k { display: flex; justify-content: space-between; font-size: var(--step--1); }
+  .system { margin-top: var(--space-5); display: grid; gap: var(--space-2); }
+  .system > p { max-width: 75ch; }
+  .sysdiag { display: grid; justify-items: center; gap: 0.4rem; padding: var(--space-3); background: var(--surface); border: 1px solid var(--line); border-radius: 10px; }
+  .node { display: grid; justify-items: center; gap: 0.15rem; padding: 0.6rem 1.1rem; border: 1px solid var(--line-strong); border-radius: var(--radius); background: var(--bg); text-align: center; font-size: var(--step--1); font-weight: 500; }
+  .node.clock { border-color: var(--accent); }
+  .node.clock code { font-size: 1.05rem; font-weight: 700; color: var(--accent); }
+  .node.clock span { color: var(--text-2); }
+  .node.clock .speed { font-size: 0.75rem; }
+  .node.result { background: var(--text); color: var(--bg); border-color: var(--text); font-weight: 600; }
+  .down { color: var(--accent); font-weight: 600; }
+  .cols3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-2); width: 100%; }
+  .col { display: grid; gap: 0.4rem; align-content: start; padding: var(--space-2); border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg); }
+  .col-k { font-weight: 700; }
+  .col ul { margin: 0; padding-left: 1rem; display: grid; gap: 0.2rem; font-size: var(--step--1); color: var(--text-2); }
+  .col-out { font-size: var(--step--1); font-weight: 600; color: var(--accent); }
+  .notes { margin-top: var(--space-5); display: grid; gap: var(--space-2); }
+  .notes > p { max-width: 75ch; }
+  .notes-table th:first-child { width: 9rem; }
+  .notes-table td { width: 28%; }
+  .refl-h { margin-top: var(--space-3); }
+  /* Between tablet and wide desktop, give code a little more room so excerpts fit without scrolling. */
+  @media (min-width: 48rem) and (max-width: 79.99rem) {
+    .tech .t-row.sticky { grid-template-columns: minmax(0, 9fr) minmax(0, 11fr); }
+    .tech .t-row.sticky.flip { grid-template-columns: minmax(0, 11fr) minmax(0, 9fr); }
+    .tech :global(.code-block pre) { font-size: 0.6875rem; }
+  }
+  @media (max-width: 47.99rem) {
+    .cols3 { grid-template-columns: 1fr; }
+    .notes-table { min-width: 44rem; }
+  }
 
   /* G */
   .intro-wide { margin-bottom: var(--space-3); }
