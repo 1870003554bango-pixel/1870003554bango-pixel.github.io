@@ -106,7 +106,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'aerospace-stories',
-    order: 2,
+    order: 7,
     status: 'published',
     featured: true,
     customPage: true,
@@ -153,7 +153,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'airshow',
-    order: 2.5,
+    order: 8,
     status: 'published',
     featured: false,
     customPage: true,
@@ -183,7 +183,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'becoming-non-human',
-    order: 3,
+    order: 2,
     status: 'published',
     featured: true,
     categories: ['immersive'],
@@ -209,7 +209,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'scam-ready',
-    order: 4,
+    order: 3,
     status: 'published',
     featured: true,
     customPage: true,
@@ -239,7 +239,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'bottle-passport',
-    order: 4.5,
+    order: 4,
     status: 'published',
     featured: false,
     customPage: true,
