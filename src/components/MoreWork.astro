@@ -1,0 +1,30 @@
+---
+// End of every project page: the next two projects, laid out exactly like the Home grid
+// (same cards, same order and numbering as Home / Work), then a link to all work.
+import ProjectCard from './ProjectCard.astro';
+import { useT, type Lang } from '../i18n/ui';
+import { page } from '../lib/url';
+import { published } from '../data/projects';
+
+interface Props { slug: string; lang: Lang }
+const { slug, lang } = Astro.props;
+const t = useT(lang);
+const i = published.findIndex((p) => p.slug === slug);
+const picks = [...new Set([1, 2].map((k) => (i + k) % published.length))].filter((j) => j !== i);
+---
+
+<section class="wrap more" aria-labelledby="more-title">
+  <h2 id="more-title">{t('project.more')}</h2>
+  <ul class="grid" role="list">
+    {picks.map((j) => <li><ProjectCard project={published[j]} lang={lang} index={j + 1} /></li>)}
+  </ul>
+  <a class="text-link all" href={page(lang, '/work/')}>{t('home.viewAll')} <span class="arrow" aria-hidden="true">→</span></a>
+</section>
+
+<style>
+  .more { margin-top: var(--space-6); padding-top: var(--space-5); border-top: 1px solid var(--line); }
+  h2 { margin-bottom: var(--space-4); font-size: clamp(2rem, 2vw + 1.2rem, 2.75rem); }
+  .grid { display: grid; gap: var(--space-5) var(--space-4); margin: 0; padding: 0; list-style: none; }
+  @media (min-width: 48rem) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  .all { margin-top: var(--space-4); }
+</style>

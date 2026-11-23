@@ -208,7 +208,7 @@ a:hover > .arrow, .btn:hover .arrow { transform: translate(2px, -2px); }
 .project .wide-text { display: grid; gap: var(--space-2); }
 /* Readable line length everywhere on project pages: ~72 Latin characters (≈ 40 Chinese characters).
    Applies to paragraphs and text-only list items; headings, tables, figures and multi-column items keep full width. */
-.project :is(p, li:not(:has(> :is(h2, h3, h4, p, div, figure, dl, ol, ul, span.num)))):not(.center, .routine-inline, .ending, .tagline) { max-width: 72ch; }
+.project :is(p, li:not(:has(> :is(h2, h3, h4, p, div, figure, dl, ol, ul, span.num)))):not(.wrap, .center, .routine-inline, .ending, .tagline) { max-width: 72ch; }
 .project .wide-text .cols { display: grid; gap: var(--space-2); }
 
 @media (min-width: 48rem) {
