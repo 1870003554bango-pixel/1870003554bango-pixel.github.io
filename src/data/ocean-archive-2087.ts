@@ -22,7 +22,7 @@ const en = {
   heroAlt: 'In-game view of Act 01: a sunlit reef with light shafts and rippling caustics on the sand, coral, a wreck on the right and the objective panel “Swim ahead through the reef”.',
   capturedCaption: 'Captured from the live Unity Web Player build.',
   details: [
-    { k: 'Type', v: 'First-person interactive environmental narrative' },
+    { k: 'Type', v: 'First-person interactive environmental narrative · Individual project' },
     { k: 'Theme', v: 'UN SDG 14 — Life Below Water' },
     { k: 'Engine', v: 'Unity 6.3 LTS (6000.3.10f1) · URP 17.3' },
     { k: 'Code', v: 'C#' },
@@ -368,7 +368,7 @@ const en = {
   credits: {
     eyebrow: '09 / Credits',
     title: 'Credits and transparency',
-    role: 'Concept, narrative, interaction design and Unity development: Sitan Ding.',
+    role: 'Individual project. Concept, narrative, interaction design and Unity development: Sitan Ding.',
     ai: 'AI-assisted tools supported selected development, debugging, documentation and iteration work, including Unity MCP for editor operations. Design direction, interaction goals and final decisions were reviewed throughout. Not every line of code is claimed as hand-written.',
     assetsSummary: 'Third-party assets recorded in the project documentation',
     assets: [
@@ -399,7 +399,7 @@ const zh: Copy = {
   heroAlt: '第一幕游戏画面：阳光照进的珊瑚礁，光柱与沙地上流动的焦散，右侧有珊瑚和沉船，左上角是目标面板“Swim ahead through the reef”。',
   capturedCaption: '截取自在线 Unity Web Player 版本。',
   details: [
-    { k: '类型', v: '第一人称互动环境叙事' },
+    { k: '类型', v: '第一人称互动环境叙事 · 个人项目' },
     { k: '主题', v: '联合国 SDG 14：水下生物' },
     { k: '引擎', v: 'Unity 6.3 LTS（6000.3.10f1）· URP 17.3' },
     { k: '代码', v: 'C#' },
@@ -745,7 +745,7 @@ const zh: Copy = {
   credits: {
     eyebrow: '09 / 署名与说明',
     title: '署名与说明',
-    role: '概念、叙事、交互设计与 Unity 开发：丁思覃。',
+    role: '个人项目。概念、叙事、交互设计与 Unity 开发：丁思覃。',
     ai: '开发过程中使用了 AI 辅助工具支持部分开发、调试、文档整理和迭代工作，包括用 Unity MCP 辅助编辑器操作。设计方向、交互目标和最终决策均在开发过程中审核。并不声称每一行代码都是手写完成。',
     assetsSummary: '项目文档中记录的第三方素材',
     assets: [

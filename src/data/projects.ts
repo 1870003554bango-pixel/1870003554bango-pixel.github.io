@@ -231,7 +231,7 @@ export const projects: Project[] = [
       zh: '一款以海龟视角展开的第一人称环境叙事作品。动态洋流、会作出反应的海洋生命和身体化交互，把不可见的垃圾流向变成玩家亲身经历的后果。',
     },
     year: null,
-    collaboration: null,
+    collaboration: 'solo',
     role: { en: 'Concept, design and Unity development', zh: '概念、设计与 Unity 开发' },
     tools: ['Unity 6.3', 'C#', 'URP'],
     cover: oceanCover,
