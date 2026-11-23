@@ -1,0 +1,649 @@
+---
+// Bottle Passport — bilingual project page (team project, proposed concept).
+// Brief: md文件/3003/Bottle_Passport_Portfolio_Brief_EN_ZH.md · Layout: DESIGN.md (paired rows; text-only = full width).
+// Evidence comes from the team's final report: observation photos (p. 23), decision matrix (pp. 21–22).
+// AI images from the report (pp. 9–10, 13) are labelled where shown. Interactions are explanatory only.
+import type { ImageMetadata } from 'astro';
+import { Image } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import Zoom from '../../components/Zoom.astro';
+import PhotoCarousel from '../../components/PhotoCarousel.astro';
+import Lightbox from '../../components/Lightbox.astro';
+import { useT, type Lang } from '../../i18n/ui';
+import { page } from '../../lib/url';
+import { nextOf } from '../../data/projects';
+import { copy, observations } from '../../data/bottle-passport';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const c = copy[lang];
+const t = useT(lang);
+const next = nextOf('bottle-passport');
+
+const files = import.meta.glob<{ default: ImageMetadata }>('../../assets/bottle-passport/*.jpg', { eager: true });
+const img = (key: string): ImageMetadata => {
+  const f = files[`../../assets/bottle-passport/${key}.jpg`];
+  if (!f) throw new Error(`Missing Bottle Passport image: ${key}`);
+  return f.default;
+};
+const obsSlides = observations.filter((o) => o.key !== 'obs-feedback-screen').map((o) => ({ src: img(o.key), alt: o[lang], caption: o[lang] }));
+const matrixSlides = [
+  { src: img('matrix-1'), alt: c.ideas.matrixAlt1, caption: c.ideas.matrixCaption1 },
+  { src: img('matrix-2'), alt: c.ideas.matrixAlt2, caption: c.ideas.matrixCaption2 },
+];
+const pad = (n: number) => String(n).padStart(2, '0');
+
+// Stakeholder ring: positions around the centre (percent of the square stage).
+const ring = c.stakeholders.list.map((_, i, all) => {
+  const a = (-90 + (360 / all.length) * i) * (Math.PI / 180);
+  return { x: 50 + 38 * Math.cos(a), y: 50 + 41 * Math.sin(a) };
+});
+---
+
+<Base lang={lang} route="/work/bottle-passport/" title="Bottle Passport" description={c.tagline} image={img('obs-feedback-screen')}>
+  <article class="project bottle">
+    <nav class="wrap crumbs" aria-label="Breadcrumb">
+      <ol role="list">
+        <li><a href={page(lang, '/work/')}>{t('nav.work')}</a></li>
+        <li aria-current="page">Bottle Passport</li>
+      </ol>
+    </nav>
+
+    <!-- Hero: text | observation photo -->
+    <header class="wrap row hero">
+      <div class="prose">
+        <p class="eyebrow">{c.eyebrow}</p>
+        <h1>{c.title}</h1>
+        <p class="subtitle">{c.subtitle}</p>
+        <p class="tagline">{c.tagline}</p>
+        <p>{c.intro}</p>
+        <div class="ctas">
+          <a class="btn btn-primary" href="#how">{c.ctaPrimary} <span aria-hidden="true">↓</span></a>
+          <a class="btn" href="#journey">{c.ctaSecondary}</a>
+        </div>
+      </div>
+      <Zoom class="hero-media" src={img('obs-feedback-screen')} alt={c.heroAlt} caption={c.heroCaption} loading="eager" widths={[480]} sizes="420px" />
+    </header>
+    <dl class="wrap details">{c.details.map((d) => <div><dt>{d.k}</dt><dd>{d.v}</dd></div>)}</dl>
+
+    <!-- 01 Overview: text only → full width -->
+    <section class="wrap block wide-text" aria-labelledby="ov-h">
+      <p class="eyebrow num">{c.overview.eyebrow}</p>
+      <h2 id="ov-h">{c.overview.title}</h2>
+      {c.overview.body.map((p) => <p>{p}</p>)}
+    </section>
+
+    <!-- 02 Challenge: text | bottle journey switcher -->
+    <section class="wrap block row sticky" aria-labelledby="ch-h">
+      <div class="prose">
+        <p class="eyebrow num">{c.challenge.eyebrow}</p>
+        <h2 id="ch-h">{c.challenge.title}</h2>
+        {c.challenge.body.map((p) => <p>{p}</p>)}
+        <div class="callout">
+          <h3>{c.challenge.statementLabel}</h3>
+          <p>{c.challenge.statement}</p>
+        </div>
+        <div class="callout">
+          <h3>{c.challenge.opportunityLabel}</h3>
+          <p>{c.challenge.opportunity}</p>
+        </div>
+      </div>
+
+      <div id="journey" class="media journey" data-journey>
+        <p class="eyebrow">{c.journey.label}</p>
+        <p class="journey-cap">{c.journey.caption}</p>
+        <div class="seg" role="group" aria-label={c.journey.label}>
+          <button type="button" data-path="returned" aria-pressed="true">{c.journey.returned}</button>
+          <button type="button" data-path="littered" aria-pressed="false">{c.journey.littered}</button>
+        </div>
+        {(['returned', 'littered'] as const).map((p) => (
+          <div class:list={['path', p]} data-panel={p} hidden={p !== 'returned'}>
+            <ol class="nodes" role="list">
+              {(p === 'returned' ? c.journey.returnedSteps : c.journey.litteredSteps).map((s, i) => (
+                <li style={`--i: ${i}`}><span class="dot" aria-hidden="true">{i + 1}</span><span>{s}</span></li>
+              ))}
+            </ol>
+            <p class="path-note" aria-live="polite">{p === 'returned' ? c.journey.returnedNote : c.journey.litteredNote}</p>
+          </div>
+        ))}
+        <p class="caveat"><span class="tag">{lang === 'zh' ? '示意' : 'Illustrative'}</span>{c.journey.disclaimer}</p>
+      </div>
+    </section>
+
+    <!-- 03 Research: methods | observation photos, then findings full width -->
+    <section class="wrap block" aria-labelledby="rs-h">
+      <div class="row flip sticky">
+        <div class="prose">
+          <p class="eyebrow num">{c.research.eyebrow}</p>
+          <h2 id="rs-h">{c.research.title}</h2>
+          <h3 class="sub-h">{c.research.methodsTitle}</h3>
+          <ol class="plain" role="list">
+            {c.research.methods.map((m, i) => <li><span class="num">{pad(i + 1)}</span><div><h4>{m.k}</h4><p>{m.v}</p></div></li>)}
+          </ol>
+        </div>
+        <div class="media obs">
+          <PhotoCarousel slides={obsSlides} label={c.research.galleryLabel} ratio="3 / 4" zoom sizes="420px" />
+          <p class="small muted">{c.research.galleryNote}</p>
+        </div>
+      </div>
+
+      <div class="wide-text findings-wrap">
+        <h3 class="sub-h">{c.research.findingsTitle}</h3>
+        <ol class="findings" role="list">
+          {c.research.findings.map((f, i) => <li><span class="num">{pad(i + 1)}</span><h4>{f.k}</h4><p>{f.v}</p></li>)}
+        </ol>
+        <p class="insight"><span class="eyebrow">{c.research.insightLabel}</span>{c.research.insight}</p>
+      </div>
+    </section>
+
+    <!-- 04 Ideas: intro full width → concept tabs → matrix row -->
+    <section class="wrap block" aria-labelledby="id-h">
+      <div class="wide-text">
+        <p class="eyebrow num">{c.ideas.eyebrow}</p>
+        <h2 id="id-h">{c.ideas.title}</h2>
+        {c.ideas.body.map((p) => <p>{p}</p>)}
+      </div>
+
+      <div class="concepts" data-ctabs>
+        <div class="tablist" role="tablist" aria-label={c.ideas.tabsLabel}>
+          {c.ideas.concepts.map((k, i) => (
+            <button type="button" role="tab" id={`ct-${k.id}`} aria-controls={`cp-${k.id}`} aria-selected={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? 0 : -1}>
+              <span class="tab-name">{k.name}</span><span class="tab-score">{c.ideas.scoreLabel} {k.score}</span>
+            </button>
+          ))}
+          <button type="button" role="tab" id="ct-all" aria-controls="cp-all" aria-selected="false" tabindex="-1" class="tab-all">
+            <span class="tab-name">{c.ideas.combinedTab}</span><span class="tab-score">→ Bottle Passport</span>
+          </button>
+        </div>
+
+        {c.ideas.concepts.map((k, i) => (
+          <div class="row tabpanel" role="tabpanel" id={`cp-${k.id}`} aria-labelledby={`ct-${k.id}`} hidden={i !== 0} tabindex="0">
+            <div class="prose">
+              <p class="num">{pad(i + 1)} / {c.ideas.scoreLabel} {k.score}</p>
+              <h3>{k.name}</h3>
+              <p>{k.text}</p>
+              <dl class="kv">
+                <div><dt>{c.ideas.strengthLabel}</dt><dd>{k.strength}</dd></div>
+                <div><dt>{c.ideas.keptLabel}</dt><dd>{k.kept}</dd></div>
+              </dl>
+            </div>
+            <figure class="ai-fig">
+              <Image src={img(k.img)} alt={k.alt} widths={[560, 800]} sizes="(min-width: 48rem) 540px, 100vw" />
+              <figcaption class="caveat"><span class="tag">AI</span>{c.ideas.aiLabel}</figcaption>
+            </figure>
+          </div>
+        ))}
+
+        <div class="tabpanel combine" role="tabpanel" id="cp-all" aria-labelledby="ct-all" hidden tabindex="0">
+          <ol class="merge" role="list">
+            {c.ideas.concepts.map((k) => (
+              <li><span class="from">{k.name}</span><span class="arrow-r" aria-hidden="true">→</span><strong>{k.kept}</strong></li>
+            ))}
+          </ol>
+          <div class="result">
+            <p class="eyebrow">{lang === 'zh' ? '最终方向' : 'Final direction'}</p>
+            <h3>{c.ideas.combinedTitle}</h3>
+            <p>{c.ideas.combinedText}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="row wide-media matrix">
+        <div class="prose">
+          <h3>{c.ideas.matrixTitle}</h3>
+          <p>{c.ideas.matrixText}</p>
+          <table class="scores">
+            <thead><tr><th scope="col">{lang === 'zh' ? '概念' : 'Concept'}</th><th scope="col">{c.ideas.scoreLabel}</th><th scope="col">{c.ideas.strengthLabel}</th></tr></thead>
+            <tbody>{c.ideas.concepts.map((k) => <tr><td>{k.name}</td><td class="n">{k.score}</td><td>{k.strength}</td></tr>)}</tbody>
+          </table>
+        </div>
+        <div class="media">
+          <PhotoCarousel slides={matrixSlides} label={c.ideas.matrixTitle} ratio="4 / 3" tone="light" zoom sizes="(min-width: 48rem) 680px, 100vw" prevLabel={lang === 'zh' ? '上一页' : 'Previous page'} nextLabel={lang === 'zh' ? '下一页' : 'Next page'} />
+        </div>
+      </div>
+    </section>
+
+    <!-- 05 Final concept: three parts | workflow visual (AI, labelled) -->
+    <section class="wrap block row sticky" aria-labelledby="fc-h">
+      <div class="prose">
+        <p class="eyebrow num">{c.concept.eyebrow}</p>
+        <h2 id="fc-h">{c.concept.title}</h2>
+        <p class="lead">{c.concept.sub}</p>
+        <ol class="plain" role="list">
+          {c.concept.parts.map((p, i) => <li><span class="num">{pad(i + 1)}</span><div><h4>{p.k}</h4><p>{p.v}</p></div></li>)}
+        </ol>
+        <div class="core">
+          <p class="eyebrow">{c.concept.coreLabel}</p>
+          <p class="core-flow">{c.concept.core.map((s, i) => <>{i > 0 && <span class="arr" aria-hidden="true">→</span>}<span>{s}</span></>)}</p>
+        </div>
+        <p class="muted">{c.concept.layer}</p>
+      </div>
+      <div class="media">
+        <Zoom src={img('ai-workflow')} alt={c.concept.workflowAlt} sizes="(min-width: 48rem) 560px, 100vw" />
+        <p class="caveat"><span class="tag">AI</span>{c.concept.workflowCaption}</p>
+      </div>
+    </section>
+
+    <!-- 06 How it works: interactive five-step journey -->
+    <section id="how" class="wrap block" aria-labelledby="hw-h">
+      <div class="wide-text">
+        <p class="eyebrow num">{c.how.eyebrow}</p>
+        <h2 id="hw-h">{c.how.title}</h2>
+        <p>{c.how.intro}</p>
+      </div>
+
+      <div class="steps" data-steps>
+        <ol class="step-list" role="list">
+          {c.how.steps.map((s, i) => (
+            <li><button type="button" data-go={i} aria-current={i === 0 ? 'step' : undefined}><span class="num">{pad(i + 1)}</span><span>{s.k}</span></button></li>
+          ))}
+        </ol>
+
+        <div class="row step-body">
+          <div class="prose">
+            {c.how.steps.map((s, i) => (
+              <div class="step-copy" data-copy={i} hidden={i !== 0}>
+                <p class="num">{c.how.stepLabel} {pad(i + 1)} / {pad(c.how.steps.length)}</p>
+                <h3>{s.k}</h3>
+                <p>{s.v}</p>
+              </div>
+            ))}
+            <div class="step-ctrl">
+              <button type="button" class="btn step-prev" disabled>← {c.how.prev}</button>
+              <button type="button" class="btn step-next">{c.how.next} →</button>
+            </div>
+          </div>
+
+          <div class="system" aria-hidden="true">
+            {c.how.nodes.map((n, j) => (
+              <>
+                {j > 0 && <span class="link" data-link={j}></span>}
+                <div class="node" data-node={j}>
+                  <svg viewBox="0 0 48 48">
+                    {j === 0 && <><rect x="12" y="7" width="24" height="34" rx="3" /><circle cx="24" cy="21" r="6" /><path d="M17 33h14" /></>}
+                    {j === 1 && <><path d="M14 16h20l-2 25H16z" /><path d="M11 16h26M20 11h8" /><path d="M31 6a6 6 0 0 1 6 6" /></>}
+                    {j === 2 && <><rect x="8" y="9" width="32" height="24" rx="3" /><path d="M16 27v-6M24 27v-10M32 27v-4M18 41h12M24 33v8" /></>}
+                    {j === 3 && <><rect x="10" y="20" width="28" height="20" rx="2" /><path d="M8 14h32v6H8zM24 14v26M24 14c-4-6-10-6-10-2s6 2 10 2c4 0 10 2 10-2s-6-4-10 2" /></>}
+                  </svg>
+                  <span>{n}</span>
+                </div>
+              </>
+            ))}
+          </div>
+        </div>
+        <p class="caveat"><span class="tag">{lang === 'zh' ? '演示' : 'Demo'}</span>{c.how.note}</p>
+      </div>
+    </section>
+
+    <!-- 07 Rationale: text only → full width -->
+    <section class="wrap block wide-text" aria-labelledby="ra-h">
+      <p class="eyebrow num">{c.rationale.eyebrow}</p>
+      <h2 id="ra-h">{c.rationale.title}</h2>
+      <ol class="qa" role="list">
+        {c.rationale.items.map((q) => <li><h3>{q.k}</h3><p>{q.v}</p></li>)}
+      </ol>
+    </section>
+
+    <!-- 08 Future thinking: horizons timeline + backcasting -->
+    <section class="wrap block wide-text" aria-labelledby="fu-h">
+      <p class="eyebrow num">{c.future.eyebrow}</p>
+      <h2 id="fu-h">{c.future.title}</h2>
+      <p>{c.future.intro}</p>
+      <ol class="horizons" role="list">
+        {c.future.horizons.map((h) => <li><p class="year">{h.year}</p><h3>{h.k}</h3><p>{h.v}</p></li>)}
+      </ol>
+      <h3 class="sub-h">{c.future.backTitle}</h3>
+      <ol class="back" role="list">
+        {c.future.back.map((b, i) => <li><span class="num">{pad(i + 1)}</span><p>{b}</p></li>)}
+      </ol>
+    </section>
+
+    <!-- 09 Stakeholders: text + selected role | network map -->
+    <section class="wrap block row" aria-labelledby="sh-h" data-stake>
+      <div class="prose">
+        <p class="eyebrow num">{c.stakeholders.eyebrow}</p>
+        <h2 id="sh-h">{c.stakeholders.title}</h2>
+        <p>{c.stakeholders.intro}</p>
+        <div class="stake-detail" aria-live="polite">
+          {c.stakeholders.list.map((s, i) => (
+            <div data-detail={i} hidden={i !== 0}>
+              <p class="eyebrow">{c.stakeholders.roleLabel}</p>
+              <h3>{s.k}</h3>
+              <p>{s.v}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div class="net"><div class="stage">
+        <svg class="lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+          {ring.map((p, i) => <line x1="50" y1="50" x2={p.x} y2={p.y} data-line={i} />)}
+        </svg>
+        <p class="hub">{c.stakeholders.center}</p>
+        <ul role="list">
+          {c.stakeholders.list.map((s, i) => (
+            <li style={`--x: ${ring[i].x}%; --y: ${ring[i].y}%`}>
+              <button type="button" data-who={i} aria-pressed={i === 0 ? 'true' : 'false'}>{s.k}</button>
+            </li>
+          ))}
+        </ul>
+      </div></div>
+    </section>
+
+    <!-- 10 Ethics: text only → full width -->
+    <section class="wrap block wide-text" aria-labelledby="et-h">
+      <p class="eyebrow num">{c.ethics.eyebrow}</p>
+      <h2 id="et-h">{c.ethics.title}</h2>
+      <ol class="ethics" role="list">
+        {c.ethics.list.map((e, i) => <li><span class="num">{pad(i + 1)}</span><h3>{e.k}</h3><p>{e.v}</p></li>)}
+      </ol>
+    </section>
+
+    <!-- 11 Contribution: text only → full width -->
+    <section class="wrap block wide-text" aria-labelledby="co-h">
+      <p class="eyebrow num">{c.contribution.eyebrow}</p>
+      <h2 id="co-h">{c.contribution.title}</h2>
+      {c.contribution.body.map((p) => <p>{p}</p>)}
+      <ul class="highlights" role="list">{c.contribution.highlights.map((h) => <li>{h}</li>)}</ul>
+    </section>
+
+    <!-- 12 Reflection + closing + credits -->
+    <section class="wrap block wide-text" aria-labelledby="re-h">
+      <p class="eyebrow num">{c.reflection.eyebrow}</p>
+      <h2 id="re-h">{c.reflection.title}</h2>
+      {c.reflection.body.map((p) => <p>{p}</p>)}
+      <blockquote class="closing">
+        <p>{c.reflection.closing}</p>
+        <p class="muted">{c.reflection.closingSub}</p>
+      </blockquote>
+      <div class="credits">
+        <h3>{c.reflection.creditsTitle}</h3>
+        <p>{c.reflection.credits}</p>
+        <p>{c.reflection.ai}</p>
+      </div>
+    </section>
+
+    <nav class="wrap bottom-nav" aria-label={lang === 'zh' ? '项目导航' : 'Project navigation'}>
+      <a class="text-link" href={page(lang, '/work/')}>← {t('project.back')}</a>
+      <a class="next" href={page(lang, `/work/${next.slug}/`)}>
+        <span class="eyebrow">{t('project.next')}</span>
+        <span class="next-title">{next.title} <span class="arrow" aria-hidden="true">→</span></span>
+      </a>
+    </nav>
+  </article>
+  <Lightbox />
+</Base>
+
+<script>
+  // A · Bottle journey switcher (illustrative only)
+  document.querySelectorAll<HTMLElement>('[data-journey]').forEach((root) => {
+    const buttons = [...root.querySelectorAll<HTMLButtonElement>('[data-path]')];
+    const panels = [...root.querySelectorAll<HTMLElement>('[data-panel]')];
+    buttons.forEach((b) => b.addEventListener('click', () => {
+      buttons.forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+      panels.forEach((p) => {
+        const on = p.dataset.panel === b.dataset.path;
+        p.hidden = !on;
+        if (on) { p.classList.remove('play'); void p.offsetWidth; p.classList.add('play'); }
+      });
+    }));
+  });
+
+  // C · Concept tabs (ARIA tablist, arrow keys)
+  document.querySelectorAll<HTMLElement>('[data-ctabs]').forEach((root) => {
+    const tabs = [...root.querySelectorAll<HTMLButtonElement>('[role="tab"]')];
+    const panels = tabs.map((t) => root.querySelector<HTMLElement>(`#${t.getAttribute('aria-controls')}`)!);
+    const select = (i: number, focus = false) => {
+      tabs.forEach((t, j) => { t.setAttribute('aria-selected', String(j === i)); t.tabIndex = j === i ? 0 : -1; panels[j].hidden = j !== i; });
+      if (focus) tabs[i].focus();
+    };
+    tabs.forEach((t, i) => {
+      t.addEventListener('click', () => select(i));
+      t.addEventListener('keydown', (e) => {
+        const n = tabs.length;
+        const map: Record<string, number> = { ArrowRight: (i + 1) % n, ArrowLeft: (i - 1 + n) % n, Home: 0, End: n - 1 };
+        if (e.key in map) { e.preventDefault(); select(map[e.key], true); }
+      });
+    });
+  });
+
+  // B · Five-step journey
+  document.querySelectorAll<HTMLElement>('[data-steps]').forEach((root) => {
+    const go = [...root.querySelectorAll<HTMLButtonElement>('[data-go]')];
+    const copies = [...root.querySelectorAll<HTMLElement>('[data-copy]')];
+    const nodes = [...root.querySelectorAll<HTMLElement>('[data-node]')];
+    const links = [...root.querySelectorAll<HTMLElement>('[data-link]')];
+    const prev = root.querySelector<HTMLButtonElement>('.step-prev')!;
+    const next = root.querySelector<HTMLButtonElement>('.step-next')!;
+    const nodeOf = [0, 1, 1, 2, 3];
+    let i = 0;
+    const show = (n: number) => {
+      i = Math.max(0, Math.min(copies.length - 1, n));
+      copies.forEach((c, j) => (c.hidden = j !== i));
+      go.forEach((b, j) => (j === i ? b.setAttribute('aria-current', 'step') : b.removeAttribute('aria-current')));
+      const active = nodeOf[i];
+      nodes.forEach((nd, j) => { nd.classList.toggle('on', j === active); nd.classList.toggle('done', j < active); });
+      links.forEach((l) => l.classList.toggle('done', Number(l.dataset.link) <= active));
+      prev.disabled = i === 0;
+      next.disabled = i === copies.length - 1;
+    };
+    go.forEach((b) => b.addEventListener('click', () => show(Number(b.dataset.go))));
+    prev.addEventListener('click', () => show(i - 1));
+    next.addEventListener('click', () => show(i + 1));
+    show(0);
+  });
+
+  // Stakeholder map
+  document.querySelectorAll<HTMLElement>('[data-stake]').forEach((root) => {
+    const who = [...root.querySelectorAll<HTMLButtonElement>('[data-who]')];
+    const details = [...root.querySelectorAll<HTMLElement>('[data-detail]')];
+    const lines = [...root.querySelectorAll<SVGLineElement>('[data-line]')];
+    const pick = (n: number) => {
+      who.forEach((b, j) => b.setAttribute('aria-pressed', String(j === n)));
+      details.forEach((d, j) => (d.hidden = j !== n));
+      lines.forEach((l, j) => l.classList.toggle('on', j === n));
+    };
+    who.forEach((b, j) => b.addEventListener('click', () => pick(j)));
+    pick(0);
+  });
+</script>
+
+<style>
+  .crumbs { padding-top: var(--space-3); }
+  .crumbs ol { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0; padding: 0; list-style: none; font-size: var(--step--1); color: var(--text-2); }
+  .crumbs li + li::before { content: '/'; margin-right: 0.5rem; }
+  .crumbs a { display: inline-flex; align-items: center; min-height: 44px; margin-block: -0.6rem; color: var(--text-2); }
+
+  .bottle .eyebrow.num { color: var(--accent); font-weight: 600; }
+  .bottle h3 { font-size: var(--step-1); }
+  .bottle h4 { margin: 0; font-size: var(--step-0); font-weight: 600; }
+  .sub-h { margin-top: var(--space-2); }
+
+  /* Hero */
+  .hero { padding-top: var(--space-2); }
+  .hero h1 { font-size: var(--step-3); }
+  .subtitle { color: var(--text-2); font-weight: 500; }
+  .tagline { font-size: var(--step-2); font-weight: 600; letter-spacing: -0.02em; line-height: 1.2; }
+  .ctas { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+  .hero :global(.hero-media) { justify-self: center; width: min(100%, 420px); margin: 0; }
+  .hero :global(.hero-media img) { border-radius: var(--radius); }
+  .details { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 0.6rem var(--space-3); margin-top: var(--space-4); padding-block: var(--space-2); border-block: 1px solid var(--line); }
+  @media (max-width: 63.99rem) { .details { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  .details dt { font-size: var(--step--1); color: var(--text-2); }
+  .details dd { margin: 0; font-size: var(--step--1); font-weight: 500; }
+
+  .caveat { display: flex; gap: 0.6rem; align-items: baseline; margin: 0; font-size: var(--step--1); color: var(--text-2); }
+  .tag { flex: none; padding: 0.1rem 0.45rem; border-radius: 3px; border: 1px solid var(--line-strong); color: var(--text); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; }
+
+  /* Challenge */
+  .callout { display: grid; gap: 0.35rem; padding-left: var(--space-2); border-left: 2px solid var(--accent); }
+  .callout h3 { font-size: var(--step--1); font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-2); }
+
+  /* A · Journey switcher */
+  .journey { display: grid; gap: var(--space-2); padding: var(--space-3); background: var(--surface); border: 1px solid var(--line); border-radius: 10px; }
+  .journey-cap { font-size: var(--step-1); font-weight: 600; letter-spacing: -0.01em; }
+  .seg { display: grid; grid-template-columns: 1fr 1fr; padding: 4px; background: var(--sunken); border-radius: 8px; }
+  .seg button { min-height: 44px; border: 0; border-radius: 6px; background: transparent; color: var(--text-2); font: inherit; font-weight: 500; cursor: pointer; transition: background 200ms ease-out, color 200ms ease-out; }
+  .seg button[aria-pressed='true'] { background: var(--surface); color: var(--text); box-shadow: 0 0 0 1px var(--line-strong); }
+  .nodes { position: relative; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.5rem; margin: var(--space-2) 0 0; padding: 0; list-style: none; }
+  .nodes::before { content: ''; position: absolute; top: 22px; left: 12.5%; right: 12.5%; height: 2px; background: var(--line-strong); }
+  .returned .nodes::before { background: var(--accent); }
+  .littered .nodes::before { background: repeating-linear-gradient(90deg, var(--text-2) 0 6px, transparent 6px 12px); }
+  .nodes li { position: relative; display: grid; justify-items: center; gap: 0.5rem; text-align: center; font-size: var(--step--1); font-weight: 500; }
+  .dot { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: var(--surface); border: 2px solid var(--accent); color: var(--accent); font-weight: 600; font-variant-numeric: tabular-nums; }
+  .littered .dot { border-color: var(--text-2); color: var(--text-2); border-style: dashed; }
+  .littered li:last-child .dot { background: var(--text); border: 2px solid var(--text); color: var(--bg); }
+  .returned li:last-child .dot { background: var(--accent); color: var(--on-accent); }
+  .path.play li { animation: rise 260ms ease-out both; animation-delay: calc(var(--i) * 90ms); }
+  @keyframes rise { from { opacity: 0; transform: translateY(6px); } }
+  .path-note { margin-top: var(--space-1) !important; color: var(--text); }
+
+  /* Research */
+  .plain { display: grid; gap: var(--space-2); margin: 0; padding: 0; list-style: none; }
+  .plain li { display: grid; grid-template-columns: 2.25rem 1fr; gap: 0.25rem; }
+  .plain li p { color: var(--text-2); }
+  .obs { justify-self: center; width: min(100%, 420px); display: grid; gap: 0.5rem; }
+  .findings-wrap { margin-top: var(--space-5); }
+  .findings { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0; margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--line); }
+  .findings li { display: grid; gap: 0.4rem; align-content: start; padding: var(--space-3) var(--space-3) var(--space-3) 0; border-bottom: 1px solid var(--line); }
+  .findings li:nth-child(even) { padding-left: var(--space-3); border-left: 1px solid var(--line); }
+  .findings p { color: var(--text-2); max-width: 52ch; }
+  .insight { display: grid; gap: 0.35rem; margin-top: var(--space-2) !important; font-size: var(--step-2); font-weight: 600; letter-spacing: -0.02em; line-height: 1.25; }
+  .insight .eyebrow { color: var(--accent); }
+
+  /* C · Concept tabs */
+  .concepts { margin-top: var(--space-4); }
+  .tablist { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-bottom: 1px solid var(--line); }
+  [role='tab'] { display: grid; gap: 0.15rem; min-height: 64px; padding: 0.75rem 1rem 0.75rem 0; border: 0; border-bottom: 2px solid transparent; margin-bottom: -1px; background: none; color: var(--text-2); font: inherit; text-align: left; cursor: pointer; transition: color 200ms ease-out, border-color 200ms ease-out; }
+  [role='tab']:hover { color: var(--text); }
+  [role='tab'][aria-selected='true'] { color: var(--text); border-bottom-color: var(--accent); }
+  .tab-name { font-weight: 600; }
+  .tab-score { font-size: var(--step--1); font-variant-numeric: tabular-nums; }
+  .tab-all .tab-score { color: var(--accent); }
+  .tabpanel { margin-top: var(--space-4); }
+  .kv { display: grid; gap: 0.75rem; margin: 0; padding-top: var(--space-2); border-top: 1px solid var(--line); }
+  .kv dt { font-size: var(--step--1); color: var(--text-2); }
+  .kv dd { margin: 0; font-weight: 600; }
+  .ai-fig { display: grid; gap: 0.6rem; margin: 0; }
+  .ai-fig :global(img) { width: 100%; height: auto; border-radius: var(--radius); }
+  .combine { display: grid; gap: var(--space-4); }
+  .merge { display: grid; gap: 0; margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--line); }
+  .merge li { display: grid; grid-template-columns: minmax(0, 1fr) 2rem minmax(0, 1fr); align-items: center; gap: var(--space-2); padding-block: var(--space-2); border-bottom: 1px solid var(--line); }
+  .from { color: var(--text-2); }
+  .arrow-r { color: var(--accent); text-align: center; }
+  .result { display: grid; gap: 0.5rem; padding: var(--space-3); border: 1px solid var(--accent); border-radius: 10px; }
+  .result h3 { font-size: var(--step-2); }
+  .result .eyebrow { color: var(--accent); }
+  .matrix { margin-top: var(--space-5); }
+  .scores { width: 100%; border-collapse: collapse; font-size: var(--step--1); }
+  .scores th { text-align: left; font-weight: 500; color: var(--text-2); padding: 0.5rem 0.5rem 0.5rem 0; border-bottom: 1px solid var(--line-strong); }
+  .scores td { padding: 0.6rem 0.5rem 0.6rem 0; border-bottom: 1px solid var(--line); }
+  .scores .n { font-weight: 600; font-variant-numeric: tabular-nums; }
+
+  /* Final concept */
+  .lead { font-size: var(--step-1); }
+  .core { display: grid; gap: 0.35rem; padding-block: var(--space-2); border-block: 1px solid var(--line); }
+  .core-flow { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem; font-size: var(--step-2); font-weight: 600; letter-spacing: -0.02em; }
+  .arr { color: var(--accent); }
+  .media .caveat { margin-top: 0.6rem; }
+
+  /* B · Steps */
+  .steps { display: grid; gap: var(--space-4); margin-top: var(--space-3); }
+  .step-list { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); margin: 0; padding: 0; list-style: none; border-top: 2px solid var(--line); }
+  .step-list button { display: grid; gap: 0.25rem; width: 100%; min-height: 64px; padding: 0.75rem 0.75rem 0.5rem 0; margin-top: -2px; border: 0; border-top: 2px solid transparent; background: none; color: var(--text-2); font: inherit; font-weight: 500; text-align: left; cursor: pointer; transition: color 200ms ease-out, border-color 200ms ease-out; }
+  .step-list button:hover { color: var(--text); }
+  .step-list button[aria-current='step'] { color: var(--text); border-top-color: var(--accent); }
+  .step-body { align-items: center; }
+  .step-copy { display: grid; gap: var(--space-2); }
+  .step-copy h3 { font-size: var(--step-2); }
+  .step-ctrl { display: flex; justify-content: flex-start; gap: 0.75rem; flex-wrap: wrap; }
+  .step-ctrl .btn { justify-self: start; }
+  .step-ctrl .btn:disabled { opacity: 0.4; cursor: default; }
+  .system { display: flex; align-items: center; justify-content: space-between; gap: 0.25rem; padding: var(--space-4) var(--space-3); background: var(--surface); border: 1px solid var(--line); border-radius: 10px; }
+  .node { display: grid; justify-items: center; gap: 0.5rem; flex: none; width: 5.5rem; color: var(--text-2); font-size: var(--step--1); font-weight: 500; text-align: center; transition: color 200ms ease-out; }
+  .node svg { width: 64px; height: 64px; padding: 10px; border: 1px solid var(--line-strong); border-radius: 50%; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; background: var(--bg); transition: border-color 200ms ease-out, background 200ms ease-out, color 200ms ease-out, transform 200ms ease-out; }
+  .node.done { color: var(--text); }
+  .node.on { color: var(--accent); }
+  .node.on svg { border: 2px solid var(--accent); transform: scale(1.08); }
+  .link { flex: 1; height: 2px; margin-bottom: 1.75rem; background: var(--line-strong); transition: background 200ms ease-out; }
+  .link.done { background: var(--accent); }
+
+  /* Rationale */
+  .qa { display: grid; gap: 0; margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--line); }
+  .qa li { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); gap: var(--space-3) var(--space-5); padding-block: var(--space-3); border-bottom: 1px solid var(--line); }
+  .qa p { color: var(--text-2); }
+
+  /* Future */
+  .horizons { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-3); margin: var(--space-2) 0 0; padding: 0; list-style: none; }
+  .horizons li { display: grid; gap: 0.5rem; align-content: start; padding-top: var(--space-2); border-top: 2px solid var(--line-strong); }
+  .horizons li:nth-child(2) { border-top-color: var(--accent); }
+  .horizons p:not(.year) { color: var(--text-2); }
+  .year { font-size: var(--step-2); font-weight: 600; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+  .back { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: var(--space-2); margin: 0; padding: 0; list-style: none; counter-reset: b; }
+  .back li { display: grid; gap: 0.4rem; align-content: start; padding: var(--space-2) var(--space-2) var(--space-2) 0; border-top: 1px solid var(--line); font-size: var(--step--1); }
+
+  /* Stakeholder map */
+  .stake-detail { padding: var(--space-3); background: var(--surface); border: 1px solid var(--line); border-radius: 10px; min-height: 10rem; }
+  .stake-detail > div { display: grid; gap: 0.5rem; }
+  .stake-detail .eyebrow { color: var(--accent); }
+  .net { position: relative; aspect-ratio: 1; width: 100%; max-width: 560px; justify-self: center; }
+  .stage { position: absolute; inset: 1.75rem 0; }
+  .lines { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .lines line { stroke: var(--line-strong); stroke-width: 1; vector-effect: non-scaling-stroke; transition: stroke 200ms ease-out; }
+  .lines line.on { stroke: var(--accent); stroke-width: 2; }
+  .hub { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); display: grid; place-items: center; width: 7rem; height: 7rem; margin: 0; border-radius: 50%; background: var(--text); color: var(--bg); font-weight: 600; text-align: center; padding: 1rem; }
+  .net ul { margin: 0; padding: 0; list-style: none; }
+  .net li { position: absolute; left: var(--x); top: var(--y); width: 7.5rem; transform: translate(-50%, -50%); }
+  .net button { min-height: 44px; width: 100%; padding: 0.35rem 0.6rem; border: 1px solid var(--line-strong); border-radius: var(--radius); background: var(--bg); color: var(--text); font: inherit; font-size: 0.8125rem; font-weight: 500; line-height: 1.25; cursor: pointer; transition: border-color 200ms ease-out, background 200ms ease-out, color 200ms ease-out; }
+  .net button:hover { border-color: var(--text); }
+  .net button[aria-pressed='true'] { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+
+  /* Ethics */
+  .ethics { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 var(--space-4); margin: 0; padding: 0; list-style: none; }
+  .ethics li { display: grid; gap: 0.4rem; align-content: start; padding-block: var(--space-3); border-top: 1px solid var(--line); }
+  .ethics p { color: var(--text-2); }
+
+  /* Contribution */
+  .highlights { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 var(--space-4); margin: var(--space-1) 0 0; padding: 0; list-style: none; }
+  .highlights li { padding-block: 0.7rem; border-top: 1px solid var(--line); font-weight: 500; }
+  .highlights li::before { content: '—'; margin-right: 0.5rem; color: var(--accent); }
+
+  /* Closing */
+  .closing { display: grid; gap: 0.5rem; margin: var(--space-3) 0 0; padding-block: var(--space-3); border-block: 1px solid var(--line); }
+  .closing p:first-child { font-size: clamp(1.35rem, 1.4vw + 1rem, 2rem); font-weight: 600; line-height: 1.3; letter-spacing: -0.015em; }
+  .credits { display: grid; gap: 0.5rem; font-size: var(--step--1); color: var(--text-2); }
+  .credits h3 { font-size: var(--step-0); color: var(--text); }
+
+  .bottom-nav { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: var(--space-3); margin-top: var(--space-5); padding-top: var(--space-4); border-top: 1px solid var(--line); }
+  .next { display: grid; gap: 0.3rem; text-align: right; text-decoration: none; margin-left: auto; }
+  .next .eyebrow { color: var(--text-2); }
+  .next-title { font-size: var(--step-2); font-weight: 600; letter-spacing: -0.02em; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .path.play li { animation: none; }
+    .node.on svg { transform: none; }
+  }
+
+  @media (max-width: 63.99rem) {
+    .back { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .ethics, .highlights { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+
+  @media (max-width: 47.99rem) {
+    .findings, .horizons, .back, .ethics, .highlights, .qa li { grid-template-columns: 1fr; }
+    .findings li:nth-child(even) { padding-left: 0; border-left: 0; }
+    .tablist { grid-template-columns: 1fr 1fr; }
+    .step-list { grid-template-columns: 1fr; border-top: 0; }
+    .step-list button { min-height: 48px; padding: 0.5rem 0 0.5rem 0.75rem; margin: 0; border-top: 0; border-left: 2px solid var(--line); grid-template-columns: 2.25rem 1fr; }
+    .step-list button[aria-current='step'] { border-left-color: var(--accent); }
+    .system { padding: var(--space-3) var(--space-2); }
+    .node { width: 4rem; }
+    .node svg { width: 48px; height: 48px; padding: 7px; }
+    .merge li { grid-template-columns: 1fr; gap: 0.25rem; }
+    .arrow-r { text-align: left; }
+    .net { aspect-ratio: auto; }
+    .stage { position: static; }
+    .lines, .hub { display: none; }
+    .net ul { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .net li { position: static; width: auto; transform: none; }
+  }
+</style>

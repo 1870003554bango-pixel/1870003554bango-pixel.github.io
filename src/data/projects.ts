@@ -15,6 +15,7 @@ import ufoCover from '../assets/ufo-skyfeed/cover.jpg';
 import identityCover from '../assets/identity-press/cover.jpg';
 import cocoaCover from '../assets/cocoa-reserve/blender-draft-closed.jpg';
 import scamCover from '../assets/scam-ready/hero-landing.jpg';
+import bottleCover from '../assets/bottle-passport/obs-feedback-screen.jpg';
 
 type L = Record<Lang, string>;
 export type Category = 'interactive' | 'film' | 'immersive' | 'visual';
@@ -198,6 +199,36 @@ export const projects: Project[] = [
     coverAlt: {
       en: 'Scam Ready landing screen: "A message you weren\u2019t expecting." beside a phone showing simulated incoming notifications.',
       zh: 'Scam Ready 首页：“A message you weren’t expecting.” 旁边是一部显示模拟来电通知的手机。',
+    },
+    overview: null,
+    process: [],
+    reflection: null,
+  },
+  {
+    slug: 'bottle-passport',
+    order: 4.5,
+    status: 'published',
+    featured: false,
+    customPage: true,
+    categories: ['interactive'],
+    title: 'Bottle Passport',
+    type: { en: 'Interaction Design · Social Impact · System Design', zh: '交互设计 · 社会影响 · 系统设计' },
+    subtitle: {
+      en: 'Making everyday recycling more visible, engaging and rewarding.',
+      zh: '让校园回收变得更直观、更有参与感，也更有意义。',
+    },
+    summary: {
+      en: 'A campus-based recycling and reward concept that uses an NFC passport, smart recycling stations and personal progress tracking to encourage more responsible disposal habits.',
+      zh: '一个面向大学校园的回收与奖励系统概念，通过 NFC 实体护照、智能回收站和个人进度记录，鼓励学生养成更好的回收习惯。',
+    },
+    year: null,
+    collaboration: 'team',
+    role: { en: 'Project concept development & planning', zh: '项目整体构思规划与设计深化' },
+    tools: [],
+    cover: bottleCover,
+    coverAlt: {
+      en: 'Observation photo: an existing smart bin on campus asking "Was it correct?" on its screen.',
+      zh: '观察照片：校园里现有的智能垃圾桶，屏幕上显示"Was it correct?"。',
     },
     overview: null,
     process: [],
