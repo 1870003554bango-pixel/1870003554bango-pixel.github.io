@@ -24,8 +24,8 @@ const en = {
     'Bottle Passport explores how interaction design can encourage more responsible recycling habits on a university campus. It connects a simple action — returning a drink container — with personal progress, rewards and a wider environmental purpose.',
   ctaPrimary: 'See how it works',
   ctaSecondary: 'Try the bottle journey',
-  heroAlt: 'Cover of the team report: "Bottle Passport — A Campus-Based System for Reducing Marine Plastic Pollution" in white over blue water.',
-  heroCaption: 'Cover of the team’s final report, DESN3003.',
+  heroAlt: 'A student returns a bottle at a recycling station while a phone shows "+10 points" on the Bottle Passport dashboard.',
+  heroCaption: 'AI-generated concept visualisation from the team report (p. 16) — not a built product or real interface.',
   details: [
     { k: 'Course', v: 'DESN3003 — Major Project' },
     { k: 'Project type', v: 'Team project · 5 members' },
@@ -239,7 +239,7 @@ const en = {
     closingSub: 'Bottle Passport explores how a simple everyday interaction can become part of a wider effort to protect our oceans.',
     creditsTitle: 'Credits',
     credits: 'Team project by five members, DESN3003 Major Project, University of Sydney. Proposed concept — not a deployed service.',
-    ai: 'AI note: the three idea illustrations and the workflow image come from the team report, which states they were generated with ChatGPT; they are labelled on this page. The interactive journey, stepper and stakeholder map were built for this portfolio as explanations.',
+    ai: 'AI note: the station image at the top, the three idea illustrations and the workflow image come from the team report, which states they were generated with ChatGPT; they are labelled on this page. The interactive journey, stepper and stakeholder map were built for this portfolio as explanations.',
   },
 };
 
@@ -254,8 +254,8 @@ const zh: Copy = {
     'Bottle Passport 探索如何通过交互设计，让校园里的日常回收行为变得更容易参与、更有反馈。我们希望把归还饮料瓶这样一个简单的动作，与个人记录、奖励机制以及海洋环境保护联系起来。',
   ctaPrimary: '看看它如何运作',
   ctaSecondary: '体验瓶子的两种去向',
-  heroAlt: '团队报告封面：蓝色水面上的白字"Bottle Passport — A Campus-Based System for Reducing Marine Plastic Pollution"。',
-  heroCaption: '团队期末报告封面，DESN3003。',
+  heroAlt: '学生在回收站投入饮料瓶，手机上的 Bottle Passport 面板显示"+10 points"。',
+  heroCaption: '团队报告中由 AI 生成的概念图（第 16 页），不是已制作的产品或真实界面。',
   details: [
     { k: '课程', v: 'DESN3003 — 毕业设计' },
     { k: '项目类型', v: '团队项目 · 5 人' },
@@ -468,7 +468,7 @@ const zh: Copy = {
     closingSub: 'Bottle Passport 希望从一次简单的日常回收行为开始，让更多人看到个人选择与海洋环境之间的联系。',
     creditsTitle: '署名',
     credits: '五人团队项目，悉尼大学 DESN3003 毕业设计。这是一个设计概念，并没有实际投入使用。',
-    ai: 'AI 使用说明：三张概念插图和流程图来自团队报告，报告注明由 ChatGPT 生成，本页已逐一标注。页面上的瓶子去向、使用流程和利益相关者图是为作品集制作的说明性交互。',
+    ai: 'AI 使用说明：页首的回收站图、三张概念插图和流程图来自团队报告，报告注明由 ChatGPT 生成，本页已逐一标注。页面上的瓶子去向、使用流程和利益相关者图是为作品集制作的说明性交互。',
   },
 };
 

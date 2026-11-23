@@ -15,7 +15,7 @@ import ufoCover from '../assets/ufo-skyfeed/cover.jpg';
 import identityCover from '../assets/identity-press/cover.jpg';
 import cocoaCover from '../assets/cocoa-reserve/blender-draft-closed.jpg';
 import scamCover from '../assets/scam-ready/hero-landing.jpg';
-import bottleCover from '../assets/bottle-passport/report-cover.jpg';
+import bottleCover from '../assets/bottle-passport/ai-station.jpg'; // AI-generated (team report p. 16) — chosen by Sitan, labelled on the page
 
 type L = Record<Lang, string>;
 export type Category = 'interactive' | 'film' | 'immersive' | 'visual';
@@ -228,10 +228,9 @@ export const projects: Project[] = [
     role: { en: 'Project concept development & planning', zh: '项目整体构思规划与设计深化' },
     tools: [],
     cover: bottleCover,
-    coverFit: 'contain',
     coverAlt: {
-      en: 'Cover of the team report: "Bottle Passport — A Campus-Based System for Reducing Marine Plastic Pollution" in white over blue water.',
-      zh: '团队报告封面：蓝色水面上的白字"Bottle Passport — A Campus-Based System for Reducing Marine Plastic Pollution"。',
+      en: 'AI-generated concept image: a student returns a bottle at a recycling station while a phone shows "+10 points" on the Bottle Passport dashboard.',
+      zh: 'AI 生成的概念图：学生在回收站投入饮料瓶，手机上的 Bottle Passport 面板显示"+10 points"。',
     },
     overview: null,
     process: [],
