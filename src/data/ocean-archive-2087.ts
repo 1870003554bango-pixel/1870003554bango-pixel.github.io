@@ -157,13 +157,15 @@ const en = {
         n: 'Act 03', k: 'Archive Tunnel', mood: 'Pressure → understanding',
         text: 'A tunnel of drifting rubbish under a flooded city, with about 2,010 documented floating fragments. Video walls play real pollution footage, six data fragments can be collected, and large debris can knock the player aside.',
         system: 'Debris impact · in-world video walls',
-        img: '', alt: '', note: '',
+        img: 'act3-tunnel', alt: 'In-game view of Act 03: a flooded street tunnel full of drifting barrels and debris, large video walls showing real footage of floating rubbish, and the objective “Follow the current to the tunnel exit — Data fragments 0 / 6 — Touch the glowing shards”.',
+        note: 'Screenshot from the game, supplied by Sitan.',
       },
       {
         n: 'Act 04', k: 'Flooded City', mood: 'Weight → reflection',
         text: 'Facing a memory spire about 110 m tall, the player holds E at four release stations. Rubbish arcs onto the structure, which reveals its base, skeleton, accumulated waste, city memory and coral core. A Marine Archive card closes the record.',
         system: 'Spire assembly · session record',
-        img: '', alt: '', note: '',
+        img: 'act4-spire', alt: 'In-game view of Act 04 looking up a flooded city street: a towering mass of rubbish rises between the buildings, light shafts cut through the water, and the line “The ocean remembers everything we leave behind.”',
+        note: 'Screenshot from the game, supplied by Sitan.',
       },
     ],
     todo: 'Gameplay capture to add',
@@ -317,6 +319,7 @@ const en = {
         ['Core', 'Bleached coral, broken branches, cyan core', '6'],
       ],
       flow: ['Hold E at a station', 'Rubbish ejected', 'Bézier flight to the spire', 'Next stage revealed', 'Record closed'],
+      img: 'act4-spire', alt: 'The pollution memory spire rising between flooded buildings in Act 04.', cap: 'Act 04 — the spire seen from the street. Screenshot from the game.',
     },
     appendixTitle: 'Technical appendix — all documented systems',
     appendix: [
@@ -391,7 +394,7 @@ const en = {
       'Background music — rights not yet confirmed item by item',
     ],
     assetsNote: 'Licences are listed as documented; each still needs checking before wider release.',
-    imagesNote: 'All game images are captured from the live web build (Acts 01–02). The dive clip is my own footage.',
+    imagesNote: 'Game images for Acts 01–02 are captured from the live web build; the Act 03–04 screenshots are my own captures from the game. The dive clip is my own footage.',
   },
 };
 
@@ -544,13 +547,15 @@ const zh: Copy = {
         n: '第三幕', k: 'Archive Tunnel · 档案隧道', mood: '压迫 → 理解',
         text: '被淹没城市下的一条漂浮垃圾隧道，文档记录约 2,010 个漂浮碎片。视频墙播放真实污染影像，可以收集六个数据碎片，大型碎片会把玩家撞开。',
         system: '碎片撞击 · 场景视频墙',
-        img: '', alt: '', note: '',
+        img: 'act3-tunnel', alt: '第三幕游戏画面：被淹没的街道隧道中漂满油桶和碎片，两侧大型视频墙播放漂浮垃圾的真实影像，目标面板显示“Follow the current to the tunnel exit — Data fragments 0 / 6 — Touch the glowing shards”。',
+        note: '游戏截图，由丁思覃提供。',
       },
       {
         n: '第四幕', k: 'Flooded City · 淹没之城', mood: '沉重 → 反思',
         text: '面对一座约 110 米高的记忆尖塔，玩家在四个释放站按住 E。垃圾沿弧线飞向装置，依次显现基座、骨架、垃圾堆积、城市记忆和珊瑚核心。最后一张海洋档案卡结束这份记录。',
         system: '尖塔装配 · 运行记录',
-        img: '', alt: '', note: '',
+        img: 'act4-spire', alt: '第四幕游戏画面：仰望被淹没的城市街道，一座由垃圾堆成的巨大装置在建筑之间升起，光束穿过海水，画面文字“The ocean remembers everything we leave behind.”',
+        note: '游戏截图，由丁思覃提供。',
       },
     ],
     todo: '待补游戏截图',
@@ -704,6 +709,7 @@ const zh: Copy = {
         ['核心', '白化珊瑚、断裂枝杈、青色核心', '6'],
       ],
       flow: ['在释放站按住 E', '喷射垃圾', '沿贝塞尔曲线飞向尖塔', '揭示下一阶段', '记录关闭'],
+      img: 'act4-spire', alt: '第四幕中，污染记忆尖塔在被淹没的建筑之间升起。', cap: '第四幕——从街道仰望尖塔。游戏截图。',
     },
     appendixTitle: '技术附录——全部已记录的系统',
     appendix: [
@@ -778,7 +784,7 @@ const zh: Copy = {
       '背景音乐——权利状态尚未逐项确认',
     ],
     assetsNote: '许可按项目文档列出，正式对外发布前仍需逐项核对。',
-    imagesNote: '所有游戏画面均截取自在线网页版本（第一、二幕）。潜水视频为我本人的素材。',
+    imagesNote: '第一、二幕的游戏画面截取自在线网页版本；第三、四幕为我本人在游戏中的截图。潜水视频为我本人的素材。',
   },
 };
 

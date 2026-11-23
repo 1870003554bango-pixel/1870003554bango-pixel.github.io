@@ -140,7 +140,7 @@ const statusLabel: Record<string, string> = { fixed: c.iteration.fixed, partial:
         <p>{c.acts.body}</p>
       </div>
       <ol class="flow" role="list">{c.acts.flow.map((f) => <li>{f}</li>)}</ol>
-      {c.acts.list.slice(0, 2).map((a, i) => (
+      {c.acts.list.map((a, i) => (
         <div class:list={['row', 'act', { flip: i % 2 === 1 }]}>
           <div class="prose">
             <p class="num">{a.n}</p>
@@ -149,21 +149,9 @@ const statusLabel: Record<string, string> = { fixed: c.iteration.fixed, partial:
             <p>{a.text}</p>
             <p class="system"><span class="tag">{lang === 'zh' ? '代表系统' : 'Key system'}</span>{a.system}</p>
           </div>
-          <Zoom src={img(a.img)} alt={a.alt} caption={a.note ? `${cap} ${a.note}` : cap} widths={[640, 1100, 1920]} sizes="(min-width: 48rem) 560px, 100vw" />
+          <Zoom src={img(a.img)} alt={a.alt} caption={i < 2 ? (a.note ? `${cap} ${a.note}` : cap) : a.note} widths={[640, 1100, 1900]} sizes="(min-width: 48rem) 560px, 100vw" />
         </div>
       ))}
-      <div class="later">
-        {c.acts.list.slice(2).map((a, i) => (
-          <div class="later-act">
-            <p class="num">{a.n}</p>
-            <h3>{a.k}</h3>
-            <p class="mood">{a.mood}</p>
-            <p>{a.text}</p>
-            <p class="system"><span class="tag">{lang === 'zh' ? '代表系统' : 'Key system'}</span>{a.system}</p>
-            <div class="todo slim" role="note"><span class="tag">TODO</span><span>{i === 0 ? c.acts.todoAct3 : c.acts.todoAct4}</span></div>
-          </div>
-        ))}
-      </div>
       <p class="ending">{c.acts.ending}</p>
     </section>
 
@@ -293,13 +281,14 @@ const statusLabel: Record<string, string> = { fixed: c.iteration.fixed, partial:
       </div>
 
       <!-- 05D spire -->
-      <div class="row flip detail spire">
-        <div class="prose">
+      <div class="row flip sticky detail spire">
+        <div class="prose pin">
           <p class="num">{x.spire.n}</p><h3>{x.spire.k}</h3>
           {x.spire.v.map((p) => <p>{p}</p>)}
           <ol class="states" role="list">{x.spire.flow.map((s) => <li>{s}</li>)}</ol>
         </div>
         <div class="media">
+          <Zoom src={img(x.spire.img)} alt={x.spire.alt} caption={x.spire.cap} widths={[640, 1100, 1900]} sizes="(min-width: 48rem) 560px, 100vw" />
           <table>
             <thead><tr>{x.spire.head.map((h) => <th scope="col">{h}</th>)}</tr></thead>
             <tbody>{x.spire.rows.map((r) => <tr><th scope="row">{r[0]}</th><td class="muted">{r[1]}</td><td class="num-v">{r[2]}</td></tr>)}</tbody>
@@ -489,10 +478,6 @@ const statusLabel: Record<string, string> = { fixed: c.iteration.fixed, partial:
   .act { margin-top: var(--space-5); }
   .mood { font-size: var(--step--1); font-weight: 600; color: var(--accent); }
   .system { display: flex; gap: 0.6rem; align-items: baseline; font-size: var(--step--1); color: var(--text-2); }
-  .later { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-5); margin-top: var(--space-5); padding-top: var(--space-4); border-top: 1px solid var(--line); }
-  .later-act { display: grid; gap: 0.6rem; align-content: start; }
-  .later-act h3 { font-size: var(--step-2); }
-  .todo { display: flex; align-items: center; gap: 0.75rem; padding: 0.9rem 1rem; border: 1px dashed var(--line-strong); border-radius: var(--radius); background: var(--sunken); color: var(--text-2); font-size: var(--step--1); }
   .ending { margin-top: var(--space-5); text-align: center; font-size: var(--step-2); font-weight: 600; letter-spacing: -0.02em; }
 
   /* 04 Interaction */
@@ -552,7 +537,7 @@ const statusLabel: Record<string, string> = { fixed: c.iteration.fixed, partial:
   }
   @media (max-width: 47.99rem) {
     .details { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .timeline, .loop, .app-grid, .cmp, .later, .pair { grid-template-columns: 1fr; }
+    .timeline, .loop, .app-grid, .cmp, .pair { grid-template-columns: 1fr; }
     .loop { border-top: 0; border-left: 2px solid var(--accent); }
     .loop li { padding: 0.4rem 0 0.4rem 0.75rem; }
   }
