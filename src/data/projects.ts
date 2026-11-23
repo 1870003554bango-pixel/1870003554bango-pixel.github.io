@@ -17,6 +17,7 @@ import identityCover from '../assets/identity-press/cover.jpg';
 import cocoaCover from '../assets/cocoa-reserve/blender-draft-closed.jpg';
 import scamCover from '../assets/scam-ready/hero-landing.jpg';
 import bnhCover from '../assets/becoming-non-human/report-overview.jpg';
+import oceanCover from '../assets/ocean-archive-2087/act1-reef.jpg'; // captured from the live web build
 import bottleCover from '../assets/bottle-passport/ai-station.jpg'; // AI-generated (team report p. 16) — chosen by Sitan, labelled on the page
 
 type L = Record<Lang, string>;
@@ -107,7 +108,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'aerospace-stories',
-    order: 7,
+    order: 8,
     status: 'published',
     featured: true,
     customPage: true,
@@ -154,7 +155,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'airshow',
-    order: 8,
+    order: 9,
     status: 'published',
     featured: false,
     customPage: true,
@@ -213,8 +214,38 @@ export const projects: Project[] = [
     reflection: null,
   },
   {
-    slug: 'scam-ready',
+    slug: 'ocean-archive-2087',
     order: 3,
+    status: 'published',
+    featured: true,
+    customPage: true,
+    categories: ['interactive', 'immersive'],
+    title: 'Ocean Archive 2087',
+    type: { en: 'Interactive Narrative · Unity · Creative Technology', zh: '互动叙事 · Unity · 创意技术' },
+    subtitle: {
+      en: 'What we discard does not disappear.',
+      zh: '我们丢弃的东西，并不会就此消失。',
+    },
+    summary: {
+      en: 'A first-person environmental narrative seen through a sea turtle’s eyes. Dynamic currents, reactive marine life and embodied interaction turn an invisible waste pathway into an experience of consequence.',
+      zh: '一款以海龟视角展开的第一人称环境叙事作品。动态洋流、会作出反应的海洋生命和身体化交互，把不可见的垃圾流向变成玩家亲身经历的后果。',
+    },
+    year: null,
+    collaboration: null,
+    role: { en: 'Concept, design and Unity development', zh: '概念、设计与 Unity 开发' },
+    tools: ['Unity 6.3', 'C#', 'URP'],
+    cover: oceanCover,
+    coverAlt: {
+      en: 'In-game view of a sunlit reef with light shafts and caustics on the sand.',
+      zh: '游戏画面：阳光照进的珊瑚礁，沙地上有光柱和焦散。',
+    },
+    overview: null,
+    process: [],
+    reflection: null,
+  },
+  {
+    slug: 'scam-ready',
+    order: 4,
     status: 'published',
     featured: true,
     customPage: true,
@@ -244,7 +275,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'bottle-passport',
-    order: 4,
+    order: 5,
     status: 'published',
     featured: false,
     customPage: true,
@@ -274,7 +305,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'cocoa-reserve',
-    order: 5,
+    order: 6,
     status: 'published',
     featured: false,
     customPage: true,
@@ -304,7 +335,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'urban-pulse',
-    order: 6,
+    order: 7,
     status: 'published',
     featured: false,
     categories: ['visual'],
