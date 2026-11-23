@@ -117,6 +117,39 @@ const ogImage = image ? abs((await getImage({ src: image, width: 1200, format: '
     </footer>
 
     <script>
+      // Keep short titles on one line. A heading that is only a little wider than its column is
+      // scaled down just enough to fit (h1 to 65% at most, others to 75%). Anything longer is a
+      // genuinely long heading and wraps at its normal size. Small labels (< 22px) are left alone.
+      const FIT = 'main :is(h1, h2, h3, .tagline, .next-title):not(:has(> span)), main h1 > span';
+      const fitTitles = () => {
+        const els = [...document.querySelectorAll<HTMLElement>(FIT)];
+        for (const el of els) { el.style.fontSize = ''; el.style.whiteSpace = ''; }
+        const range = document.createRange();
+        for (const el of els) {
+          if (!el.offsetParent && getComputedStyle(el).position !== 'fixed') continue; // hidden
+          const base = parseFloat(getComputedStyle(el).fontSize);
+          if (base < 22) continue;
+          const cs = getComputedStyle(el);
+          const avail = el.getBoundingClientRect().width - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+          el.style.whiteSpace = 'nowrap';
+          range.selectNodeContents(el);
+          const text = range.getBoundingClientRect().width;
+          const isTitle = el.tagName === 'H1' || el.parentElement?.tagName === 'H1';
+          const scale = avail / text;
+          if (scale >= 1) { el.style.whiteSpace = ''; continue; }
+          if (scale >= (isTitle ? 0.65 : 0.75)) el.style.fontSize = `${(base * scale * 0.99).toFixed(2)}px`;
+          else el.style.whiteSpace = '';
+        }
+      };
+      let raf = 0;
+      const queue = () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(fitTitles); };
+      fitTitles();
+      document.fonts?.ready.then(fitTitles);
+      let lastW = innerWidth;
+      addEventListener('resize', () => { if (innerWidth !== lastW) { lastW = innerWidth; queue(); } });
+    </script>
+
+    <script>
       const btn = document.querySelector<HTMLButtonElement>('.menu-btn')!;
       const nav = document.getElementById('site-nav')!;
       const label = btn.querySelector('.menu-label')!;
