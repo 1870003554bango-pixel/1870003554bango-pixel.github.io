@@ -1,0 +1,375 @@
+---
+// Becoming Non-Human — bilingual project page (team VR prototype, DECO3009).
+// Brief: md文件/3009/Becoming_Non_Human_Portfolio_Brief_EN_ZH.md · Layout: DESIGN.md (paired rows; text-only = full width).
+// Images are embedded originals extracted from the final report and labelled as such.
+// No running-prototype screenshots or recordings exist yet: those spots are clearly marked TODO boxes.
+import type { ImageMetadata } from 'astro';
+import Base from '../../layouts/Base.astro';
+import Zoom from '../../components/Zoom.astro';
+import Lightbox from '../../components/Lightbox.astro';
+import { useT, type Lang } from '../../i18n/ui';
+import { page } from '../../lib/url';
+import { nextOf } from '../../data/projects';
+import { copy } from '../../data/becoming-non-human';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const c = copy[lang];
+const t = useT(lang);
+const next = nextOf('becoming-non-human');
+
+const files = import.meta.glob<{ default: ImageMetadata }>('../../assets/becoming-non-human/*.jpg', { eager: true });
+const img = (key: string): ImageMetadata => {
+  const f = files[`../../assets/becoming-non-human/${key}.jpg`];
+  if (!f) throw new Error(`Missing Becoming Non-Human image: ${key}`);
+  return f.default;
+};
+// World tiles: the turtle tile shows the turtle itself; the island view is used later for the destination.
+const worldImg: Record<string, string> = { bat: 'report-bat', spider: 'report-spider', turtle: 'report-turtle' };
+const worldAlt: Record<string, string> = { turtle: c.turtle.imgAlt };
+const d = Object.fromEntries(c.turtle.details.map((x) => [x.id, x]));
+const todo = lang === 'zh' ? '待补充' : 'TODO';
+---
+
+<Base lang={lang} route="/work/becoming-non-human/" title="Becoming Non-Human" description={c.tagline} image={img('report-overview')}>
+  <article class="project bnh">
+    <nav class="wrap crumbs" aria-label="Breadcrumb">
+      <ol role="list">
+        <li><a href={page(lang, '/work/')}>{t('nav.work')}</a></li>
+        <li aria-current="page">Becoming Non-Human</li>
+      </ol>
+    </nav>
+
+    <!-- Hero: text | report overview image -->
+    <header class="wrap row hero">
+      <div class="prose">
+        <p class="eyebrow">{c.eyebrow}</p>
+        <h1>{c.title}</h1>
+        <p class="tagline">{c.tagline}</p>
+        <p>{c.intro}</p>
+        <div class="ctas">
+          <a class="btn btn-primary" href="#worlds">{c.ctaPrimary} <span aria-hidden="true">↓</span></a>
+          <a class="btn" href="#contribution">{c.ctaSecondary}</a>
+        </div>
+      </div>
+      <Zoom src={img('report-overview')} alt={c.heroAlt} caption={c.reportCaption} loading="eager" widths={[640, 1100, 1920]} sizes="(min-width: 48rem) 600px, 100vw" />
+    </header>
+    <dl class="wrap details">{c.details.map((x) => <div><dt>{x.k}</dt><dd>{x.v}</dd></div>)}</dl>
+
+    <!-- 01 Three worlds: intro + scene order full width, then three world columns -->
+    <section id="worlds" class="wrap block" aria-labelledby="wd-h">
+      <div class="wide-text">
+        <p class="eyebrow num">{c.worlds.eyebrow}</p>
+        <h2 id="wd-h">{c.worlds.title}</h2>
+        <p>{c.worlds.body}</p>
+      </div>
+      <ol class="worlds" role="list">
+        {c.worlds.list.map((w, i) => (
+          <li>
+            <Zoom src={img(worldImg[w.id])} alt={worldAlt[w.id] ?? w.alt} caption={c.reportCaption} ratio="16 / 9" fit="cover" widths={[400, 800]} sizes="(min-width: 48rem) 380px, 100vw" />
+            <p class="world-meta"><span class="num">{String(i + 1).padStart(2, '0')}</span><span class:list={['tag', { mine: w.id === 'turtle' }]}>{w.id === 'turtle' ? c.worlds.mineTag : c.worlds.teamTag}</span></p>
+            <h3>{w.name}</h3>
+            <p>{w.text}</p>
+          </li>
+        ))}
+      </ol>
+      <div class="flow">
+        <p class="eyebrow">{c.worlds.flowLabel}</p>
+        <ol role="list">{c.worlds.flow.map((s, i) => <li class:list={{ mine: i === 3 }}>{s}</li>)}</ol>
+        <p class="small muted">{c.worlds.flowNote}</p>
+      </div>
+    </section>
+
+    <!-- 02 Contribution: text | responsibility table, then the reconstructed outline full width -->
+    <section id="contribution" class="wrap block" aria-labelledby="co-h">
+      <div class="row">
+        <div class="prose">
+          <p class="eyebrow num">{c.contribution.eyebrow}</p>
+          <h2 id="co-h">{c.contribution.title}</h2>
+          <p>{c.contribution.body}</p>
+        </div>
+        <div class="resp-box">
+          <table class="resp">
+            <thead><tr>{c.contribution.tableHead.map((h) => <th scope="col">{h}</th>)}</tr></thead>
+            <tbody>{c.contribution.rows.map((r) => <tr><th scope="row">{r.k}</th><td>{r.v}</td><td class="muted">{r.s}</td></tr>)}</tbody>
+          </table>
+        </div>
+      </div>
+      <figure class="outline">
+        <p class="eyebrow">{c.contribution.diagramTitle}</p>
+        <div class="scroll">
+          <table>
+            <thead><tr>{c.contribution.outlineHead.map((h) => <th scope="col">{h}</th>)}</tr></thead>
+            <tbody>
+              {c.contribution.outline.map((o) => (
+                <tr class:list={{ mine: o.mine }}>
+                  <th scope="row">{o.k}{o.mine && <span class="tag mine">{c.worlds.mineTag}</span>}</th>
+                  <td>{o.role}</td><td>{o.move}</td><td>{o.goal}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <figcaption class="caveat"><span class="tag">{lang === 'zh' ? '整理' : 'Rebuilt'}</span>{c.contribution.diagramNote}</figcaption>
+      </figure>
+    </section>
+
+    <!-- 03 Turtle World: intro | turtle, loop, then one row per system -->
+    <section id="turtle" class="wrap block" aria-labelledby="tu-h">
+      <div class="row flip">
+        <div class="prose">
+          <p class="eyebrow num">{c.turtle.eyebrow}</p>
+          <h2 id="tu-h">{c.turtle.title}</h2>
+          <p>{c.turtle.body}</p>
+        </div>
+        <Zoom src={img('report-turtle-island')} alt={c.turtle.goalAlt} caption={c.reportCaption} widths={[743]} sizes="(min-width: 48rem) 560px, 100vw" />
+      </div>
+
+      <div class="loop">
+        <p class="eyebrow">{c.turtle.loopLabel}</p>
+        <ol role="list">{c.turtle.loop.map((s, i) => <li><span class="num">{String(i + 1).padStart(2, '0')}</span>{s}</li>)}</ol>
+      </div>
+
+      <!-- 03A current: text | explanatory diagram -->
+      <div class="row detail">
+        <div class="prose">
+          <p class="num">{d.current.n}</p>
+          <h3>{d.current.k}</h3>
+          <p>{d.current.v}</p>
+        </div>
+        <figure class="drift">
+          <svg viewBox="0 0 400 220" role="img" aria-label={`${c.turtle.diagram.input} + ${c.turtle.diagram.current} = ${c.turtle.diagram.result}`}>
+            <defs>
+              <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="head" /></marker>
+              <marker id="ah2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="head2" /></marker>
+            </defs>
+            <circle cx="70" cy="170" r="7" class="dot" />
+            <line x1="70" y1="170" x2="70" y2="50" class="in" marker-end="url(#ah)" />
+            <path d="M80 160 C 140 150, 170 140, 230 150 S 300 168, 330 150" class="cur" marker-end="url(#ah)" />
+            <line x1="70" y1="170" x2="250" y2="62" class="res" marker-end="url(#ah2)" />
+            <text x="82" y="46">{c.turtle.diagram.input}</text>
+            <text x="250" y="190">{c.turtle.diagram.current}</text>
+            <text x="262" y="66" class="strong">{c.turtle.diagram.result}</text>
+          </svg>
+          <figcaption class="caveat"><span class="tag">{c.turtle.diagram.tag}</span>{c.turtle.diagram.note}</figcaption>
+        </figure>
+      </div>
+
+      <!-- 03B waterline: placeholder | text -->
+      <div class="row flip detail">
+        <div class="prose">
+          <p class="num">{d.water.n}</p>
+          <h3>{d.water.k}</h3>
+          <p>{d.water.v}</p>
+        </div>
+        <div class="placeholder shot" role="img" aria-label={`${todo}: ${c.turtle.todoWater}`}><span><strong>{todo}</strong><br />{c.turtle.todoWater}</span></div>
+      </div>
+
+      <!-- 03C rubbish: text | placeholder -->
+      <div class="row detail">
+        <div class="prose">
+          <p class="num">{d.rubbish.n}</p>
+          <h3>{d.rubbish.k}</h3>
+          <p>{d.rubbish.v}</p>
+        </div>
+        <div class="placeholder shot" role="img" aria-label={`${todo}: ${c.turtle.todoRubbish}`}><span><strong>{todo}</strong><br />{c.turtle.todoRubbish}</span></div>
+      </div>
+
+      <!-- 03D destination: placeholder | text -->
+      <div class="row flip detail">
+        <div class="prose">
+          <p class="num">{d.goal.n}</p>
+          <h3>{d.goal.k}</h3>
+          <p>{d.goal.v}</p>
+        </div>
+        <div class="placeholder shot" role="img" aria-label={`${todo}: ${c.turtle.todoGoal}`}><span><strong>{todo}</strong><br />{c.turtle.todoGoal}</span></div>
+      </div>
+    </section>
+
+    <!-- 04 VR trade-offs: text only → full width -->
+    <section class="wrap block wide-text" aria-labelledby="vr-h">
+      <p class="eyebrow num">{c.vr.eyebrow}</p>
+      <h2 id="vr-h">{c.vr.title}</h2>
+      <ol class="qa" role="list">{c.vr.items.map((x) => <li><h3>{x.k}</h3><p>{x.v}</p></li>)}</ol>
+    </section>
+
+    <!-- 05 Testing: text, figures and findings → full width -->
+    <section class="wrap block wide-text" aria-labelledby="te-h">
+      <p class="eyebrow num">{c.testing.eyebrow}</p>
+      <h2 id="te-h">{c.testing.title}</h2>
+      <p>{c.testing.body}</p>
+      <div class="stats">
+        {c.testing.highlights.map((h) => <div><p class="stat-v">{h.v}<span>/5</span></p><p class="stat-k">{h.k}</p></div>)}
+      </div>
+      <p class="small muted">{c.testing.outOf}</p>
+      <div class="two">
+        <div>
+          <h3 class="sub-h">{c.testing.otherTitle}</h3>
+          <dl class="scores">{c.testing.other.map((x) => <div><dt>{x.k}</dt><dd>{x.v}</dd></div>)}</dl>
+        </div>
+        <div>
+          <h3 class="sub-h">{c.testing.discomfortTitle}</h3>
+          <dl class="scores">{c.testing.discomfort.map((x) => <div><dt>{x.k}</dt><dd>{x.v}</dd></div>)}</dl>
+        </div>
+      </div>
+      <p class="caveat"><span class="tag">n = 5</span>{c.testing.note}</p>
+      <h3 class="sub-h">{c.testing.findingsTitle}</h3>
+      <div class="scroll">
+        <table class="findings">
+          <thead><tr>{c.testing.findingsHead.map((h) => <th scope="col">{h}</th>)}</tr></thead>
+          <tbody>{c.testing.findings.map((f) => <tr><td>{f.k}</td><td>{f.v}</td></tr>)}</tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 06 Reflection: text only → full width -->
+    <section class="wrap block wide-text" aria-labelledby="re-h">
+      <p class="eyebrow num">{c.reflection.eyebrow}</p>
+      <h2 id="re-h">{c.reflection.title}</h2>
+      <p>{c.reflection.body}</p>
+      <h3 class="sub-h">{c.reflection.futureTitle}</h3>
+      <dl class="future">{c.reflection.future.map((x) => <div><dt>{x.k}</dt><dd>{x.v}</dd></div>)}</dl>
+    </section>
+
+    <!-- 07 Credits -->
+    <section class="wrap block wide-text credits" aria-labelledby="cr-h">
+      <p class="eyebrow num">{c.credits.eyebrow}</p>
+      <h2 id="cr-h">{c.credits.title}</h2>
+      <p>{c.credits.body}</p>
+      <p class="muted">{c.credits.imagesNote}</p>
+      <details>
+        <summary>{c.credits.assetsSummary}</summary>
+        <ul>{c.credits.assets.map((a) => <li>{a}</li>)}</ul>
+        <p class="small muted">{c.credits.assetsNote}</p>
+      </details>
+    </section>
+
+    <nav class="wrap bottom-nav" aria-label={lang === 'zh' ? '项目导航' : 'Project navigation'}>
+      <a class="text-link" href={page(lang, '/work/')}>← {t('project.back')}</a>
+      <a class="next" href={page(lang, `/work/${next.slug}/`)}>
+        <span class="eyebrow">{t('project.next')}</span>
+        <span class="next-title">{next.title} <span class="arrow" aria-hidden="true">→</span></span>
+      </a>
+    </nav>
+  </article>
+  <Lightbox />
+</Base>
+
+<style>
+  .crumbs { padding-top: var(--space-3); }
+  .crumbs ol { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0; padding: 0; list-style: none; font-size: var(--step--1); color: var(--text-2); }
+  .crumbs li + li::before { content: '/'; margin-right: 0.5rem; }
+  .crumbs a { display: inline-flex; align-items: center; min-height: 44px; margin-block: -0.6rem; color: var(--text-2); }
+
+  .bnh .eyebrow.num { color: var(--accent); font-weight: 600; }
+  .bnh h3 { font-size: var(--step-1); }
+  .sub-h { margin-top: var(--space-2); }
+
+  .hero { padding-top: var(--space-2); }
+  .hero h1 { font-size: var(--step-3); }
+  .tagline { font-size: var(--step-2); font-weight: 600; letter-spacing: -0.02em; line-height: 1.2; }
+  .ctas { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+  .details { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 0.6rem var(--space-3); margin-top: var(--space-4); padding-block: var(--space-2); border-block: 1px solid var(--line); }
+  .details dt { font-size: var(--step--1); color: var(--text-2); }
+  .details dd { margin: 0; font-size: var(--step--1); font-weight: 500; }
+
+  .caveat { display: flex; gap: 0.6rem; align-items: baseline; margin: 0; font-size: var(--step--1); color: var(--text-2); }
+  .tag { flex: none; padding: 0.1rem 0.45rem; border-radius: 3px; border: 1px solid var(--line-strong); color: var(--text); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; }
+  .tag.mine { border-color: var(--accent); background: var(--accent); color: var(--on-accent); }
+
+  /* 01 Worlds */
+  .worlds { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-4); margin: var(--space-3) 0 0; padding: 0; list-style: none; }
+  .worlds li { display: grid; gap: 0.5rem; align-content: start; }
+  .worlds :global(.zoom) { margin: 0; }
+  .worlds :global(.zoom img) { width: 100%; border-radius: var(--radius); }
+  .worlds :global(figcaption) { display: none; }
+  .world-meta { display: flex; align-items: center; gap: 0.6rem; margin-top: 0.4rem !important; }
+  .worlds p:last-child { color: var(--text-2); }
+  .flow { display: grid; gap: 0.6rem; margin-top: var(--space-4); padding-top: var(--space-2); border-top: 1px solid var(--line); }
+  .flow ol { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; margin: 0; padding: 0; list-style: none; font-weight: 600; }
+  .flow li + li::before { content: '→'; margin-right: 0.5rem; color: var(--text-2); font-weight: 400; }
+  .flow li.mine { color: var(--accent); }
+
+  /* 02 Contribution */
+  table { width: 100%; border-collapse: collapse; font-size: var(--step--1); }
+  th, td { text-align: left; vertical-align: top; padding: 0.6rem 0.75rem 0.6rem 0; border-bottom: 1px solid var(--line); }
+  thead th { font-weight: 500; color: var(--text-2); border-bottom-color: var(--line-strong); }
+  tbody th { font-weight: 600; }
+  .resp td.muted, .resp tbody th { white-space: nowrap; }
+  .resp-box { padding: var(--space-3); background: var(--surface); border: 1px solid var(--line); border-radius: 10px; }
+  .outline { display: grid; gap: var(--space-2); margin: var(--space-4) 0 0; }
+  .outline tr.mine th, .outline tr.mine td { color: var(--text); }
+  .outline tr:not(.mine) td { color: var(--text-2); }
+  .outline tr.mine { box-shadow: inset 3px 0 0 var(--accent); }
+  .outline tr.mine th { padding-left: 0.75rem; }
+  .outline tbody th { white-space: nowrap; }
+  .outline .tag { margin-left: 0.5rem; }
+  .scroll { overflow-x: auto; }
+
+  /* 03 Turtle */
+  .loop { display: grid; gap: 0.75rem; margin-top: var(--space-5); }
+  .loop ol { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); margin: 0; padding: 0; list-style: none; border-top: 2px solid var(--accent); }
+  .loop li { display: grid; gap: 0.25rem; padding: 0.75rem 0.75rem 0 0; font-weight: 500; }
+  .loop li:last-child { color: var(--accent); }
+  .detail { margin-top: var(--space-5); }
+  .detail h3 { font-size: var(--step-2); }
+  .shot { aspect-ratio: 16 / 9; }
+  .drift { display: grid; gap: 0.6rem; margin: 0; padding: var(--space-2); background: var(--surface); border: 1px solid var(--line); border-radius: 10px; }
+  .drift svg { width: 100%; height: auto; }
+  .drift text { font: 500 13px var(--font-sans); fill: var(--text-2); }
+  .drift text.strong { fill: var(--accent); font-weight: 600; }
+  .drift .in { stroke: var(--text-2); stroke-width: 2; }
+  .drift .cur { fill: none; stroke: var(--line-strong); stroke-width: 2; stroke-dasharray: 5 5; }
+  .drift .res { stroke: var(--accent); stroke-width: 3; }
+  .drift .dot { fill: var(--text); }
+  .drift .head { fill: var(--text-2); }
+  .drift .head2 { fill: var(--accent); }
+  .media { display: grid; gap: 0.5rem; }
+  .media :global(figcaption) { display: none; }
+
+  /* 04 VR */
+  .qa { display: grid; margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--line); }
+  .qa li { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); gap: var(--space-3) var(--space-5); padding-block: var(--space-3); border-bottom: 1px solid var(--line); }
+  .qa p { color: var(--text-2); }
+
+  /* 05 Testing */
+  .stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-3); margin-top: var(--space-2); }
+  .stats > div { display: grid; gap: 0.25rem; padding-top: var(--space-2); border-top: 2px solid var(--accent); }
+  .stat-v { font-size: var(--step-3); font-weight: 600; letter-spacing: -0.03em; line-height: 1; font-variant-numeric: tabular-nums; }
+  .stat-v span { font-size: var(--step-0); color: var(--text-2); font-weight: 500; margin-left: 0.2rem; }
+  .stat-k { font-weight: 500; }
+  .two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-5); }
+  .scores { margin: 0.5rem 0 0; }
+  .scores > div { display: flex; justify-content: space-between; gap: var(--space-2); padding-block: 0.55rem; border-bottom: 1px solid var(--line); }
+  .scores dd { margin: 0; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .findings td:first-child { width: 50%; }
+
+  /* 06 Reflection */
+  .future { display: grid; margin: 0; border-top: 1px solid var(--line); }
+  .future > div { display: grid; grid-template-columns: 10rem 1fr; gap: var(--space-3); padding-block: 0.75rem; border-bottom: 1px solid var(--line); }
+  .future dt { font-weight: 600; }
+  .future dd { margin: 0; color: var(--text-2); }
+
+  /* 07 Credits */
+  details { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  summary { display: flex; align-items: center; min-height: 48px; font-weight: 500; cursor: pointer; }
+  details ul { margin: 0 0 var(--space-2); padding-left: 1.1rem; display: grid; gap: 0.35rem; font-size: var(--step--1); }
+  details p { margin-bottom: var(--space-2) !important; }
+
+  .bottom-nav { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: var(--space-3); margin-top: var(--space-5); padding-top: var(--space-4); border-top: 1px solid var(--line); }
+  .next { display: grid; gap: 0.3rem; text-align: right; text-decoration: none; margin-left: auto; }
+  .next .eyebrow { color: var(--text-2); }
+  .next-title { font-size: var(--step-2); font-weight: 600; letter-spacing: -0.02em; }
+
+  @media (max-width: 63.99rem) {
+    .details { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  }
+  @media (max-width: 47.99rem) {
+    .details { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .worlds, .stats, .two, .qa li, .loop ol { grid-template-columns: 1fr; }
+    .loop ol { border-top: 0; border-left: 2px solid var(--accent); }
+    .loop li { grid-template-columns: 2.25rem 1fr; padding: 0.4rem 0 0.4rem 0.75rem; }
+    .future > div { grid-template-columns: 1fr; gap: 0.25rem; }
+    .resp td.muted { white-space: normal; }
+  }
+</style>

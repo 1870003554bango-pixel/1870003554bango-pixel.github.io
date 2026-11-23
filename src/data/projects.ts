@@ -16,6 +16,7 @@ import ufoCover from '../assets/ufo-skyfeed/cover.jpg';
 import identityCover from '../assets/identity-press/cover.jpg';
 import cocoaCover from '../assets/cocoa-reserve/blender-draft-closed.jpg';
 import scamCover from '../assets/scam-ready/hero-landing.jpg';
+import bnhCover from '../assets/becoming-non-human/report-overview.jpg';
 import bottleCover from '../assets/bottle-passport/ai-station.jpg'; // AI-generated (team report p. 16) — chosen by Sitan, labelled on the page
 
 type L = Record<Lang, string>;
@@ -186,26 +187,30 @@ export const projects: Project[] = [
     order: 2,
     status: 'published',
     featured: true,
+    customPage: true,
     categories: ['immersive'],
     title: 'Becoming Non-Human',
-    type: { en: 'Virtual Reality · Immersive Media', zh: '虚拟现实 · 沉浸式媒体' },
+    type: { en: 'Virtual Reality · World Planning · Interaction Design', zh: '虚拟现实 · 世界规划 · 交互设计' },
     subtitle: {
-      en: 'A VR experience of the environment through non-human eyes — a sea turtle, a mangrove, a bat.',
-      zh: '用海龟、红树林和蝙蝠的视角，在 VR 里重新感受环境。',
+      en: 'Three worlds. Different bodies. One connected journey.',
+      zh: '三个世界，不同的身体，一段相连的旅程。',
     },
     summary: {
-      en: 'A collaborative VR experience that invites people to explore different environments through the perspectives of a sea turtle, mangroves, and bats.',
-      zh: '一个合作完成的 VR 体验，邀请人们通过海龟、红树林和蝙蝠的视角，探索不同的环境。',
+      en: 'A collaborative VR journey through bat, spider and sea turtle perspectives. I planned the overall world structure and outlines for all three worlds, and took responsibility for Turtle World.',
+      zh: '一个通过蝙蝠、蜘蛛与海龟视角展开的团队 VR 体验。我负责整体世界规划和三个世界的大纲，并负责海龟世界的设计与实现。',
     },
     year: null,
     collaboration: 'team',
-    role: TODO, // must match the team's real split of work
-    tools: ['Unity', 'Pico 4'],
-    cover: null,
-    coverAlt: { en: 'Screenshot from the VR experience', zh: 'VR 体验截图' },
-    overview: TODO,
+    role: { en: 'Overall world planning, three-world outlines, Turtle World', zh: '整体世界规划、三个世界大纲、海龟世界' },
+    tools: ['Unity', 'C#', 'PICO VR'],
+    cover: bnhCover, // image from the final project report (labelled on the page)
+    coverAlt: {
+      en: 'Project overview image: a low-poly coastline with framed views of Turtle World, Spider World and Bat World.',
+      zh: '项目总览图：低多边形风格的海岸线，分别框出海龟世界、蜘蛛世界和蝙蝠世界。',
+    },
+    overview: null,
     process: [],
-    reflection: TODO,
+    reflection: null,
   },
   {
     slug: 'scam-ready',
